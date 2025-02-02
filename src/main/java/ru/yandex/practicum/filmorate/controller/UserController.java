@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.ConditionsNotMetException;
@@ -25,24 +26,10 @@ public class UserController {
     }
 
     @PostMapping
-    public User create(@RequestBody User user) {
+    public User create(@Valid @RequestBody User user) {
         log.info("POST - запрос на создание пользователя {} с id: {}", user, user.getId());
 
-        if (user.getEmail() == null || user.getEmail().isBlank() || !user.getEmail().contains("@")) {
-            throw new ConditionsNotMetException("Имейл должен быть указан и содержать символ '@'");
-        }
-
-        if (user.getLogin() == null || user.getLogin().isBlank()) {
-            throw new ConditionsNotMetException("Логин не может быть пустым и содержать пробелы");
-        }
-
-        if (user.getName() == null || user.getName().isBlank()) {
-            user.setName(user.getLogin());
-        }
-
-        if (Instant.now().isBefore(user.getBirthday().toInstant())) {
-            throw new ConditionsNotMetException("Дата рождения не может быть в будущем");
-        }
+        userCondition(user);
         boolean isDuplicated = users.values()
                 .stream()
                 .anyMatch(u -> u.getEmail().equalsIgnoreCase(user.getEmail()));
@@ -59,7 +46,7 @@ public class UserController {
     }
 
     @PutMapping
-    public User update(@RequestBody User newUser) {
+    public User update(@Valid @RequestBody User newUser) {
         log.info("PUT - запрос на обновление пользователя {} c id: {}", newUser, newUser.getId());
         // Проверяем, указан ли ID
         if (newUser.getId() == null) {
@@ -96,6 +83,24 @@ public class UserController {
 
         // Возвращаем обновленного пользователя
         return oldUser;
+    }
+
+    private void userCondition(User user) {
+        if (user.getEmail() == null || user.getEmail().isBlank() || !user.getEmail().contains("@")) {
+            throw new ConditionsNotMetException("Имейл должен быть указан и содержать символ '@'");
+        }
+
+        if (user.getLogin() == null || user.getLogin().isBlank()) {
+            throw new ConditionsNotMetException("Логин не может быть пустым и содержать пробелы");
+        }
+
+        if (user.getName() == null || user.getName().isBlank()) {
+            user.setName(user.getLogin());
+        }
+
+        if (Instant.now().isBefore(user.getBirthday().toInstant())) {
+            throw new ConditionsNotMetException("Дата рождения не может быть в будущем");
+        }
     }
 
     // Вспомогательный метод для генерации идентификатора нового пользователя
