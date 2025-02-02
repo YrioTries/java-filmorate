@@ -28,24 +28,16 @@ public class UserController {
     @PostMapping
     public User create(@Valid @RequestBody User user) {
         log.info("POST - запрос на создание пользователя {} с id: {}", user, user.getId());
-
-        userCondition(user);
-        boolean isDuplicated = users.values()
-                .stream()
-                .anyMatch(u -> u.getEmail().equalsIgnoreCase(user.getEmail()));
-
-        if (isDuplicated) {
+        validateUser(user);
+        if (users.values().stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(user.getEmail()))) {
             throw new DuplicatedDataException("Этот имейл уже используется");
         }
-
-        // Формируем дополнительные данные
         user.setId(getNextId());
-        // Сохраняем нового пользователя в памяти приложения
         users.put(user.getId(), user);
         return user;
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public User update(@Valid @RequestBody User newUser) {
         log.info("PUT - запрос на обновление пользователя {} c id: {}", newUser, newUser.getId());
         // Проверяем, указан ли ID
@@ -59,18 +51,7 @@ public class UserController {
         }
 
         User oldUser = users.get(newUser.getId());
-
-        // Проверяем, изменяется ли адрес электронной почты
-        if (newUser.getEmail() != null && !newUser.getEmail().equalsIgnoreCase(oldUser.getEmail())) {
-            boolean isDuplicated = users.values()
-                    .stream()
-                    .anyMatch(u -> u.getEmail().equalsIgnoreCase(newUser.getEmail()));
-
-            if (isDuplicated) {
-                throw new DuplicatedDataException("Этот имейл уже используется");
-            }
-            oldUser.setEmail(newUser.getEmail());
-        }
+        validateUser(oldUser);
 
         // Обновляем другие поля, если они указаны
         if (newUser.getName() != null) {
@@ -85,7 +66,7 @@ public class UserController {
         return oldUser;
     }
 
-    private void userCondition(User user) {
+    private void validateUser(User user) {
         if (user.getEmail() == null || user.getEmail().isBlank() || !user.getEmail().contains("@")) {
             throw new ConditionsNotMetException("Имейл должен быть указан и содержать символ '@'");
         }
@@ -101,6 +82,7 @@ public class UserController {
         if (Instant.now().isBefore(user.getBirthday().toInstant())) {
             throw new ConditionsNotMetException("Дата рождения не может быть в будущем");
         }
+
     }
 
     // Вспомогательный метод для генерации идентификатора нового пользователя
