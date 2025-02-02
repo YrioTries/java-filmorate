@@ -37,65 +37,37 @@ public class FilmController {
     @PostMapping
     public Film create(@Valid @RequestBody Film film) {
         log.info("POST - запрос на размещение фильма {} с id: {}", film, film.getId());
-
-        if (film.getName() == null || film.getName().isBlank()) {
-            throw new ConditionsNotMetException("Название не может быть пустым");
-        }
-
-        if (film.getDescription().length() > 200) {
-            throw new ConditionsNotMetException("Максимальная длина описания — 200 символов");
-        }
-
-
-        if (bornOfFilms.isAfter(film.getReleaseDate())) {
-            throw new ConditionsNotMetException("Дата релиза — не раньше 28 декабря 1895 года");
-        }
-
-        // Формируем дополнительные данные
+        validateFilm(film);
         film.setId(getNextId());
-        Instant s;
         films.put(film.getId(), film);
         return film;
     }
 
-    @PutMapping
-    public User update(@Valid @RequestBody Film newFilm) {
-        log.info("PUT - запрос на обновление фильма {} c id: {}", newFilm, newFilm.getId());
-        // Проверяем, указан ли ID
-        if (newFilm.getId() == null) {
-            throw new ConditionsNotMetException("Id должен быть указан");
+    @PutMapping("/{id}")
+    public Film update(@PathVariable Long id, @Valid @RequestBody Film newFilm) {
+        log.info("PUT - запрос на обновление фильма {} с id: {}", newFilm, id);
+        if (!films.containsKey(id)) {
+            throw new NotFoundException("Фильм с id = " + id + " не найден");
         }
+        validateFilm(newFilm);
+        newFilm.setId(id);
+        films.put(id, newFilm);
+        return newFilm;
+    }
 
-        // Проверяем, существует ли пользователь с указанным ID
-        if (!films.containsKey(newFilm.getId())) {
-            throw new NotFoundException("Пользователь с id = " + newFilm.getId() + " не найден");
+    private void validateFilm(Film film) {
+        if (film.getName() == null || film.getName().isBlank()) {
+            throw new ConditionsNotMetException("Название не может быть пустым");
         }
-
-        Film oldFilm = films.get(newFilm.getId());
-
-        // Проверяем, изменяется ли адрес электронной почты
-        if (newFilm.getEmail() != null && !newFilm.getEmail().equalsIgnoreCase(oldFilm.getEmail())) {
-            boolean isDuplicated = films.values()
-                    .stream()
-                    .anyMatch(u -> u.getEmail().equalsIgnoreCase(newFilm.getEmail()));
-
-            if (isDuplicated) {
-                throw new DuplicatedDataException("Этот имейл уже используется");
-            }
-            oldFilm.setEmail(newFilm.getEmail());
+        if (film.getDescription().length() > 200) {
+            throw new ConditionsNotMetException("Максимальная длина описания — 200 символов");
         }
-
-        // Обновляем другие поля, если они указаны
-        if (newFilm.getName() != null) {
-            oldFilm.setName(newFilm.getName());
+        if (bornOfFilms.isAfter(film.getReleaseDate())) {
+            throw new ConditionsNotMetException("Дата релиза — не раньше 28 декабря 1895 года");
         }
-
-        if (newFilm.getLogin() != null) {
-            oldFilm.setLogin(newFilm.getLogin());
+        if (film.getDuration().isNegative() || film.getDuration().isZero()) {
+            throw new ConditionsNotMetException("Продолжительность фильма должна быть положительным числом");
         }
-
-        // Возвращаем обновленного пользователя
-        return oldFilm;
     }
 
     // Вспомогательный метод для генерации идентификатора нового пользователя
