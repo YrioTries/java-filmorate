@@ -1,7 +1,9 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.ConditionsNotMetException;
 import ru.yandex.practicum.filmorate.exception.DuplicatedDataException;
@@ -14,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@Validated
 @RestController
 @RequestMapping("/users")
 public class UserController {
