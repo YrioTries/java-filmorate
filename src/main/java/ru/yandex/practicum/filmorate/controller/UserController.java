@@ -68,12 +68,8 @@ public class UserController {
     }
 
     private void validateUser(User user) {
-        if (user.getEmail() == null || user.getEmail().isBlank() || !user.getEmail().contains("@")) {
+        if (!user.getEmail().contains("@")) {
             throw new ConditionsNotMetException("Имейл должен быть указан и содержать символ '@'");
-        }
-
-        if (user.getLogin() == null || user.getLogin().isBlank()) {
-            throw new ConditionsNotMetException("Логин не может быть пустым и содержать пробелы");
         }
 
         if (user.getName() == null || user.getName().isBlank()) {
