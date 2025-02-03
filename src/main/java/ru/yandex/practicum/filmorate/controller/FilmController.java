@@ -19,9 +19,9 @@ import java.util.Map;
 @RestController
 public class FilmController {
 
-    LocalDate date = LocalDate.of(1895, 12, 28);
-    LocalDateTime dateTime = date.atStartOfDay();
-    Instant bornOfFilms = dateTime.atZone(ZoneId.systemDefault()).toInstant();
+    private final LocalDate date = LocalDate.of(1895, 12, 28);
+    private final LocalDateTime dateTime = date.atStartOfDay();
+    private final Instant bornOfFilms = dateTime.atZone(ZoneId.systemDefault()).toInstant();
 
     private final Map<Long, Film> films = new HashMap<>();
 
@@ -41,7 +41,8 @@ public class FilmController {
     }
 
     @PutMapping("/{id}")
-    public Film update(@PathVariable Long id, @Valid @RequestBody Film newFilm) {
+    public Film update(@PathVariable Long id) {
+        Film newFilm = films.get(id);
         log.info("PUT - запрос на обновление фильма {} с id: {}", newFilm, id);
         if (!films.containsKey(id)) {
             throw new NotFoundException("Фильм с id = " + id + " не найден");
@@ -53,17 +54,8 @@ public class FilmController {
     }
 
     private void validateFilm(Film film) {
-        if (film.getName() == null || film.getName().isBlank()) {
-            throw new ConditionsNotMetException("Название не может быть пустым");
-        }
-        if (film.getDescription().length() > 200) {
-            throw new ConditionsNotMetException("Максимальная длина описания — 200 символов");
-        }
         if (bornOfFilms.isAfter(film.getReleaseDate())) {
             throw new ConditionsNotMetException("Дата релиза — не раньше 28 декабря 1895 года");
-        }
-        if (film.getDuration().isNegative() || film.getDuration().isZero()) {
-            throw new ConditionsNotMetException("Продолжительность фильма должна быть положительным числом");
         }
     }
 
