@@ -4,13 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="style">
+    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="Add test and fix the project">
+      <change afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/validation/ErrorHandlingControllerAdvice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/validation/ValidationErrorResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/validation/Violation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-filmorate/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/FilmController.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/FilmController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/model/Film.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/model/Film.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-filmorate/src/test/java/ru/yandex/practicum/filmorate/FilmorateApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/test/java/ru/yandex/practicum/filmorate/FilmorateApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +66,7 @@
     "JUnit.FilmorateApplicationTests.executor": "Run",
     "JUnit.FilmorateApplicationTests.testFilmAnnotationBlank.executor": "Run",
     "JUnit.FilmorateApplicationTests.testFilmAnnotationSize.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testFilmUpdateNotFound.executor": "Run",
     "JUnit.FilmorateApplicationTests.testFilmValidation.executor": "Run",
     "JUnit.FilmorateApplicationTests.testUserUpdateNotFound.executor": "Run",
     "JUnit.FilmorateApplicationTests.testАшдьUpdateNotFound.executor": "Run",
@@ -72,10 +76,26 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "#1 on controllers-films-users",
     "kotlin-language-version-configured": "true",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "MavenSettings"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.FilmorateApplicationTests">
+  <component name="RunManager" selected="Application.FilmorateApplication">
+    <configuration name="FilmorateApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ru.yandex.practicum.filmorate.FilmorateApplication" />
+      <module name="filmorate" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.yandex.practicum.filmorate.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="FilmorateApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="filmorate" />
       <extension name="coverage">
@@ -102,22 +122,6 @@
       <option name="PACKAGE_NAME" value="ru.yandex.practicum.filmorate" />
       <option name="MAIN_CLASS_NAME" value="ru.yandex.practicum.filmorate.FilmorateApplicationTests" />
       <option name="METHOD_NAME" value="testFilmUpdateNotFound" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="FilmorateApplicationTests.testFilmValidation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="filmorate" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ru.yandex.practicum.filmorate.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="ru.yandex.practicum.filmorate" />
-      <option name="MAIN_CLASS_NAME" value="ru.yandex.practicum.filmorate.FilmorateApplicationTests" />
-      <option name="METHOD_NAME" value="testFilmValidation" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -157,11 +161,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.FilmorateApplication" />
         <item itemvalue="JUnit.FilmorateApplicationTests" />
         <item itemvalue="JUnit.FilmorateApplicationTests.testFilmUpdateNotFound" />
         <item itemvalue="JUnit.FilmorateApplicationTests.testАшдьUpdateNotFound" />
         <item itemvalue="JUnit.FilmorateApplicationTests.testUserUpdateNotFound" />
-        <item itemvalue="JUnit.FilmorateApplicationTests.testFilmValidation" />
       </list>
     </recent_temporary>
   </component>
@@ -206,7 +210,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738530255868</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Add test and fix the project">
+      <option name="closed" value="true" />
+      <created>1738606372471</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1738606372471</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -225,6 +237,7 @@
     <MESSAGE value="Add models: User and Film" />
     <MESSAGE value="Add tests user and film controllers,&#10;end of projecting FilmController" />
     <MESSAGE value="style" />
-    <option name="LAST_COMMIT_MESSAGE" value="style" />
+    <MESSAGE value="Add test and fix the project" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add test and fix the project" />
   </component>
 </project>
