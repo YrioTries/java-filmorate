@@ -1,7 +1,10 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.ConditionsNotMetException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
@@ -16,7 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@Validated
 @RestController
+@RequestMapping("/films")
 public class FilmController {
 
     private final LocalDate date = LocalDate.of(1895, 12, 28);
@@ -41,7 +46,7 @@ public class FilmController {
     }
 
     @PutMapping("/{id}")
-    public Film update(@PathVariable Long id) {
+    public Film update(@Valid @Min (0) @PathVariable long id) {
         Film newFilm = films.get(id);
         log.info("PUT - запрос на обновление фильма {} с id: {}", newFilm, id);
         if (!films.containsKey(id)) {
