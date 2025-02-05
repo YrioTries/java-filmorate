@@ -7,19 +7,21 @@ import java.util.Date;
 
 @Data
 public class User {
+
     @PositiveOrZero
-    Long id;
+    private long id;
+
     @NotEmpty
     @NotBlank
     @Email
-    String email;
+    private String email;
 
     @NotEmpty
     @NotBlank
-    String login;
-    String name;
+    private String login;
+    private String name;
 
     @NotEmpty
     @NotBlank
-    Date birthday;
+    private Date birthday;
 }
