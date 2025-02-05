@@ -9,7 +9,7 @@ import ru.yandex.practicum.filmorate.exception.DuplicatedDataException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,10 +44,6 @@ public class UserController {
     public User update(@Valid @RequestBody User newUser) {
         log.info("PUT - запрос на обновление пользователя {} c id: {}", newUser, newUser.getId());
         // Проверяем, указан ли ID
-        if (newUser.getId() == null) {
-            throw new ConditionsNotMetException("Id должен быть указан");
-        }
-
         // Проверяем, существует ли пользователь с указанным ID
         if (!users.containsKey(newUser.getId())) {
             throw new NotFoundException("Пользователь с id = " + newUser.getId() + " не найден");
@@ -78,7 +74,7 @@ public class UserController {
             user.setName(user.getLogin());
         }
 
-        if (Instant.now().isBefore(user.getBirthday().toInstant())) {
+        if (LocalDate.now().isBefore(user.getBirthday())) {
             throw new ConditionsNotMetException("Дата рождения не может быть в будущем");
         }
 

@@ -3,7 +3,7 @@ package ru.yandex.practicum.filmorate.model;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 public class User {
@@ -14,14 +14,13 @@ public class User {
     @NotEmpty
     @NotBlank
     @Email
-    private String email;
+    String email;
 
     @NotEmpty
     @NotBlank
-    private String login;
-    private String name;
+    String login;
+    String name;
 
-    @NotEmpty
-    @NotBlank
-    private Date birthday;
+    @PastOrPresent
+    LocalDate birthday;
 }
