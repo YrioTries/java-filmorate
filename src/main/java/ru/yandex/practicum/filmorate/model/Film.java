@@ -18,7 +18,7 @@ public class Film {
     @Size(max = 200)
     private String description;
 
-    @NotEmpty
+    @NotNull
     private Instant releaseDate;
 
     @Positive
