@@ -43,28 +43,29 @@ public class UserController {
 
     @PutMapping("/{id}")
     public User update(@Valid @Min(0) @PathVariable long id) {
-        User newUser = users.get(id);
-        log.info("PUT - запрос на обновление пользователя {} c id: {}", newUser, newUser.getId());
-        // Проверяем, указан ли ID
         // Проверяем, существует ли пользователь с указанным ID
-        if (!users.containsKey(newUser.getId())) {
-            throw new NotFoundException("Пользователь с id = " + newUser.getId() + " не найден");
+        if (!users.containsKey(id)) {
+            throw new NotFoundException("Пользователь с id = " + id + " не найден");
+        } else {
+            User newUser = users.get(id);
+            log.info("PUT - запрос на обновление пользователя {} c id: {}", newUser, newUser.getId());
+
+            User oldUser = users.get(newUser.getId());
+            validateUser(oldUser);
+
+            // Обновляем другие поля, если они указаны
+            if (newUser.getName() != null) {
+                oldUser.setName(newUser.getName());
+            }
+
+            if (newUser.getLogin() != null) {
+                oldUser.setLogin(newUser.getLogin());
+            }
+
+            // Возвращаем обновленного пользователя
+            return oldUser;
         }
 
-        User oldUser = users.get(newUser.getId());
-        validateUser(oldUser);
-
-        // Обновляем другие поля, если они указаны
-        if (newUser.getName() != null) {
-            oldUser.setName(newUser.getName());
-        }
-
-        if (newUser.getLogin() != null) {
-            oldUser.setLogin(newUser.getLogin());
-        }
-
-        // Возвращаем обновленного пользователя
-        return oldUser;
     }
 
     private void validateUser(User user) {
