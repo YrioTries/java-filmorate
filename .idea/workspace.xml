@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="Change java version">
+    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="Change git API tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,10 +69,14 @@
     "JUnit.FilmorateApplicationTests.testUserUpdateNotFound.executor": "Run",
     "JUnit.FilmorateApplicationTests.testUserValidation.executor": "Run",
     "JUnit.FilmorateApplicationTests.testАшдьUpdateNotFound.executor": "Run",
+    "Maven.filmorate [clean].executor": "Run",
     "Maven.filmorate [compile].executor": "Run",
     "Maven.filmorate [install].executor": "Run",
     "Maven.filmorate [org.apache.maven.plugins:maven-checkstyle-plugin:3.3.1:checkstyle].executor": "Run",
+    "Maven.filmorate [package].executor": "Run",
+    "Maven.filmorate [site].executor": "Run",
     "Maven.filmorate [test].executor": "Run",
+    "Maven.filmorate [validate].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "#1 on controllers-films-users",
@@ -251,7 +255,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738796851872</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Change git API tests">
+      <option name="closed" value="true" />
+      <created>1738873430202</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1738873430202</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -275,6 +287,7 @@
     <MESSAGE value="Style update" />
     <MESSAGE value="Update tests, User, Film and Controllers" />
     <MESSAGE value="Change java version" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change java version" />
+    <MESSAGE value="Change git API tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change git API tests" />
   </component>
 </project>
