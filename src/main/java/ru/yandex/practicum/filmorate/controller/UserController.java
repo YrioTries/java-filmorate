@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @PutMapping
-    public User update(@Valid User newUser) {
+    public User update(@Valid @RequestBody User newUser) {
         // Проверяем, существует ли пользователь с указанным ID
         if (!users.containsKey(newUser.getId())) {
             throw new NotFoundException("Пользователь с id = " + newUser.getId() + " не найден");

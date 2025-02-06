@@ -7,8 +7,7 @@ import java.time.Instant;
 
 @Data
 public class Film {
-    @NotNull
-    @PositiveOrZero
+
     private long id;
 
     @NotBlank
@@ -18,7 +17,6 @@ public class Film {
     @Size(max = 200)
     private String description;
 
-    @NotNull
     private Instant releaseDate;
 
     @Positive

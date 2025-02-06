@@ -44,7 +44,7 @@ public class FilmController {
     }
 
     @PutMapping
-    public Film update(@Valid Film newFilm) {
+    public Film update(@Valid @RequestBody Film newFilm) {
 
         if (!films.containsKey(newFilm.getId())) {
             throw new NotFoundException("Фильм с id = " + newFilm.getId() + " не найден");
