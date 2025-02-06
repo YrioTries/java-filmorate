@@ -54,6 +54,10 @@ public class FilmController {
 
             validateFilm(oldFilm);
 
+            oldFilm.setDuration(newFilm.getDuration());
+            oldFilm.setReleaseDate(newFilm.getReleaseDate());
+            oldFilm.setName(newFilm.getName());
+
             films.put(oldFilm.getId(), oldFilm);
             return oldFilm;
         }
