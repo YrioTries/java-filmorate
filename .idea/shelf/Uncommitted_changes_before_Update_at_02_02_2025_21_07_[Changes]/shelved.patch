@@ -1,0 +1,18 @@
+Index: java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/UserController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.yandex.practicum.filmorate.controller;\r\n\r\npublic class UserController {\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/UserController.java b/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/UserController.java
+--- a/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/UserController.java	(revision f8de5adf7962d308d663628362bb48bba441a76a)
++++ b/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/UserController.java	(date 1738376914949)
+@@ -1,4 +1,7 @@
+ package ru.yandex.practicum.filmorate.controller;
+ 
++import org.springframework.web.bind.annotation.RestController;
++
++@RestController
+ public class UserController {
+ }
