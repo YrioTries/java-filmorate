@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +44,7 @@ public class UserController {
     public User update(@Valid User newUser) {
         // Проверяем, существует ли пользователь с указанным ID
         if (!users.containsKey(newUser.getId())) {
-            throw new NotFoundException("Пользователь с id = " + id + " не найден");
+            throw new NotFoundException("Пользователь с id = " + newUser.getId() + " не найден");
         } else {
             log.info("PUT - запрос на обновление пользователя {} c id: {}", newUser, newUser.getId());
 
