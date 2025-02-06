@@ -41,25 +41,21 @@ public class UserController {
         return user;
     }
 
-    @PutMapping("/{id}")
-    public User update(@Valid @Min(0) @PathVariable long id) {
+    @PutMapping
+    public User update(@Valid User newUser) {
         // Проверяем, существует ли пользователь с указанным ID
-        if (!users.containsKey(id)) {
+        if (!users.containsKey(newUser.getId())) {
             throw new NotFoundException("Пользователь с id = " + id + " не найден");
         } else {
-            User newUser = users.get(id);
             log.info("PUT - запрос на обновление пользователя {} c id: {}", newUser, newUser.getId());
 
             User oldUser = users.get(newUser.getId());
             validateUser(oldUser);
 
             // Обновляем другие поля, если они указаны
-            if (newUser.getName() != null) {
-                oldUser.setName(newUser.getName());
-            }
 
-            if (newUser.getLogin() != null) {
-                oldUser.setLogin(newUser.getLogin());
+            if (oldUser.getName() == null || oldUser.getName().isBlank()) {
+                oldUser.setName(oldUser.getLogin());
             }
 
             // Возвращаем обновленного пользователя
@@ -71,10 +67,6 @@ public class UserController {
     private void validateUser(User user) {
         if (!user.getEmail().contains("@")) {
             throw new ConditionsNotMetException("Имейл должен быть указан и содержать символ '@'");
-        }
-
-        if (user.getName() == null || user.getName().isBlank()) {
-            user.setName(user.getLogin());
         }
 
         if (LocalDate.now().isBefore(user.getBirthday())) {
