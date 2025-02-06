@@ -49,13 +49,19 @@ public class UserController {
             log.info("PUT - запрос на обновление пользователя {} c id: {}", newUser, newUser.getId());
 
             User oldUser = users.get(newUser.getId());
-            validateUser(oldUser);
+            validateUser(newUser);
 
             // Обновляем другие поля, если они указаны
+            oldUser.setLogin(newUser.getLogin());
 
             if (oldUser.getName() == null || oldUser.getName().isBlank()) {
                 oldUser.setName(oldUser.getLogin());
+            } else {
+                oldUser.setName(newUser.getName());
             }
+
+            oldUser.setEmail(newUser.getEmail());
+            oldUser.setBirthday(newUser.getBirthday());
 
             // Возвращаем обновленного пользователя
             return oldUser;
