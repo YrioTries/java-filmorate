@@ -7,7 +7,7 @@ import java.time.Instant;
 
 @Data
 public class Film {
-
+    @NotNull
     private long id;
 
     @NotBlank
