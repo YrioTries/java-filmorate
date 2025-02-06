@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="Add @NotNull Annotation of id param of User and Film second time">
+    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="Update conditions of User and Film Controllers">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/FilmController.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/FilmController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-filmorate/src/test/java/ru/yandex/practicum/filmorate/FilmorateApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/test/java/ru/yandex/practicum/filmorate/FilmorateApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -288,7 +290,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738875624852</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Update conditions of User and Film Controllers">
+      <option name="closed" value="true" />
+      <created>1738878532628</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1738878532628</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -316,6 +326,7 @@
     <MESSAGE value="Change param of UserControllerer" />
     <MESSAGE value="Change param of UserControllerer second time" />
     <MESSAGE value="Add @NotNull Annotation of id param of User and Film second time" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add @NotNull Annotation of id param of User and Film second time" />
+    <MESSAGE value="Update conditions of User and Film Controllers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update conditions of User and Film Controllers" />
   </component>
 </project>
