@@ -7,8 +7,7 @@ import java.time.LocalDate;
 
 @Data
 public class User {
-    @NotNull
-    @PositiveOrZero
+
     private long id;
 
     @NotEmpty
