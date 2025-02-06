@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +42,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public User update(@Valid @RequestBody User newUser, @PathVariable long id) {
+    public User update(@Valid @Min(0) @PathVariable long id) {
+        User newUser = users.get(id);
         log.info("PUT - запрос на обновление пользователя {} c id: {}", newUser, newUser.getId());
         // Проверяем, указан ли ID
         // Проверяем, существует ли пользователь с указанным ID
