@@ -38,6 +38,7 @@ public class FilmController {
     public Film create(@Valid @RequestBody Film film) {
         log.info("POST - запрос на размещение фильма {} с id: {}", film, film.getId());
         validateFilm(film);
+
         film.setId(getNextId());
         films.put(film.getId(), film);
         return film;
