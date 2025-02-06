@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public User update(@Valid @RequestBody User newUser) {
+    public User update(@Valid @RequestBody User newUser, @PathVariable long id) {
         log.info("PUT - запрос на обновление пользователя {} c id: {}", newUser, newUser.getId());
         // Проверяем, указан ли ID
         // Проверяем, существует ли пользователь с указанным ID

@@ -49,7 +49,7 @@ class FilmorateApplicationTests {
 		user.setName("name");
 		user.setBirthday(LocalDate.of(2000, Calendar.FEBRUARY, 15));
 
-		assertThrows(NotFoundException.class, () -> userController.update(user));
+		assertThrows(NotFoundException.class, () -> userController.update(user, user.getId()));
 	}
 
 	@Test
@@ -95,7 +95,7 @@ class FilmorateApplicationTests {
 		createdUser.setName("Updated Name");
 		createdUser.setEmail("updated-email@example.com");
 
-		User updatedUser = userController.update(createdUser);
+		User updatedUser = userController.update(createdUser, createdUser.getId());
 
 		assertNotNull(updatedUser);
 		assertEquals("updated-email@example.com", updatedUser.getEmail());
