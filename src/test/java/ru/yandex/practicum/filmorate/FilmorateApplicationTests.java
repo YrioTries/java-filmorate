@@ -61,7 +61,7 @@ class FilmorateApplicationTests {
 		film.setName("name");
 		film.setReleaseDate(LocalDate.of(2000, Calendar.APRIL, 12).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 
-		assertThrows(NotFoundException.class, () -> filmController.update(film.getId()));
+		assertThrows(NotFoundException.class, () -> filmController.update(film));
 	}
 
 	@Test

@@ -44,19 +44,19 @@ public class FilmController {
         return film;
     }
 
-    @PutMapping("/{id}")
-    public Film update(@Valid @Min (0) @PathVariable long id) {
+    @PutMapping
+    public Film update(@Valid Film newFilm) {
 
-        if (!films.containsKey(id)) {
-            throw new NotFoundException("Фильм с id = " + id + " не найден");
+        if (!films.containsKey(newFilm.getId())) {
+            throw new NotFoundException("Фильм с id = " + newFilm.getId() + " не найден");
         } else {
-            Film newFilm = films.get(id);
-            log.info("PUT - запрос на обновление фильма {} с id: {}", newFilm, id);
+            Film oldFilm = films.get(newFilm.getId());
+            log.info("PUT - запрос на обновление фильма {} с id: {}", oldFilm, oldFilm.getId());
 
-            validateFilm(newFilm);
-            newFilm.setId(id);
-            films.put(id, newFilm);
-            return newFilm;
+            validateFilm(oldFilm);
+
+            films.put(oldFilm.getId(), oldFilm);
+            return oldFilm;
         }
     }
 
