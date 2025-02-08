@@ -4,9 +4,9 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.ConditionsNotMetException;
 import ru.yandex.practicum.filmorate.exception.DuplicatedDataException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
@@ -70,14 +70,19 @@ public class UserController {
     }
 
     private void validateUser(User user) {
-        if (!user.getEmail().contains("@")) {
-            throw new ConditionsNotMetException("Имейл должен быть указан и содержать символ '@'");
+        if (user.getLogin() == null || user.getLogin().isEmpty() || user.getLogin().contains(" ")) {
+        throw new ValidationException("Некорректный логин пользователя");
+    }
+        if (user.getEmail() == null || user.getEmail().isEmpty()
+                || !user.getEmail().contains("@")) {
+            throw new ValidationException("Некорректный имейл пользователя");
         }
-
-        if (LocalDate.now().isBefore(user.getBirthday())) {
-            throw new ConditionsNotMetException("Дата рождения не может быть в будущем");
+        if (user.getName() == null || user.getName().isEmpty()) {
+            user.setName(user.getLogin());
         }
-
+        if (user.getBirthday() != null && user.getBirthday().isAfter(LocalDate.now())) {
+            throw new ValidationException("Некорректный дата рождения пользователя");
+        }
     }
 
     // Вспомогательный метод для генерации идентификатора нового пользователя

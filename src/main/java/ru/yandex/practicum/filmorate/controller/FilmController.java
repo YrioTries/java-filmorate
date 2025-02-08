@@ -4,8 +4,8 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.ConditionsNotMetException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import java.time.Instant;
@@ -65,8 +65,17 @@ public class FilmController {
     }
 
     private void validateFilm(Film film) {
-        if (bornOfFilms.isAfter(film.getReleaseDate())) {
-            throw new ConditionsNotMetException("Дата релиза — не раньше 28 декабря 1895 года");
+        if (film.getName() == null || film.getName().isEmpty()) {
+            throw new ValidationException("Некорректное название фильма");
+        }
+        if (film.getDescription() != null && film.getDescription().length() > 200) {
+            throw new ValidationException("Некорректное описание фильма");
+        }
+        if (film.getReleaseDate() == null || bornOfFilms.isAfter(film.getReleaseDate())) {
+            throw new ValidationException("Дата релиза — не раньше 28 декабря 1895 года");
+        }
+        if (film.getDuration() <= 0) {
+            throw new ValidationException("Длительность должна быть больше нуля");
         }
     }
 
