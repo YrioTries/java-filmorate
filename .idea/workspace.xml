@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="delete @NotNull to id param of models">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="add validation param">
+      <change beforePath="$PROJECT_DIR$/java-filmorate/src/test/java/ru/yandex/practicum/filmorate/FilmorateApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/test/java/ru/yandex/practicum/filmorate/FilmorateApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,42 +51,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.FilmorateApplication (1).executor": "Run",
-    "Application.FilmorateApplication.executor": "Run",
-    "JUnit.FilmorateApplicationTests.executor": "Run",
-    "JUnit.FilmorateApplicationTests.testCreateFilmSuccessfully.executor": "Run",
-    "JUnit.FilmorateApplicationTests.testCreateUserSuccessfully.executor": "Run",
-    "JUnit.FilmorateApplicationTests.testFilmAnnotationBlank.executor": "Run",
-    "JUnit.FilmorateApplicationTests.testFilmAnnotationSize.executor": "Run",
-    "JUnit.FilmorateApplicationTests.testFilmReleaseDate.executor": "Run",
-    "JUnit.FilmorateApplicationTests.testFilmUpdateNotFound.executor": "Run",
-    "JUnit.FilmorateApplicationTests.testFilmValidation.executor": "Run",
-    "JUnit.FilmorateApplicationTests.testFindAllUsers.executor": "Run",
-    "JUnit.FilmorateApplicationTests.testUpdateUserSuccessfully.executor": "Run",
-    "JUnit.FilmorateApplicationTests.testUserBirthdayInFuture.executor": "Run",
-    "JUnit.FilmorateApplicationTests.testUserUpdateNotFound.executor": "Run",
-    "JUnit.FilmorateApplicationTests.testUserValidation.executor": "Run",
-    "JUnit.FilmorateApplicationTests.testАшдьUpdateNotFound.executor": "Run",
-    "Maven.filmorate [clean].executor": "Run",
-    "Maven.filmorate [compile].executor": "Run",
-    "Maven.filmorate [install].executor": "Run",
-    "Maven.filmorate [org.apache.maven.plugins:maven-checkstyle-plugin:3.3.1:checkstyle].executor": "Run",
-    "Maven.filmorate [package].executor": "Run",
-    "Maven.filmorate [site].executor": "Run",
-    "Maven.filmorate [test].executor": "Run",
-    "Maven.filmorate [validate].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "#1 on controllers-films-users",
-    "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.FilmorateApplication (1).executor&quot;: &quot;Run&quot;,
+    &quot;Application.FilmorateApplication.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FilmorateApplicationTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FilmorateApplicationTests.testCreateFilmSuccessfully.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FilmorateApplicationTests.testCreateUserSuccessfully.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FilmorateApplicationTests.testFilmAnnotationBlank.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FilmorateApplicationTests.testFilmAnnotationSize.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FilmorateApplicationTests.testFilmReleaseDate.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FilmorateApplicationTests.testFilmUpdateNotFound.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FilmorateApplicationTests.testFilmValidation.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FilmorateApplicationTests.testFindAllUsers.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FilmorateApplicationTests.testUpdateUserSuccessfully.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FilmorateApplicationTests.testUserBirthdayInFuture.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FilmorateApplicationTests.testUserUpdateNotFound.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FilmorateApplicationTests.testUserValidation.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FilmorateApplicationTests.testАшдьUpdateNotFound.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.filmorate [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.filmorate [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.filmorate [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.filmorate [org.apache.maven.plugins:maven-checkstyle-plugin:3.3.1:checkstyle].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.filmorate [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.filmorate [site].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.filmorate [test].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.filmorate [validate].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#1 on controllers-films-users&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.annotationProcessors&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="JUnit.FilmorateApplicationTests">
     <configuration name="FilmorateApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ru.yandex.practicum.filmorate.FilmorateApplication" />
@@ -351,7 +351,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738883252777</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="add validation param">
+      <option name="closed" value="true" />
+      <created>1738981985701</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1738981985701</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -387,6 +395,7 @@
     <MESSAGE value="add @RequestBody in update param of controllers" />
     <MESSAGE value="add @NotNull to id param of models" />
     <MESSAGE value="delete @NotNull to id param of models" />
-    <option name="LAST_COMMIT_MESSAGE" value="delete @NotNull to id param of models" />
+    <MESSAGE value="add validation param" />
+    <option name="LAST_COMMIT_MESSAGE" value="add validation param" />
   </component>
 </project>
