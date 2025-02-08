@@ -21,5 +21,5 @@ public class User {
     String name;
 
     @PastOrPresent
-    LocalDate birthday;
+    private LocalDate birthday;
 }
