@@ -8,10 +8,7 @@ import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,9 +19,7 @@ import java.util.Map;
 @RequestMapping("/films")
 public class FilmController {
 
-    private final LocalDate date = LocalDate.of(1895, 12, 28);
-    private final LocalDateTime dateTime = date.atStartOfDay();
-    private final Instant bornOfFilms = dateTime.atZone(ZoneId.systemDefault()).toInstant();
+    private final LocalDate bornOfFilms = LocalDate.of(1895, 12, 28);
 
     private final Map<Long, Film> films = new HashMap<>();
 
@@ -57,6 +52,7 @@ public class FilmController {
 
             oldFilm.setDuration(newFilm.getDuration());
             oldFilm.setReleaseDate(newFilm.getReleaseDate());
+            oldFilm.setDescription(newFilm.getDescription());
             oldFilm.setName(newFilm.getName());
 
             films.put(oldFilm.getId(), oldFilm);
@@ -68,13 +64,13 @@ public class FilmController {
         if (film.getName() == null || film.getName().isEmpty()) {
             throw new ValidationException("Некорректное название фильма");
         }
-        if (film.getDescription() != null && film.getDescription().length() > 200) {
+        if (film.getDescription() == null || film.getDescription().length() > 200) {
             throw new ValidationException("Некорректное описание фильма");
         }
         if (film.getReleaseDate() == null || bornOfFilms.isAfter(film.getReleaseDate())) {
             throw new ValidationException("Дата релиза — не раньше 28 декабря 1895 года");
         }
-        if (film.getDuration() <= 0) {
+        if (film.getDuration() < 0) {
             throw new ValidationException("Длительность должна быть больше нуля");
         }
     }

@@ -10,7 +10,6 @@ import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 
-import java.time.*;
 import java.util.Calendar;
 import java.time.LocalDate;
 import java.util.Collection;
@@ -28,9 +27,8 @@ class FilmorateApplicationTests {
 
 	@Test
 	public void testFilmReleaseDate() {
-		LocalDate date = LocalDate.of(1590, Calendar.JULY, 15);
-		LocalDateTime dateTime = date.atStartOfDay();
-		Instant bornOfFilms = dateTime.atZone(ZoneId.systemDefault()).toInstant();
+		LocalDate bornOfFilms = LocalDate.of(1590, Calendar.JULY, 15);
+
 
 		Film film = new Film();
 		film.setName("Test Film");
@@ -59,7 +57,7 @@ class FilmorateApplicationTests {
 		film.setDescription("Description");
 		film.setDuration(12);
 		film.setName("name");
-		film.setReleaseDate(LocalDate.of(2000, Calendar.APRIL, 12).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+		film.setReleaseDate(LocalDate.of(2000, Calendar.APRIL, 12));
 
 		assertThrows(NotFoundException.class, () -> filmController.update(film));
 	}

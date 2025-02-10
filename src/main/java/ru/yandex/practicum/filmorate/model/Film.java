@@ -3,7 +3,7 @@ package ru.yandex.practicum.filmorate.model;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
-import java.time.Instant;
+import java.time.LocalDate;
 
 @Data
 public class Film {
@@ -11,13 +11,14 @@ public class Film {
     private long id;
 
     @NotBlank
-    @NotEmpty
+    @NotNull
     private String name;
 
     @Size(max = 200)
     private String description;
 
-    private Instant releaseDate;
+    @NotNull
+    private LocalDate releaseDate;
 
     @Positive
     private long duration;
