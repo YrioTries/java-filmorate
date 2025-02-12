@@ -1,9 +1,11 @@
 package ru.yandex.practicum.filmorate.model;
 
 import jakarta.validation.constraints.*;
+import jdk.jfr.Name;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 public class User {
@@ -22,4 +24,6 @@ public class User {
 
     @PastOrPresent
     private LocalDate birthday;
+
+    Set<Long> friends;
 }
