@@ -29,6 +29,18 @@ public class FilmController {
         return filmService.findAll();
     }
 
+    @PutMapping("/{id}/like/{userId}")
+    public Collection<Long> userLike(@PathVariable Long id, @PathVariable Long userId) {
+        log.info("PUT - пользователь {} поставил лайк фильму {}", userId, id);
+        return filmService.userLike(id, userId);
+    }
+
+    @DeleteMapping("/{id}/like/{userId}")
+    public boolean unLike(@PathVariable Long id, @PathVariable Long userId) {
+        log.info("DELETE - пользователь {} убрал лайк с фильма {}", userId, id);
+        return filmService.unLike(id, userId);
+    }
+
     @PostMapping
     public Film create(@Valid @RequestBody Film film) {
         log.info("POST - запрос на размещение фильма {} с id: {}", film, film.getId());

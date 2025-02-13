@@ -29,10 +29,34 @@ public class UserController {
         return userService.findAll();
     }
 
-    @PostMapping
+    @GetMapping("/users/{id}/friends")
+    public Collection<Long> findAllFriends(@PathVariable Long id) {
+        log.info("GET запрос на получение всех друзей пользователя {}", id);
+        return userService.findAllFriends(id);
+    }
+
+    @GetMapping("/users/{id}/friends/common/{otherId}")
+    public Collection<Long> getCommonFriends(@PathVariable Long id, @PathVariable Long otherId) {
+        log.info("GET запрос на получение всех общих друзей пользователей {} и {}", id, otherId);
+        return userService.getCommonFriends(id, otherId);
+    }
+
+    @PostMapping()
     public User create(@Valid @RequestBody User user) {
         log.info("POST - запрос на создание пользователя {} с id: {}", user, user.getId());
         return userService.create(user);
+    }
+
+    @PutMapping("/{id}/friends/{friendId")
+    public User addFriend(@PathVariable Long id, @PathVariable Long friendId) {
+        log.info("PUT - запрос на добавление пользователя {} в друзья к {}", friendId, id);
+        return userService.addFriend(id, friendId);
+    }
+
+    @DeleteMapping("/{id}/friends/{friendId")
+    public Long deleteFriend(@PathVariable Long id, @PathVariable Long friendId) {
+        log.info("DELETE - запрос на удаление пользователя {} из друзей {}",friendId, id);
+        return userService.deleteFriend(id, friendId);
     }
 
     @PutMapping

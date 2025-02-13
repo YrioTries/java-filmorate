@@ -9,9 +9,7 @@ import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -29,6 +27,26 @@ public class UserService {
         return users.values();
     }
 
+    public Collection<Long> findAllFriends(Long id) {
+        errorOfUserExist(id);
+        return users.get(id).getFriends();
+    }
+
+    public Collection<Long> getCommonFriends(Long id, Long friendId) {
+        errorOfUserExist(id);
+        errorOfUserExist(friendId);
+
+        User user = users.get(id);
+        User friendUser = users.get(friendId);
+
+        Set<Long>commonFriendSet = new TreeSet<>(user.getFriends());
+        commonFriendSet.retainAll(friendUser.getFriends());
+
+        return commonFriendSet;
+    }
+
+
+
     public User create(User user) {
         validateUser(user);
         if (users.values().stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(user.getEmail()))) {
@@ -39,30 +57,69 @@ public class UserService {
         return user;
     }
 
+    public User addFriend(Long id, Long friendId) {
+        errorOfUserExist(id);
+        errorOfUserExist(friendId);
+
+        User user = users.get(id);
+        User friendUser = users.get(friendId);
+
+        Set<Long>friendSet = new TreeSet<>();
+        friendSet = user.getFriends();
+        friendSet.add(friendId);
+        user.setFriends(friendSet);
+        update(user);
+
+        friendSet = friendUser.getFriends();
+        friendSet.add(id);
+        friendUser.setFriends(friendSet);
+        update(friendUser);
+
+        return friendUser;
+    }
+
     public User update(User newUser) {
         // Проверяем, существует ли пользователь с указанным ID
-        if (!users.containsKey(newUser.getId())) {
-            throw new NotFoundException("Пользователь с id = " + newUser.getId() + " не найден");
+        errorOfUserExist(newUser.getId());
+
+        User oldUser = users.get(newUser.getId());
+        validateUser(newUser);
+
+        // Обновляем другие поля, если они указаны
+        oldUser.setLogin(newUser.getLogin());
+
+        if (oldUser.getName() == null || oldUser.getName().isBlank()) {
+            oldUser.setName(oldUser.getLogin());
         } else {
-            User oldUser = users.get(newUser.getId());
-            validateUser(newUser);
-
-            // Обновляем другие поля, если они указаны
-            oldUser.setLogin(newUser.getLogin());
-
-            if (oldUser.getName() == null || oldUser.getName().isBlank()) {
-                oldUser.setName(oldUser.getLogin());
-            } else {
-                oldUser.setName(newUser.getName());
-            }
-
-            oldUser.setEmail(newUser.getEmail());
-            oldUser.setBirthday(newUser.getBirthday());
-
-            // Возвращаем обновленного пользователя
-            return oldUser;
+            oldUser.setName(newUser.getName());
         }
 
+        oldUser.setEmail(newUser.getEmail());
+        oldUser.setBirthday(newUser.getBirthday());
+
+        // Возвращаем обновленного пользователя
+        return oldUser;
+    }
+
+    public Long deleteFriend(Long id, Long friendId) {
+        errorOfUserExist(id);
+        errorOfUserExist(friendId);
+
+        User user = users.get(id);
+        User friendUser = users.get(friendId);
+
+        Set<Long>friendSet = new TreeSet<>();
+        friendSet = user.getFriends();
+        friendSet.remove(friendId);
+        user.setFriends(friendSet);
+        update(user);
+
+        friendSet = friendUser.getFriends();
+        friendSet.remove(id);
+        friendUser.setFriends(friendSet);
+        update(friendUser);
+
+        return friendId;
     }
 
     private void validateUser(User user) {
@@ -78,6 +135,12 @@ public class UserService {
         }
         if (user.getBirthday() != null && user.getBirthday().isAfter(LocalDate.now())) {
             throw new ValidationException("Некорректный дата рождения пользователя");
+        }
+    }
+
+    private void errorOfUserExist(Long id) {
+        if (!users.containsKey(id)) {
+            throw new NotFoundException("Пользователь с id = " + id + " не найден");
         }
     }
 

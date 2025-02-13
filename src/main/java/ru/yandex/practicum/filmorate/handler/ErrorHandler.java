@@ -9,20 +9,22 @@ import ru.yandex.practicum.filmorate.exception.ValidationException;
 
 @RestControllerAdvice
 public class ErrorHandler {
+
     @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse validationError(final ValidationException e) {
         return new ErrorResponse(e.getMessage());
     }
+
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse notFoundError(final NotFoundException e) {
         return new ErrorResponse(e.getMessage());
     }
+
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse throwableError(final Throwable e) {
         return new ErrorResponse(e.getMessage());
     }
-
 }

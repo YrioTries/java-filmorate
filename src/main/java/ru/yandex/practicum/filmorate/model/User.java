@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
 import jakarta.validation.constraints.*;
-import jdk.jfr.Name;
 import lombok.Data;
 
 import java.time.LocalDate;
