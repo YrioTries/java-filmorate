@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class FilmService {
@@ -39,6 +38,26 @@ public class FilmService {
         film.setId(getNextId());
         films.put(film.getId(), film);
         return film;
+    }
+
+    public Collection<Long> userLike(Long filmId, Long userId) {
+        Film film = films.get(filmId);
+        Set<Long>likes = new TreeSet<>(film.getLikesFrom());
+        likes.add(userId);
+        film.setLikesFrom(likes);
+        update(film);
+
+        return film.getLikesFrom();
+    }
+
+    public boolean unLike(Long filmId, Long userId) {
+        Film film = films.get(filmId);
+        Set<Long>likes = new TreeSet<>(film.getLikesFrom());
+        likes.remove(userId);
+        film.setLikesFrom(likes);
+        update(film);
+
+        return true;
     }
 
 
