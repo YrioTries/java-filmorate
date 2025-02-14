@@ -12,6 +12,7 @@ import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class FilmService {
@@ -58,6 +59,13 @@ public class FilmService {
         update(film);
 
         return true;
+    }
+
+    public List<Film> getPopularFilms(int count) {
+        return films.values().stream()
+                .sorted(Comparator.comparingLong((Film film) -> film.getLikesFrom().size()).reversed())
+                .limit(count)
+                .collect(Collectors.toList());
     }
 
 
