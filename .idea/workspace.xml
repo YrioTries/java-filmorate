@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="Add all endpoints without GET /films/popular?count={count}">
+    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="Add GET endpoint getPopularFilms">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/FilmController.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/FilmController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/exception/ValidationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/exception/ValidationException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/service/FilmService.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/service/FilmService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/film/InMemoryFilmStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/film/InMemoryFilmStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/user/InMemoryUserStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/user/InMemoryUserStorage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,10 +174,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.FilmorateApplication (1)" />
         <item itemvalue="JUnit.FilmorateApplicationTests.testUpdateUserSuccessfully" />
         <item itemvalue="JUnit.FilmorateApplicationTests.testFindAllUsers" />
         <item itemvalue="JUnit.FilmorateApplicationTests" />
-        <item itemvalue="Application.FilmorateApplication (1)" />
         <item itemvalue="Application.FilmorateApplication" />
       </list>
     </recent_temporary>
@@ -396,7 +399,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739486252751</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Add GET endpoint getPopularFilms">
+      <option name="closed" value="true" />
+      <created>1739493306867</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1739493306867</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -423,7 +434,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add models: User and Film" />
     <MESSAGE value="Add tests user and film controllers,&#10;end of projecting FilmController" />
     <MESSAGE value="style" />
     <MESSAGE value="Add test and fix the project" />
@@ -448,6 +458,7 @@
     <MESSAGE value="Change Instant param of Film to LocalDate&#10;Add updating Description param in update method of FilmController" />
     <MESSAGE value="Add services and storages" />
     <MESSAGE value="Add all endpoints without GET /films/popular?count={count}" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add all endpoints without GET /films/popular?count={count}" />
+    <MESSAGE value="Add GET endpoint getPopularFilms" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add GET endpoint getPopularFilms" />
   </component>
 </project>
