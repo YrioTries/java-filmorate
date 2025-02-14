@@ -24,5 +24,5 @@ public class Film {
     @Positive
     private long duration;
 
-    Set<Long>likesFrom;
+    private Set<Long> likesFrom;
 }

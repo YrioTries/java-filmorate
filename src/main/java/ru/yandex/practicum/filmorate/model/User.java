@@ -24,5 +24,5 @@ public class User {
     @PastOrPresent
     private LocalDate birthday;
 
-    Set<Long> friends;
+    private Set<Long> friends;
 }
