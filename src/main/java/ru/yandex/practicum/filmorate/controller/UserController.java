@@ -53,16 +53,16 @@ public class UserController {
         return userService.addFriend(id, friendId);
     }
 
-    @DeleteMapping("/{id}/friends/{friendId")
-    public Long deleteFriend(@PathVariable Long id, @PathVariable Long friendId) {
-        log.info("DELETE - запрос на удаление пользователя {} из друзей {}",friendId, id);
-        return userService.deleteFriend(id, friendId);
-    }
-
     @PutMapping
     public User update(@Valid @RequestBody User newUser) {
         log.info("PUT - запрос на обновление пользователя {} c id: {}", newUser, newUser.getId());
         return userService.update(newUser);
+    }
+
+    @DeleteMapping("/{id}/friends/{friendId")
+    public Long deleteFriend(@PathVariable Long id, @PathVariable Long friendId) {
+        log.info("DELETE - запрос на удаление пользователя {} из друзей {}",friendId, id);
+        return userService.deleteFriend(id, friendId);
     }
 }
 

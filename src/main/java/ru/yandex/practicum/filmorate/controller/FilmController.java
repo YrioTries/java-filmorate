@@ -9,6 +9,7 @@ import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
 import java.util.Collection;
+import java.util.List;
 
 @Slf4j
 @Validated
@@ -29,16 +30,9 @@ public class FilmController {
         return filmService.findAll();
     }
 
-    @PutMapping("/{id}/like/{userId}")
-    public Collection<Long> userLike(@PathVariable Long id, @PathVariable Long userId) {
-        log.info("PUT - пользователь {} поставил лайк фильму {}", userId, id);
-        return filmService.userLike(id, userId);
-    }
-
-    @DeleteMapping("/{id}/like/{userId}")
-    public boolean unLike(@PathVariable Long id, @PathVariable Long userId) {
-        log.info("DELETE - пользователь {} убрал лайк с фильма {}", userId, id);
-        return filmService.unLike(id, userId);
+    @GetMapping("/popular")
+    public List<Film> getPopularFilms(@RequestParam(required = false, defaultValue = "10") int count) {
+        return filmService.getPopularFilms(count);
     }
 
     @PostMapping
@@ -50,5 +44,17 @@ public class FilmController {
     @PutMapping
     public Film update(@Valid @RequestBody Film newFilm) {
         return filmService.update(newFilm);
+    }
+
+    @PutMapping("/{id}/like/{userId}")
+    public Collection<Long> userLike(@PathVariable Long id, @PathVariable Long userId) {
+        log.info("PUT - пользователь {} поставил лайк фильму {}", userId, id);
+        return filmService.userLike(id, userId);
+    }
+
+    @DeleteMapping("/{id}/like/{userId}")
+    public boolean unLike(@PathVariable Long id, @PathVariable Long userId) {
+        log.info("DELETE - пользователь {} убрал лайк с фильма {}", userId, id);
+        return filmService.unLike(id, userId);
     }
 }
