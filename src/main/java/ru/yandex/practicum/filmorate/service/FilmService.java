@@ -29,6 +29,10 @@ public class FilmService {
         return films.values();
     }
 
+    public Film get(long id) {
+        return films.get(id);
+    }
+
     public Film create(Film film) {
 
         validateFilm(film);

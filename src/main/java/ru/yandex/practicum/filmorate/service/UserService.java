@@ -27,6 +27,11 @@ public class UserService {
         return users.values();
     }
 
+    public User get(Long id) {
+        errorOfUserExist(id);
+        return users.get(id);
+    }
+
     public Collection<Long> findAllFriends(Long id) {
         errorOfUserExist(id);
         return users.get(id).getFriends();
@@ -97,7 +102,6 @@ public class UserService {
         oldUser.setEmail(newUser.getEmail());
         oldUser.setBirthday(newUser.getBirthday());
 
-        // Возвращаем обновленного пользователя
         return oldUser;
     }
 
@@ -144,7 +148,6 @@ public class UserService {
         }
     }
 
-    // Вспомогательный метод для генерации идентификатора нового пользователя
     private long getNextId() {
         long currentMaxId = users.keySet()
                 .stream()

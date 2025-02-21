@@ -29,6 +29,12 @@ public class UserController {
         return userService.findAll();
     }
 
+    @GetMapping("/users/{id}")
+    public User get(@PathVariable Long id) {
+        log.info("GET запрос на получение пользователя с id: {}", id);
+        return userService.get(id);
+    }
+
     @GetMapping("/users/{id}/friends")
     public Collection<Long> findAllFriends(@PathVariable Long id) {
         log.info("GET запрос на получение всех друзей пользователя {}", id);
