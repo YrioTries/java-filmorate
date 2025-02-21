@@ -44,7 +44,7 @@ public class FilmService {
 
     public Collection<Long> userLike(Long filmId, Long userId) {
         Film film = films.get(filmId);
-        Set<Long>likes = new TreeSet<>(film.getLikesFrom());
+        Set<Long> likes = new TreeSet<>(film.getLikesFrom());
         likes.add(userId);
         film.setLikesFrom(likes);
         update(film);
@@ -54,7 +54,7 @@ public class FilmService {
 
     public boolean unLike(Long filmId, Long userId) {
         Film film = films.get(filmId);
-        Set<Long>likes = new TreeSet<>(film.getLikesFrom());
+        Set<Long> likes = new TreeSet<>(film.getLikesFrom());
         likes.remove(userId);
         film.setLikesFrom(likes);
         update(film);

@@ -44,7 +44,7 @@ public class UserService {
         User user = users.get(id);
         User friendUser = users.get(friendId);
 
-        Set<Long>commonFriendSet = new TreeSet<>(user.getFriends());
+        Set<Long> commonFriendSet = new TreeSet<>(user.getFriends());
         commonFriendSet.retainAll(friendUser.getFriends());
 
         return commonFriendSet;
@@ -69,7 +69,7 @@ public class UserService {
         User user = users.get(id);
         User friendUser = users.get(friendId);
 
-        Set<Long>friendSet = new TreeSet<>();
+        Set<Long> friendSet = new TreeSet<>();
         friendSet = user.getFriends();
         friendSet.add(friendId);
         user.setFriends(friendSet);
@@ -112,7 +112,7 @@ public class UserService {
         User user = users.get(id);
         User friendUser = users.get(friendId);
 
-        Set<Long>friendSet = new TreeSet<>();
+        Set<Long> friendSet = new TreeSet<>();
         friendSet = user.getFriends();
         friendSet.remove(friendId);
         user.setFriends(friendSet);
