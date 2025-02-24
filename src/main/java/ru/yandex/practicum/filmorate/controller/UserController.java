@@ -53,20 +53,20 @@ public class UserController {
         return userService.create(user);
     }
 
-    @PutMapping("/{id}/friends/{friendId}")
-    public User addFriend(@PathVariable Long id, @PathVariable Long friendId) {
-        log.info("PUT - запрос на добавление пользователя {} в друзья к {}", friendId, id);
-        return userService.addFriend(id, friendId);
-    }
-
     @PutMapping
     public User update(@Valid @RequestBody User newUser) {
         log.info("PUT - запрос на обновление пользователя {} c id: {}", newUser, newUser.getId());
         return userService.update(newUser);
     }
 
+    @PutMapping("/{id}/friends/{friendId}")
+    public boolean addFriend(@PathVariable Long id, @PathVariable Long friendId) {
+        log.info("PUT - запрос на добавление пользователя {} в друзья к {}", friendId, id);
+        return userService.addFriend(id, friendId);
+    }
+
     @DeleteMapping("/{id}/friends/{friendId}")
-    public Long deleteFriend(@PathVariable Long id, @PathVariable Long friendId) {
+    public boolean deleteFriend(@PathVariable Long id, @PathVariable Long friendId) {
         log.info("DELETE - запрос на удаление пользователя {} из друзей {}",friendId, id);
         return userService.deleteFriend(id, friendId);
     }

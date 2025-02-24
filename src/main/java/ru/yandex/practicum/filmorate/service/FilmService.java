@@ -2,12 +2,10 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
 
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -16,74 +14,43 @@ public class FilmService {
 
     private final InMemoryFilmStorage inMemoryFilmStorage;
 
-    private final Map<Long, Film> films = new HashMap<>();
-
-    private final LocalDate bornOfFilms = LocalDate.of(1895, 12, 28);
-
     @Autowired
     public FilmService(InMemoryFilmStorage inMemoryFilmStorage) {
         this.inMemoryFilmStorage = inMemoryFilmStorage;
     }
 
     public Collection<Film> findAll() {
-        return films.values();
+        return inMemoryFilmStorage.getFilms();
     }
 
     public Film get(long id) {
-        return films.get(id);
+        return inMemoryFilmStorage.getFilm(id);
     }
 
-    public Film create(Film film) {
-
-        validateFilm(film);
-
-        film.setId(getNextId());
-        films.put(film.getId(), film);
-        return film;
+    public boolean likeFilm(Long filmId, Long userId) {
+        return inMemoryFilmStorage.likeFilm(filmId, userId);
     }
 
-    public Collection<Long> userLike(Long filmId, Long userId) {
-        Film film = films.get(filmId);
-        Set<Long> likes = new TreeSet<>(film.getLikesFrom());
-        likes.add(userId);
-        film.setLikesFrom(likes);
-        update(film);
-
-        return film.getLikesFrom();
+    public boolean unLikeFilm(Long filmId, Long userId) {
+        return inMemoryFilmStorage.unLikeFilm(filmId, userId);
     }
 
-    public boolean unLike(Long filmId, Long userId) {
-        Film film = films.get(filmId);
-        Set<Long> likes = new TreeSet<>(film.getLikesFrom());
-        likes.remove(userId);
-        film.setLikesFrom(likes);
-        update(film);
-
-        return true;
-    }
-
-    public List<Film> getPopularFilms(int count) {
-        return films.values().stream()
+    public Collection<Film> getPopularFilms(int count) {
+        return inMemoryFilmStorage.getFilms()
+                .stream()
                 .sorted(Comparator.comparingLong((Film film) -> film.getLikesFrom().size()).reversed())
                 .limit(count)
                 .collect(Collectors.toList());
     }
 
+    public Film create(Film film) {
+        validateFilm(film);
+        return inMemoryFilmStorage.putFilm(film);
+    }
 
     public Film update(Film newFilm) {
-        if (!films.containsKey(newFilm.getId())) {
-            throw new NotFoundException("Фильм с id = " + newFilm.getId() + " не найден");
-        } else {
-            Film oldFilm = films.get(newFilm.getId());
-            validateFilm(oldFilm);
-            oldFilm.setDuration(newFilm.getDuration());
-            oldFilm.setReleaseDate(newFilm.getReleaseDate());
-            oldFilm.setDescription(newFilm.getDescription());
-            oldFilm.setName(newFilm.getName());
-
-            films.put(oldFilm.getId(), oldFilm);
-            return oldFilm;
-        }
+        validateFilm(newFilm);
+        return inMemoryFilmStorage.update(newFilm);
     }
 
     private void validateFilm(Film film) {
@@ -93,21 +60,11 @@ public class FilmService {
         if (film.getDescription() == null || film.getDescription().length() > 200) {
             throw new ValidationException("Некорректное описание фильма");
         }
-        if (film.getReleaseDate() == null || bornOfFilms.isAfter(film.getReleaseDate())) {
+        if (film.getReleaseDate() == null || inMemoryFilmStorage.getBornOfFilms().isAfter(film.getReleaseDate())) {
             throw new ValidationException("Дата релиза — не раньше 28 декабря 1895 года");
         }
         if (film.getDuration() < 0) {
             throw new ValidationException("Длительность должна быть больше нуля");
         }
-    }
-
-    // Вспомогательный метод для генерации идентификатора нового пользователя
-    private long getNextId() {
-        long currentMaxId = films.keySet()
-                .stream()
-                .mapToLong(id -> id)
-                .max()
-                .orElse(0);
-        return ++currentMaxId;
     }
 }

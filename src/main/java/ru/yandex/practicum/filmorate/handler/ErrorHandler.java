@@ -26,9 +26,9 @@ public class ErrorHandler {
         return new ErrorResponse(e.getMessage());
     }
 
-    @ExceptionHandler(Error.class)
+    @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse runtimeExceptionError(final Error e) {
+    public ErrorResponse exceptionError(final Exception e) {
         log.info("ERROR[500]: Произошла ошибка ErrorException: {}", e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
