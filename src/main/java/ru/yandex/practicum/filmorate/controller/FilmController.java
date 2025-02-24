@@ -9,7 +9,6 @@ import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
 import java.util.Collection;
-import java.util.List;
 
 @Slf4j
 @Validated
@@ -30,7 +29,7 @@ public class FilmController {
         return filmService.findAll();
     }
 
-    @GetMapping("/films/{id}")
+    @GetMapping("/{id}")
     public Film get(@PathVariable Long id) {
         log.info("GET запрос на получение фильма с  id: {}", id);
         return filmService.get(id);
