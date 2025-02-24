@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="Add GET endpoint getPopularFilms">
+    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="Refactor services">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/FilmController.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/FilmController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/handler/ErrorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/handler/ErrorHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/service/FilmService.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/service/FilmService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/film/InMemoryFilmStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/film/InMemoryFilmStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/user/InMemoryUserStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/user/InMemoryUserStorage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +20,7 @@
       <list>
         <option value="Interface" />
         <option value="Class" />
+        <option value="Exception" />
       </list>
     </option>
   </component>
@@ -33,6 +31,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/java-filmorate" />
+    <option name="RESET_MODE" value="HARD" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -408,7 +407,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739493306867</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Refactor services">
+      <option name="closed" value="true" />
+      <created>1740363072975</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1740363072975</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -435,7 +442,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add tests user and film controllers,&#10;end of projecting FilmController" />
     <MESSAGE value="style" />
     <MESSAGE value="Add test and fix the project" />
     <MESSAGE value="Fix validation errors and add ErrorHandlingControllerAdvice" />
@@ -460,6 +466,7 @@
     <MESSAGE value="Add services and storages" />
     <MESSAGE value="Add all endpoints without GET /films/popular?count={count}" />
     <MESSAGE value="Add GET endpoint getPopularFilms" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add GET endpoint getPopularFilms" />
+    <MESSAGE value="Refactor services" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor services" />
   </component>
 </project>
