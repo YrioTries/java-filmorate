@@ -21,109 +21,55 @@ public class UserService {
         this.inMemoryUserStorage = inMemoryUserStorage;
     }
 
-    private final Map<Long, User> users = new HashMap<>();
-
     public Collection<User> findAll() {
-        return users.values();
+        return inMemoryUserStorage.findAll();
     }
 
     public User get(Long id) {
         errorOfUserExist(id);
-        return users.get(id);
+        return inMemoryUserStorage.getUser(id);
     }
 
     public Collection<Long> findAllFriends(Long id) {
         errorOfUserExist(id);
-        return users.get(id).getFriends();
+        return inMemoryUserStorage.findAllFriends(id);
     }
 
     public Collection<Long> getCommonFriends(Long id, Long friendId) {
         errorOfUserExist(id);
         errorOfUserExist(friendId);
 
-        User user = users.get(id);
-        User friendUser = users.get(friendId);
-
-        Set<Long> commonFriendSet = new TreeSet<>(user.getFriends());
-        commonFriendSet.retainAll(friendUser.getFriends());
-
-        return commonFriendSet;
+        return inMemoryUserStorage.getCommonFriends(id, friendId);
     }
-
-
 
     public User create(User user) {
         validateUser(user);
-        if (users.values().stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(user.getEmail()))) {
+        if (inMemoryUserStorage.findAll().stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(user.getEmail()))) {
             throw new DuplicatedDataException("Этот имейл уже используется");
         }
-        user.setId(getNextId());
-        users.put(user.getId(), user);
+        inMemoryUserStorage.create(user);
         return user;
     }
 
-    public User addFriend(Long id, Long friendId) {
-        errorOfUserExist(id);
-        errorOfUserExist(friendId);
-
-        User user = users.get(id);
-        User friendUser = users.get(friendId);
-
-        Set<Long> friendSet = new TreeSet<>();
-        friendSet = user.getFriends();
-        friendSet.add(friendId);
-        user.setFriends(friendSet);
-        update(user);
-
-        friendSet = friendUser.getFriends();
-        friendSet.add(id);
-        friendUser.setFriends(friendSet);
-        update(friendUser);
-
-        return friendUser;
-    }
-
     public User update(User newUser) {
-        // Проверяем, существует ли пользователь с указанным ID
         errorOfUserExist(newUser.getId());
-
-        User oldUser = users.get(newUser.getId());
         validateUser(newUser);
 
-        // Обновляем другие поля, если они указаны
-        oldUser.setLogin(newUser.getLogin());
-
-        if (oldUser.getName() == null || oldUser.getName().isBlank()) {
-            oldUser.setName(oldUser.getLogin());
-        } else {
-            oldUser.setName(newUser.getName());
-        }
-
-        oldUser.setEmail(newUser.getEmail());
-        oldUser.setBirthday(newUser.getBirthday());
-
-        return oldUser;
+        return inMemoryUserStorage.update(newUser);
     }
 
-    public Long deleteFriend(Long id, Long friendId) {
+    public boolean addFriend(Long id, Long friendId) {
         errorOfUserExist(id);
         errorOfUserExist(friendId);
 
-        User user = users.get(id);
-        User friendUser = users.get(friendId);
+        return inMemoryUserStorage.addFriend(id, friendId);
+    }
 
-        Set<Long> friendSet = new TreeSet<>();
-        friendSet = user.getFriends();
-        friendSet.remove(friendId);
-        user.setFriends(friendSet);
-        update(user);
+    public boolean deleteFriend(Long id, Long friendId) {
+        errorOfUserExist(id);
+        errorOfUserExist(friendId);
 
-        friendSet = friendUser.getFriends();
-        friendSet.remove(id);
-        friendUser.setFriends(friendSet);
-        update(friendUser);
-
-        return friendId;
+        return inMemoryUserStorage.deleteFriend(id, friendId);
     }
 
     private void validateUser(User user) {
@@ -143,17 +89,8 @@ public class UserService {
     }
 
     private void errorOfUserExist(Long id) {
-        if (!users.containsKey(id)) {
+        if (!inMemoryUserStorage.findAllKeys().contains(id)) {
             throw new NotFoundException("Пользователь с id = " + id + " не найден");
         }
-    }
-
-    private long getNextId() {
-        long currentMaxId = users.keySet()
-                .stream()
-                .mapToLong(id -> id)
-                .max()
-                .orElse(0);
-        return ++currentMaxId;
     }
 }
