@@ -68,14 +68,16 @@ public class UserService {
     public boolean deleteFriend(Long id, Long friendId) {
         errorOfUserExist(id);
         errorOfUserExist(friendId);
-        if (inMemoryUserStorage.getUser(id).getFriends().contains(friendId)
-                && inMemoryUserStorage.getUser(friendId).getFriends().contains(id)) { // ИНВЕРТИРУЙТЕ ЭТО УСЛОВИЕ
-            return inMemoryUserStorage.deleteFriend(id, friendId);
-        } else {
+
+        User user = inMemoryUserStorage.getUser(id);
+        User friendUser = inMemoryUserStorage.getUser(friendId);
+
+        if (!user.getFriends().contains(friendId) || !friendUser.getFriends().contains(id)) {
             throw new NotFoundException("Пользователи не являются друзьями");
+        } else {
+            return inMemoryUserStorage.deleteFriend(id, friendId);
         }
     }
-
 
     private void validateUser(User user) {
         if (user.getLogin() == null || user.getLogin().isEmpty()) {
