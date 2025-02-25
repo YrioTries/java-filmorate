@@ -72,10 +72,10 @@ public class UserService {
         User user = inMemoryUserStorage.getUser(id);
         User friendUser = inMemoryUserStorage.getUser(friendId);
 
-        if (!user.getFriends().contains(friendId) || !friendUser.getFriends().contains(id)) {
-            throw new NotFoundException("Пользователи не являются друзьями");
+        if (inMemoryUserStorage.deleteFriend(id, friendId)) {
+            return true;
         } else {
-            return inMemoryUserStorage.deleteFriend(id, friendId);
+            throw new NotFoundException("Пользователи не являются друзьями");
         }
     }
 
