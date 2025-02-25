@@ -22,6 +22,9 @@ public class UserService {
     }
 
     public Collection<User> findAll() {
+        if (inMemoryUserStorage.findAll().isEmpty()) {
+            throw new NotFoundException("Нет активных пользователей");
+        }
         return inMemoryUserStorage.findAll();
     }
 
@@ -38,7 +41,6 @@ public class UserService {
     public Collection<Long> getCommonFriends(Long id, Long friendId) {
         errorOfUserExist(id);
         errorOfUserExist(friendId);
-
         return inMemoryUserStorage.getCommonFriends(id, friendId);
     }
 
@@ -54,43 +56,47 @@ public class UserService {
     public User update(User newUser) {
         errorOfUserExist(newUser.getId());
         validateUser(newUser);
-
         return inMemoryUserStorage.update(newUser);
     }
 
     public boolean addFriend(Long id, Long friendId) {
         errorOfUserExist(id);
         errorOfUserExist(friendId);
-
         return inMemoryUserStorage.addFriend(id, friendId);
     }
 
     public boolean deleteFriend(Long id, Long friendId) {
         errorOfUserExist(id);
         errorOfUserExist(friendId);
-
-        return inMemoryUserStorage.deleteFriend(id, friendId);
+        if (inMemoryUserStorage.getUser(id).getFriends().contains(friendId)
+                && inMemoryUserStorage.getUser(friendId).getFriends().contains(id)) { // ИНВЕРТИРУЙТЕ ЭТО УСЛОВИЕ
+            return inMemoryUserStorage.deleteFriend(id, friendId);
+        } else {
+            throw new NotFoundException("Пользователи не являются друзьями");
+        }
     }
 
+
     private void validateUser(User user) {
-        if (user.getLogin() == null || user.getLogin().isEmpty() || user.getLogin().contains(" ")) {
+        if (user.getLogin() == null || user.getLogin().isEmpty()) {
             throw new ValidationException("Некорректный логин пользователя");
         }
-        if (user.getEmail() == null || user.getEmail().isEmpty()
-                || !user.getEmail().contains("@")) {
+        if (user.getEmail() == null || user.getEmail().isEmpty() || !user.getEmail().contains("@")) {
             throw new ValidationException("Некорректный имейл пользователя");
         }
         if (user.getName() == null || user.getName().isEmpty()) {
             user.setName(user.getLogin());
         }
         if (user.getBirthday() != null && user.getBirthday().isAfter(LocalDate.now())) {
-            throw new ValidationException("Некорректный дата рождения пользователя");
+            throw new ValidationException("Некорректная дата рождения пользователя");
         }
     }
 
     private void errorOfUserExist(Long id) {
-        if (!inMemoryUserStorage.findAllKeys().contains(id)) {
+        if (inMemoryUserStorage.findAllKeys() != null && !inMemoryUserStorage.findAllKeys().contains(id)) {
             throw new NotFoundException("Пользователь с id = " + id + " не найден");
+        } else if (inMemoryUserStorage.findAllKeys() == null) {
+            throw new NotFoundException("Нет активных пользователей");
         }
     }
 }

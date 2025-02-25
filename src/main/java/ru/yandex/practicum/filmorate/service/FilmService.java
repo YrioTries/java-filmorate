@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
@@ -20,22 +21,31 @@ public class FilmService {
     }
 
     public Collection<Film> findAll() {
+        if (inMemoryFilmStorage.getFilms().isEmpty()) {
+            throw new NotFoundException("Нет созданных фильмов");
+        }
         return inMemoryFilmStorage.getFilms();
     }
 
     public Film get(long id) {
+        filmExist(id);
         return inMemoryFilmStorage.getFilm(id);
     }
 
     public boolean likeFilm(Long filmId, Long userId) {
+        filmExist(filmId);
         return inMemoryFilmStorage.likeFilm(filmId, userId);
     }
 
     public boolean unLikeFilm(Long filmId, Long userId) {
+        filmExist(filmId);
         return inMemoryFilmStorage.unLikeFilm(filmId, userId);
     }
 
     public Collection<Film> getPopularFilms(int count) {
+        if (inMemoryFilmStorage.getFilms().isEmpty()) {
+            throw new NotFoundException("Нет созданных фильмов");
+        }
         return inMemoryFilmStorage.getFilms()
                 .stream()
                 .sorted(Comparator.comparingLong((Film film) -> film.getLikesFrom().size()).reversed())
@@ -65,6 +75,12 @@ public class FilmService {
         }
         if (film.getDuration() < 0) {
             throw new ValidationException("Длительность должна быть больше нуля");
+        }
+    }
+
+    private void filmExist(Long id) {
+        if (!inMemoryFilmStorage.getFilmsKeys().contains(id)) {
+            throw new NotFoundException("Фильм не найден");
         }
     }
 }

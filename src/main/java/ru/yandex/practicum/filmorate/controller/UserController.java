@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User get(@PathVariable Long id) {
+    public User getUser(@PathVariable Long id) {
         log.info("GET запрос на получение пользователя с id: {}", id);
         return userService.get(id);
     }

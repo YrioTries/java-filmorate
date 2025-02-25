@@ -8,6 +8,8 @@ public interface FilmStorage {
 
     Collection<Film> getFilms();
 
+    Collection<Long> getFilmsKeys();
+
     Film getFilm(Long id);
 
     boolean likeFilm(Long filmId, Long userId);
