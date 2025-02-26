@@ -20,33 +20,32 @@ public class Film {
     private String description;
 
     @NotNull
-    @PastOrPresent // Проверка, чтобы дата была не в будущем
+    @PastOrPresent
     private LocalDate releaseDate;
 
     @Positive
     private long duration;
 
     @NotNull
-    private Set<Long> likesFrom = new HashSet<>(); // Инициализация коллекции
+    private Set<Long> likesFrom; // Инициализация коллекции
 
     public Film() {
-
+        likesFrom = new HashSet<>();
     }
 
-    public Film(long id, @NotNull String name, String description, @NotNull LocalDate releaseDate, long duration) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.releaseDate = releaseDate;
-        this.duration = duration;
-    }
-
-    public Film(long id, @NotNull String name, String description, @NotNull LocalDate releaseDate, long duration, Set<Long> likesFrom) {
-        this.id = id;
+    public Film(@NotNull String name, String description, @NotNull LocalDate releaseDate, long duration) {
         this.name = name;
         this.description = description;
         this.releaseDate = releaseDate;
         this.duration = duration;
         this.likesFrom = new HashSet<>();
+    }
+
+    public Film(@NotNull String name, String description, @NotNull LocalDate releaseDate, long duration, Set<Long> likesFrom) {
+        this.name = name;
+        this.description = description;
+        this.releaseDate = releaseDate;
+        this.duration = duration;
+        this.likesFrom = new HashSet<>(likesFrom);
     }
 }
