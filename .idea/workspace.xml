@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="fix tests problem" />
+    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="fix tests problem 2" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -464,7 +464,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740537675774</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="fix tests problem 2">
+      <option name="closed" value="true" />
+      <created>1740589006316</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1740589006316</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -491,7 +499,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Change git API tests" />
     <MESSAGE value="Change param of UserControllerer" />
     <MESSAGE value="Change param of UserControllerer second time" />
     <MESSAGE value="Add @NotNull Annotation of id param of User and Film second time" />
@@ -516,6 +523,7 @@
     <MESSAGE value="fix validation of deleteFriend method" />
     <MESSAGE value="confuse: 3 errors 2 requests" />
     <MESSAGE value="fix tests problem" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix tests problem" />
+    <MESSAGE value="fix tests problem 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix tests problem 2" />
   </component>
 </project>
