@@ -39,20 +39,14 @@ public class InMemoryUserStorage implements UserStorage {
         if (!users.containsKey(id) || !users.containsKey(friendId)) {
             throw new NotFoundException("Один из пользователей не найден");
         }
-        User user = users.get(id);
-        User friendUser = users.get(friendId);
 
-        Set<Long> userFriends = user.getFriends();
-        Set<Long> friendUserFriends = friendUser.getFriends();
+        User user = getUser(id);
+        User friendUser = getUser(friendId);
 
-        if (userFriends == null || friendUserFriends == null) {
-            return Collections.emptySet();
-        }
+        Set<Long> commonFriends = new HashSet<>(user.getFriends());
+        commonFriends.retainAll(friendUser.getFriends());
 
-        Set<Long> commonFriendSet = new HashSet<>(userFriends);
-        commonFriendSet.retainAll(friendUserFriends);
-
-        return commonFriendSet;
+        return commonFriends;
     }
 
     public User create(User user) {
@@ -72,17 +66,16 @@ public class InMemoryUserStorage implements UserStorage {
 
         oldUser.setLogin(newUser.getLogin());
 
-        if (oldUser.getName() == null || oldUser.getName().isBlank()) {
-            oldUser.setName(oldUser.getLogin());
+        if (newUser.getName() == null || newUser.getName().isBlank()) {
+            oldUser.setName(newUser.getLogin());
         } else {
             oldUser.setName(newUser.getName());
         }
 
         oldUser.setEmail(newUser.getEmail());
         oldUser.setBirthday(newUser.getBirthday());
-        oldUser.setFriends(newUser.getFriends());
 
-        users.put(newUser.getId(), oldUser);
+        users.put(oldUser.getId(), oldUser);
         return oldUser;
     }
 
@@ -90,28 +83,17 @@ public class InMemoryUserStorage implements UserStorage {
         if (!users.containsKey(id) || !users.containsKey(friendId)) {
             throw new NotFoundException("Один из пользователей не найден");
         }
-        User user = users.get(id);
-        User friendUser = users.get(friendId);
 
-        Set<Long> friendSetUser = user.getFriends();
-        if (friendSetUser == null) {
-            friendSetUser = new HashSet<>();
-        }
-        friendSetUser.add(friendId);
-        user.setFriends(friendSetUser);
+        User user = getUser(id);
+        User friendUser = getUser(friendId);
+
+        user.getFriends().add(friendId);
+        friendUser.getFriends().add(id);
+
         update(user);
-        users.put(id, user);
-
-        Set<Long> friendSetFriend = friendUser.getFriends();
-        if (friendSetFriend == null) {
-            friendSetFriend = new HashSet<>();
-        }
-        friendSetFriend.add(id);
-        friendUser.setFriends(friendSetFriend);
         update(friendUser);
-        users.put(friendId, friendUser);
 
-        return friendUser.getFriends().contains(id);
+        return user.getFriends().contains(friendId) && friendUser.getFriends().contains(id);
     }
 
     public boolean deleteFriend(Long id, Long friendId) {
