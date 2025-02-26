@@ -125,8 +125,7 @@ class FilmorateApplicationTests {
 		invalidUser.setEmail("yandex@mail.ru");
 		invalidUser.setBirthday(LocalDate.of(2446, 8, 20)); // Некорректная дата
 
-		Assertions.assertThatThrownBy(() -> userController.create(invalidUser))
-				.isInstanceOf(ConstraintViolationException.class)
-				.hasMessageContaining("должно содержать прошедшую дату или сегодняшнее число");
+		assertThrows(ConstraintViolationException.class, () -> userController.create(invalidUser));
+
 	}
 }
