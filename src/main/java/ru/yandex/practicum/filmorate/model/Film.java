@@ -30,7 +30,7 @@ public class Film {
     private Set<Long> likesFrom = new HashSet<>(); // Инициализация коллекции
 
     public Film() {
-        // Конструктор по умолчанию
+
     }
 
     public Film(long id, @NotNull String name, String description, @NotNull LocalDate releaseDate, long duration) {
@@ -41,7 +41,6 @@ public class Film {
         this.duration = duration;
     }
 
-    // Дополнительный конструктор для полной инициализации
     public Film(long id, @NotNull String name, String description, @NotNull LocalDate releaseDate, long duration, Set<Long> likesFrom) {
         this.id = id;
         this.name = name;

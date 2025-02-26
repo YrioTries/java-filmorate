@@ -62,7 +62,11 @@ public class UserService {
     public boolean addFriend(Long id, Long friendId) {
         errorOfUserExist(id);
         errorOfUserExist(friendId);
-        return inMemoryUserStorage.addFriend(id, friendId);
+        if (inMemoryUserStorage.addFriend(id, friendId)) {
+            return true;
+        } else {
+            throw new NotFoundException("Друзья не были добавлены");
+        }
     }
 
     public boolean deleteFriend(Long id, Long friendId) {

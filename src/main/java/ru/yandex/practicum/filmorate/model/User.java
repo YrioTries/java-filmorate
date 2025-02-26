@@ -29,7 +29,7 @@ public class User {
     private Set<Long> friends = new HashSet<>(); // Инициализация коллекции
 
     public User() {
-        // Конструктор по умолчанию
+
     }
 
     public User(long id, @NotNull String email, @NotNull String login, String name, @NotNull LocalDate birthday) {
