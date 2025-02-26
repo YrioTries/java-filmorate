@@ -70,6 +70,7 @@ public class FilmService {
     }
 
     public Film update(Film newFilm) {
+        filmExist(newFilm.getId());
         validateFilm(newFilm);
         return inMemoryFilmStorage.update(newFilm);
     }

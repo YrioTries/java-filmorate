@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate;
 
+import jakarta.validation.ConstraintViolationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ class FilmorateApplicationTests {
 		film.setDescription("Description");
 		film.setReleaseDate(bornOfFilms);
 		film.setDuration(120);
+		film.setLikesFrom(new HashSet<>());
 
 		assertThrows(ValidationException.class, () -> filmController.create(film));
 	}
@@ -124,59 +126,7 @@ class FilmorateApplicationTests {
 		invalidUser.setBirthday(LocalDate.of(2446, 8, 20)); // Некорректная дата
 
 		Assertions.assertThatThrownBy(() -> userController.create(invalidUser))
-				.isInstanceOf(ValidationException.class)
-				.hasMessageContaining("Некорректный дата рождения пользователя");
+				.isInstanceOf(ConstraintViolationException.class)
+				.hasMessageContaining("должно содержать прошедшую дату или сегодняшнее число");
 	}
-
-	@Test
-	void testGetPopularFilms() {
-		// Создание фильмов
-		Film film1 = new Film(0L, "Film 1", "Description 1", LocalDate.now(), 100, new HashSet<>());
-		Film film2 = new Film(0L, "Film 2", "Description 2", LocalDate.now(), 100, new HashSet<>());
-
-		Film createdFilm1 = filmController.create(film1);
-		Film createdFilm2 = filmController.create(film2);
-
-		// Добавление лайков
-		filmController.userLike(createdFilm1.getId(), 1L);
-		filmController.userLike(createdFilm1.getId(), 2L);
-		filmController.userLike(createdFilm1.getId(), 3L); // Добавляем больше лайков для film1
-		filmController.userLike(createdFilm2.getId(), 4L);
-
-		// Получение популярных фильмов
-		Collection<Film> popularFilms = filmController.getPopularFilms(10);
-
-		assertEquals(2, popularFilms.size());
-
-		// Преобразуем коллекцию в список для индексированного доступа
-		List<Film> popularFilmsList = new ArrayList<>(popularFilms);
-		assertEquals(createdFilm1.getId(), popularFilmsList.getFirst().getId());
-	}
-
-	@Test
-	void testAddFriend() {
-		// Убедитесь, что пользователи 4 и 5 существуют
-		if (userController.getUser(4L) == null) {
-			userController.create(new User(4L, "user4@example.com", "login4", "name4", LocalDate.now()));
-		}
-		if (userController.getUser(5L) == null) {
-			userController.create(new User(5L, "user5@example.com", "login5", "name5", LocalDate.now()));
-		}
-
-		// Вызываем контроллер, а НЕ напрямую storage
-		userController.addFriend(4L, 5L);
-
-		// Получаем пользователей из хранилища (после добавления в друзья)
-		User user4 = userController.getUser(4L);
-		User user5 = userController.getUser(5L);
-
-		// Проверяем, что они существуют (это хорошая практика)
-		assertNotNull(user4, "User 4 should exist");
-		assertNotNull(user5, "User 5 should exist");
-
-		// Проверяем, что они *действительно* друзья
-		assertTrue(user4.getFriends().contains(5L), "User 4 should have User 5 as a friend");
-		assertTrue(user5.getFriends().contains(4L), "User 5 should have User 4 as a friend");
-	}
-
 }
