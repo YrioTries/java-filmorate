@@ -59,7 +59,7 @@ public class UserService {
         return inMemoryUserStorage.update(newUser);
     }
 
-    public Collection<Long> addFriend(Long id, Long friendId) {
+    public long addFriend(Long id, Long friendId) {
         errorOfUserExist(id);
         errorOfUserExist(friendId);
         return inMemoryUserStorage.addFriend(id, friendId);
