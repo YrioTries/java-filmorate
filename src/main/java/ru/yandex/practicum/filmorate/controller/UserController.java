@@ -3,12 +3,16 @@ package ru.yandex.practicum.filmorate.controller;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.model.IdValue; // Импортируем IdValue
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Validated
@@ -42,14 +46,17 @@ public class UserController {
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
-    public Collection<Long> getCommonFriends(@PathVariable Long id, @PathVariable Long otherId) {
+    public List<IdValue> getCommonFriends(@PathVariable Long id, @PathVariable Long otherId) {
         log.info("GET запрос на получение всех общих друзей пользователей {} и {}", id, otherId);
-        return userService.getCommonFriends(id, otherId);
+        Collection<Long> commonFriendIds = userService.getCommonFriends(id, otherId); // Получаем Collection<Long>
+        return commonFriendIds.stream()
+                .map(IdValue::new)
+                .collect(Collectors.toList());
     }
 
     @PostMapping()
     public User create(@Valid @RequestBody User user) {
-        log.info("POST - запрос на создание пользователя {} с id: {}", user, user.getId());
+        log.info("POST - запрос на создание пользователя {}", user);
         return userService.create(user);
     }
 
@@ -60,9 +67,10 @@ public class UserController {
     }
 
     @PutMapping("/{id}/friends/{friendId}")
-    public boolean addFriend(@PathVariable Long id, @PathVariable Long friendId) {
+    public ResponseEntity<IdValue> addFriend(@PathVariable Long id, @PathVariable Long friendId) {
         log.info("PUT - запрос на добавление пользователя {} в друзья к {}", friendId, id);
-        return userService.addFriend(id, friendId);
+        userService.addFriend(id, friendId); // Вызываем service
+        return ResponseEntity.ok(new IdValue(friendId)); // Возвращаем ResponseEntity
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
@@ -71,4 +79,3 @@ public class UserController {
         return userService.deleteFriend(id, friendId);
     }
 }
-

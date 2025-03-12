@@ -1,12 +1,13 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.exception.DuplicatedDataException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.*;
 
+@Slf4j
 @Component
 public class InMemoryUserStorage implements UserStorage {
 
@@ -43,16 +44,16 @@ public class InMemoryUserStorage implements UserStorage {
         User user = getUser(id);
         User friendUser = getUser(friendId);
 
-        Set<Long> commonFriends = new HashSet<>(user.getFriends());
-        commonFriends.retainAll(friendUser.getFriends());
+        log.info("Пользователи user {} и friendUser {} делятся списком общих друзей", user.getId(), friendUser.getId());
 
-        return commonFriends;
+        Set<Long> friendsOfUser1 = new HashSet<>(user.getFriends());
+        Set<Long> friendsOfUser2 = new HashSet<>(friendUser.getFriends());
+        friendsOfUser1.retainAll(friendsOfUser2);
+
+        return new HashSet<>(friendsOfUser1);
     }
 
     public User create(User user) {
-        if (users.values().stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(user.getEmail()))) {
-            throw new DuplicatedDataException("Этот имейл уже используется");
-        }
         user.setId(getNextId());
         users.put(user.getId(), user);
         return user;
@@ -79,7 +80,7 @@ public class InMemoryUserStorage implements UserStorage {
         return oldUser;
     }
 
-    public boolean addFriend(Long id, Long friendId) {
+    public long addFriend(Long id, Long friendId) {
         if (!users.containsKey(id) || !users.containsKey(friendId)) {
             throw new NotFoundException("Один из пользователей не найден");
         }
@@ -87,13 +88,26 @@ public class InMemoryUserStorage implements UserStorage {
         User user = getUser(id);
         User friendUser = getUser(friendId);
 
-        user.getFriends().add(friendId);
-        friendUser.getFriends().add(id);
+        if (!(user.getFriends().contains(friendId) && friendUser.getFriends().contains(id))) {
+            log.info("Пользователи user {} и friendUser {} становятся друзьями", user.getId(), friendUser.getId());
 
-        update(user);
-        update(friendUser);
+            Set<Long> friendSet = user.getFriends();
+            friendSet.add(friendId);
+            user.setFriends(friendSet);
 
-        return user.getFriends().contains(friendId) && friendUser.getFriends().contains(id);
+            friendSet = friendUser.getFriends();
+            friendSet.add(id);
+            friendUser.setFriends(friendSet);
+
+            users.put(user.getId(), user);
+            users.put(friendUser.getId(), friendUser);
+        }
+
+        if (user.getFriends().contains(friendId) && friendUser.getFriends().contains(id)){
+            return friendId;
+        } else {
+            throw new NotFoundException("Ошибка добавления в друзья");
+        }
     }
 
     public boolean deleteFriend(Long id, Long friendId) {
