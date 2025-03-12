@@ -103,7 +103,7 @@ public class InMemoryUserStorage implements UserStorage {
             users.put(friendUser.getId(), friendUser);
         }
 
-        if (user.getFriends().contains(friendId) && friendUser.getFriends().contains(id)){
+        if (user.getFriends().contains(friendId) && friendUser.getFriends().contains(id)) {
             return friendId;
         } else {
             throw new NotFoundException("Ошибка добавления в друзья");
