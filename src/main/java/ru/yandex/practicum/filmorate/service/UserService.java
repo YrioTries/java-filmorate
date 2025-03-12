@@ -9,7 +9,7 @@ import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Collection;
 
 @Service
 public class UserService {
@@ -59,28 +59,16 @@ public class UserService {
         return inMemoryUserStorage.update(newUser);
     }
 
-    public boolean addFriend(Long id, Long friendId) {
+    public Collection<Long> addFriend(Long id, Long friendId) {
         errorOfUserExist(id);
         errorOfUserExist(friendId);
-        if (inMemoryUserStorage.addFriend(id, friendId)) {
-            return true;
-        } else {
-            throw new NotFoundException("Друзья не были добавлены");
-        }
+        return inMemoryUserStorage.addFriend(id, friendId);
     }
 
     public boolean deleteFriend(Long id, Long friendId) {
         errorOfUserExist(id);
         errorOfUserExist(friendId);
-
-        User user = inMemoryUserStorage.getUser(id);
-        User friendUser = inMemoryUserStorage.getUser(friendId);
-
-        if (inMemoryUserStorage.deleteFriend(id, friendId)) {
-            return true;
-        } else {
-            throw new NotFoundException("Пользователи не являются друзьями");
-        }
+        return inMemoryUserStorage.deleteFriend(id, friendId);
     }
 
     private void validateUser(User user) {
@@ -99,10 +87,8 @@ public class UserService {
     }
 
     private void errorOfUserExist(Long id) {
-        if (inMemoryUserStorage.findAllKeys() != null && !inMemoryUserStorage.findAllKeys().contains(id)) {
+        if (!inMemoryUserStorage.findAllKeys().contains(id)) {
             throw new NotFoundException("Пользователь с id = " + id + " не найден");
-        } else if (inMemoryUserStorage.findAllKeys() == null) {
-            throw new NotFoundException("Нет активных пользователей");
         }
     }
 }
