@@ -40,9 +40,12 @@ public class UserController {
     }
 
     @GetMapping("/{id}/friends")
-    public Collection<Long> findAllFriends(@PathVariable Long id) {
+    public List<IdValue> findAllFriends(@PathVariable Long id) {
         log.info("GET запрос на получение всех друзей пользователя {}", id);
-        return userService.findAllFriends(id);
+        Collection<Long> friendIds = userService.findAllFriends(id);
+        return friendIds.stream()
+                .map(IdValue::new)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
