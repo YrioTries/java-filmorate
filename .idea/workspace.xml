@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="fix tests problem 2" />
+    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="fix style">
+      <change afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/model/IdValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/user/InMemoryUserStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/user/InMemoryUserStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/user/UserStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/user/UserStorage.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,8 +22,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Exception" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -28,6 +36,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/java-filmorate" />
     <option name="RESET_MODE" value="HARD" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -93,7 +102,20 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.annotationProcessors&quot;
   }
 }</component>
-  <component name="RunManager" selected="JUnit.FilmorateApplicationTests.testCreateUserWithInvalidBirthday">
+  <component name="RunManager" selected="Application.FilmorateApplication">
+    <configuration name="FilmorateApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ru.yandex.practicum.filmorate.FilmorateApplication" />
+      <module name="filmorate" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.yandex.practicum.filmorate.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="FilmorateApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="filmorate" />
       <extension name="coverage">
@@ -157,29 +179,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FilmorateApplicationTests.testGetPopularFilms" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="filmorate" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ru.yandex.practicum.filmorate.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="ru.yandex.practicum.filmorate" />
-      <option name="MAIN_CLASS_NAME" value="ru.yandex.practicum.filmorate.FilmorateApplicationTests" />
-      <option name="METHOD_NAME" value="testGetPopularFilms" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.FilmorateApplicationTests.testCreateUserWithInvalidBirthday" />
+        <item itemvalue="Application.FilmorateApplication" />
         <item itemvalue="JUnit.FilmorateApplicationTests" />
-        <item itemvalue="JUnit.FilmorateApplicationTests.testAddFriend" />
-        <item itemvalue="JUnit.FilmorateApplicationTests.testGetPopularFilms" />
         <item itemvalue="JUnit.FilmorateApplicationTests.testFilmReleaseDate" />
+        <item itemvalue="JUnit.FilmorateApplicationTests.testCreateUserWithInvalidBirthday" />
+        <item itemvalue="JUnit.FilmorateApplicationTests.testAddFriend" />
       </list>
     </recent_temporary>
   </component>
@@ -472,7 +478,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740589006316</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="fix style">
+      <option name="closed" value="true" />
+      <created>1740597428395</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1740597428395</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -499,7 +513,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Change param of UserControllerer" />
     <MESSAGE value="Change param of UserControllerer second time" />
     <MESSAGE value="Add @NotNull Annotation of id param of User and Film second time" />
     <MESSAGE value="Update conditions of User and Film Controllers" />
@@ -524,6 +537,7 @@
     <MESSAGE value="confuse: 3 errors 2 requests" />
     <MESSAGE value="fix tests problem" />
     <MESSAGE value="fix tests problem 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix tests problem 2" />
+    <MESSAGE value="fix style" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix style" />
   </component>
 </project>
