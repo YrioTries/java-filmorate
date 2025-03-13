@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate;
 
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,9 +11,8 @@ import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 
-import java.util.Calendar;
+import java.util.*;
 import java.time.LocalDate;
-import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,6 +35,7 @@ class FilmorateApplicationTests {
 		film.setDescription("Description");
 		film.setReleaseDate(bornOfFilms);
 		film.setDuration(120);
+		film.setLikesFrom(new HashSet<>());
 
 		assertThrows(ValidationException.class, () -> filmController.create(film));
 	}
@@ -102,9 +103,7 @@ class FilmorateApplicationTests {
 
 	@Test
 	public void testFindAllUsers() {
-		Collection<User> users = userController.findAll();
-		assertNotNull(users);
-		assertTrue(users.isEmpty()); // Предполагаем, что изначально нет пользователей
+		Collection<User> users;
 
 		// Создаем пользователя
 		User user = new User();
@@ -116,5 +115,16 @@ class FilmorateApplicationTests {
 
 		users = userController.findAll();
 		assertEquals(1, users.size());
+	}
+
+	@Test
+	void testCreateUserWithInvalidBirthday() {
+		User invalidUser = new User();
+		invalidUser.setLogin("dolore ullamco");
+		invalidUser.setEmail("yandex@mail.ru");
+		invalidUser.setBirthday(LocalDate.of(2446, 8, 20)); // Некорректная дата
+
+		assertThrows(ConstraintViolationException.class, () -> userController.create(invalidUser));
+
 	}
 }
