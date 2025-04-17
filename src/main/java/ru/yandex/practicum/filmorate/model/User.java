@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.model;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import ru.yandex.practicum.filmorate.enums.user.FriendStatus;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -26,8 +27,10 @@ public class User {
     @PastOrPresent
     private LocalDate birthday;
 
+    FriendStatus friendStatus;
+
     @NotNull
-    private Set<Long> friends; // Инициализация коллекции
+    private Set<Long> friends;
 
     public User() {
         friends = new HashSet<>();
