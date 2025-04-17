@@ -2,6 +2,8 @@ package ru.yandex.practicum.filmorate.model;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import ru.yandex.practicum.filmorate.enums.film.Genre;
+import ru.yandex.practicum.filmorate.enums.film.Rating;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -25,6 +27,10 @@ public class Film {
 
     @Positive
     private long duration;
+
+    private Genre genre;
+
+    private Rating rating;
 
     @NotNull
     private Set<Long> likesFrom; // Инициализация коллекции
