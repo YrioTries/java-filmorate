@@ -1,9 +1,9 @@
 # java-filmorate
 Template repository for Filmorate project.
 
-# Схема базы данных (3NF)
+# Схема базы данных Filmorate (3NF)
 
-## Таблицы
+## Таблицы базы
 ![Untitled](https://github.com/user-attachments/assets/b71421e5-55a8-42e3-89b7-add4b030af2c)
 
 ## Описание структуры базы данных
