@@ -22,7 +22,7 @@ public class Film {
     private String description;
 
     @NotNull
-    @PastOrPresent
+    @PastOrPresent(message = "Дата не может быть в будущем")
     private LocalDate releaseDate;
 
     @Positive
