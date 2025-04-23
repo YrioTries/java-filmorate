@@ -29,7 +29,6 @@ class FilmorateApplicationTests {
 	public void testFilmReleaseDate() {
 		LocalDate bornOfFilms = LocalDate.of(1590, Calendar.JULY, 15);
 
-
 		Film film = new Film();
 		film.setName("Test Film");
 		film.setDescription("Description");
