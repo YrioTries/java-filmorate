@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="add bd in properties">
+    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/film/dao/FilmDbStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/film/dao/FilmDbStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-filmorate/src/test/java/ru/yandex/practicum/filmorate/FilmorateApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/test/java/ru/yandex/practicum/filmorate/FilmorateApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +100,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.FilmorateApplication">
+  <component name="RunManager" selected="JUnit.FilmorateApplicationTests">
     <configuration name="FilmorateApplication (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ru.yandex.practicum.filmorate.FilmorateApplication" />
       <module name="filmorate" />
@@ -176,11 +176,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.FilmorateApplicationTests" />
         <item itemvalue="Application.FilmorateApplication" />
         <item itemvalue="Application.FilmorateApplication (1)" />
         <item itemvalue="JUnit.FilmorateApplicationTests.testUpdateUserSuccessfully" />
         <item itemvalue="JUnit.FilmorateApplicationTests.testFindAllUsers" />
-        <item itemvalue="JUnit.FilmorateApplicationTests" />
       </list>
     </recent_temporary>
   </component>
@@ -553,7 +553,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744911665346</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="fix">
+      <option name="closed" value="true" />
+      <created>1745404256767</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1745404256767</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -580,7 +588,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="update annotations in user and film" />
     <MESSAGE value="add @RequestBody in update param of controllers" />
     <MESSAGE value="add @NotNull to id param of models" />
     <MESSAGE value="delete @NotNull to id param of models" />
@@ -605,6 +612,7 @@
     <MESSAGE value="add new fields and enums to classes" />
     <MESSAGE value="fix pom" />
     <MESSAGE value="add bd in properties" />
-    <option name="LAST_COMMIT_MESSAGE" value="add bd in properties" />
+    <MESSAGE value="fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix" />
   </component>
 </project>
