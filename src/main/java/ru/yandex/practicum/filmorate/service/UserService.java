@@ -1,12 +1,14 @@
 package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.DuplicatedDataException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -14,61 +16,62 @@ import java.util.Collection;
 @Service
 public class UserService {
 
-    private final InMemoryUserStorage inMemoryUserStorage;
+    @Qualifier("SQL_User_Storage")
+    private final UserStorage userStorage;
 
     @Autowired
     public UserService(InMemoryUserStorage inMemoryUserStorage) {
-        this.inMemoryUserStorage = inMemoryUserStorage;
+        this.userStorage = inMemoryUserStorage;
     }
 
     public Collection<User> findAll() {
-        if (inMemoryUserStorage.findAll().isEmpty()) {
+        if (userStorage.findAll().isEmpty()) {
             throw new NotFoundException("Нет активных пользователей");
         }
-        return inMemoryUserStorage.findAll();
+        return userStorage.findAll();
     }
 
     public User get(Long id) {
         errorOfUserExist(id);
-        return inMemoryUserStorage.getUser(id);
+        return userStorage.getUser(id);
     }
 
     public Collection<Long> findAllFriends(Long id) {
         errorOfUserExist(id);
-        return inMemoryUserStorage.findAllFriends(id);
+        return userStorage.findAllFriends(id);
     }
 
     public Collection<Long> getCommonFriends(Long id, Long friendId) {
         errorOfUserExist(id);
         errorOfUserExist(friendId);
-        return inMemoryUserStorage.getCommonFriends(id, friendId);
+        return userStorage.getCommonFriends(id, friendId);
     }
 
     public User create(User user) {
         validateUser(user);
-        if (inMemoryUserStorage.findAll().stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(user.getEmail()))) {
+        if (userStorage.findAll().stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(user.getEmail()))) {
             throw new DuplicatedDataException("Этот имейл уже используется");
         }
-        inMemoryUserStorage.create(user);
+        userStorage.create(user);
         return user;
     }
 
     public User update(User newUser) {
         errorOfUserExist(newUser.getId());
         validateUser(newUser);
-        return inMemoryUserStorage.update(newUser);
+        return userStorage.update(newUser);
     }
 
     public long addFriend(Long id, Long friendId) {
         errorOfUserExist(id);
         errorOfUserExist(friendId);
-        return inMemoryUserStorage.addFriend(id, friendId);
+        return userStorage.addFriend(id, friendId);
     }
 
     public boolean deleteFriend(Long id, Long friendId) {
         errorOfUserExist(id);
         errorOfUserExist(friendId);
-        return inMemoryUserStorage.deleteFriend(id, friendId);
+        return userStorage.deleteFriend(id, friendId);
     }
 
     private void validateUser(User user) {
@@ -87,7 +90,7 @@ public class UserService {
     }
 
     private void errorOfUserExist(Long id) {
-        if (!inMemoryUserStorage.findAllKeys().contains(id)) {
+        if (!userStorage.findAllKeys().contains(id)) {
             throw new NotFoundException("Пользователь с id = " + id + " не найден");
         }
     }
