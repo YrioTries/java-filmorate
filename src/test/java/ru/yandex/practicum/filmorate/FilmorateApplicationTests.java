@@ -3,20 +3,30 @@ package ru.yandex.practicum.filmorate;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.jdbc.Sql;
 import ru.yandex.practicum.filmorate.controller.FilmController;
 import ru.yandex.practicum.filmorate.controller.UserController;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.user.dao.UserDbStorage;
 
-import java.util.*;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@JdbcTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import({UserDbStorage.class})
 @SpringBootTest
+@Sql(scripts = {"/test-schema.sql", "/test-data.sql"})
 class FilmorateApplicationTests {
 
 	@Autowired
@@ -25,105 +35,107 @@ class FilmorateApplicationTests {
 	@Autowired
 	private UserController userController;
 
-	@Test
-	public void testFilmReleaseDate() {
-		LocalDate bornOfFilms = LocalDate.of(1590, Calendar.JULY, 15);
-
-		Film film = new Film();
-		film.setName("Test Film");
-		film.setDescription("Description");
-		film.setReleaseDate(bornOfFilms);
-		film.setDuration(120);
-		film.setLikesFrom(new HashSet<>());
-
-		assertThrows(ValidationException.class, () -> filmController.create(film));
-	}
-
-	@Test
-	public void testUserUpdateNotFound() {
+	private User createTestUser() {
 		User user = new User();
 		user.setEmail("test@example.com");
-		user.setLogin("login");
-		user.setName("name");
-		user.setBirthday(LocalDate.of(2000, Calendar.FEBRUARY, 15));
-
-		assertThrows(NotFoundException.class, () -> userController.update(user));
+		user.setLogin("testLogin");
+		user.setName("Test User");
+		user.setBirthday(LocalDate.of(1990, 1, 1));
+		return user;
 	}
 
-	@Test
-	public void testFilmUpdateNotFound() {
+	private Film createTestFilm() {
 		Film film = new Film();
-		film.setId(1L);
-		film.setDescription("Description");
-		film.setDuration(12);
-		film.setName("name");
-		film.setReleaseDate(LocalDate.of(2000, Calendar.APRIL, 12));
-
-		assertThrows(NotFoundException.class, () -> filmController.update(film));
+		film.setName("Test Film");
+		film.setDescription("Test Description");
+		film.setReleaseDate(LocalDate.of(2000, 1, 1));
+		film.setDuration(120);
+		film.setLikesFrom(new HashSet<>());
+		return film;
 	}
 
 	@Test
-	public void testCreateUserSuccessfully() {
-		User user1 = new User();
-		user1.setEmail("valid-email123@example.com");
-		user1.setLogin("validLogin");
-		user1.setName("Valid Name");
-		user1.setBirthday(LocalDate.of(2000, Calendar.APRIL, 23));
+	void createUserWithValidDataShouldReturnCreatedUser() {
+		User testUser = createTestUser();
 
-		User createdUser = userController.create(user1);
+		User createdUser = userController.create(testUser);
 
-		assertNotNull(createdUser);
-		assertEquals("valid-email123@example.com", createdUser.getEmail());
-		assertEquals("validLogin", createdUser.getLogin());
-		assertEquals("Valid Name", createdUser.getName());
-		assertEquals(LocalDate.of(2000, Calendar.APRIL, 23), createdUser.getBirthday());
+		assertNotNull(createdUser.getId());
+		assertEquals("test@example.com", createdUser.getEmail());
+		assertEquals("testLogin", createdUser.getLogin());
 	}
 
 	@Test
-	public void testUpdateUserSuccessfully() {
-		// Создаем пользователя
-		User user2 = new User();
-		user2.setEmail("valid-email456@example.com");
-		user2.setLogin("validLogin");
-		user2.setName("Valid Name");
-		user2.setBirthday(LocalDate.of(2000, Calendar.APRIL, 23));
-		User createdUser = userController.create(user2);
-
-		// Обновляем данные пользователя
-		createdUser.setName("Updated Name");
-		createdUser.setEmail("updated-email@example.com");
-
-		User updatedUser = userController.update(createdUser);
-
-		assertNotNull(updatedUser);
-		assertEquals("updated-email@example.com", updatedUser.getEmail());
-		assertEquals("Updated Name", updatedUser.getName());
-	}
-
-	@Test
-	public void testFindAllUsers() {
-		Collection<User> users;
-
-		// Создаем пользователя
-		User user = new User();
-		user.setEmail("valid-email@example.com");
-		user.setLogin("validLogin");
-		user.setName("Valid Name");
-		user.setBirthday(LocalDate.of(2000, Calendar.APRIL, 23));
-		userController.create(user);
-
-		users = userController.findAll();
-		assertEquals(1, users.size());
-	}
-
-	@Test
-	void testCreateUserWithInvalidBirthday() {
-		User invalidUser = new User();
-		invalidUser.setLogin("dolore ullamco");
-		invalidUser.setEmail("yandex@mail.ru");
-		invalidUser.setBirthday(LocalDate.of(2446, 8, 20)); // Некорректная дата
+	void createUserWithInvalidBirthdayShouldThrowException() {
+		User invalidUser = createTestUser();
+		invalidUser.setBirthday(LocalDate.of(2446, 8, 20));
 
 		assertThrows(ConstraintViolationException.class, () -> userController.create(invalidUser));
+	}
 
+	@Test
+	void updateNonExistingUserShouldThrowNotFoundException() {
+		User nonExistingUser = createTestUser();
+		nonExistingUser.setId(999L);
+
+		assertThrows(NotFoundException.class, () -> userController.update(nonExistingUser));
+	}
+
+	@Test
+	void updateExistingUserShouldUpdateSuccessfully() {
+		User originalUser = userController.create(createTestUser());
+		User updatedUser = new User(
+				originalUser.getId(),
+				"updated@example.com",
+				originalUser.getLogin(),
+				"Updated Name",
+				originalUser.getBirthday()
+		);
+
+		User result = userController.update(updatedUser);
+
+		assertEquals("Updated Name", result.getName());
+		assertEquals("updated@example.com", result.getEmail());
+	}
+
+	@Test
+	void createFilmWithInvalidReleaseDateShouldThrowValidationException() {
+		Film invalidFilm = createTestFilm();
+		invalidFilm.setReleaseDate(LocalDate.of(1590, 7, 15));
+
+		assertThrows(ValidationException.class, () -> filmController.create(invalidFilm));
+	}
+
+	@Test
+	void updateNonExistingFilmShouldThrowNotFoundException() {
+		Film nonExistingFilm = createTestFilm();
+		nonExistingFilm.setId(999L);
+
+		assertThrows(NotFoundException.class, () -> filmController.update(nonExistingFilm));
+	}
+
+	@Test
+	void findAllUsersShouldReturnCorrectCount() {
+		int initialCount = userController.findAll().size();
+
+		userController.create(createTestUser());
+		User secondUser = createTestUser();
+		secondUser.setEmail("test2@example.com");
+		secondUser.setLogin("testLogin2");
+		userController.create(secondUser);
+
+		Collection<User> users = userController.findAll();
+
+		assertEquals(initialCount + 2, users.size());
+	}
+
+	@Test
+	void createUserWithEmptyNameShouldUseLoginAsName() {
+		User user = createTestUser();
+		user.setName("");
+
+		User createdUser = userController.create(user);
+
+		assertEquals(user.getLogin(), createdUser.getName());
 	}
 }
