@@ -83,7 +83,6 @@ public class FilmDbStorage implements FilmStorage {
 
         film.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
 
-        // Сохраняем жанры
         saveFilmGenres(film);
 
         return film;
@@ -105,7 +104,6 @@ public class FilmDbStorage implements FilmStorage {
             throw new NotFoundException("Фильм с id = " + newFilm.getId() + " не найден");
         }
 
-        // Обновляем жанры
         updateFilmGenres(newFilm);
 
         return newFilm;
@@ -120,14 +118,12 @@ public class FilmDbStorage implements FilmStorage {
         film.setDuration(rs.getLong("duration"));
         film.setRating(Rating.values()[rs.getInt("rating_id") - 1]);
 
-        // Загружаем жанры
         String genresSql = "SELECT genre_id FROM film_genres WHERE film_id = ?";
         List<Integer> genreIds = jdbcTemplate.queryForList(genresSql, Integer.class, film.getId());
         if (!genreIds.isEmpty()) {
             film.setGenre(Genre.values()[genreIds.get(0) - 1]); // Берем первый жанр
         }
 
-        // Загружаем лайки
         String likesSql = "SELECT user_id FROM likes WHERE film_id = ?";
         Set<Long> likes = new HashSet<>(
                 jdbcTemplate.queryForList(likesSql, Long.class, film.getId()));
@@ -148,7 +144,6 @@ public class FilmDbStorage implements FilmStorage {
         String deleteSql = "DELETE FROM film_genres WHERE film_id = ?";
         jdbcTemplate.update(deleteSql, film.getId());
 
-        // Добавляем новые
         saveFilmGenres(film);
     }
 }
