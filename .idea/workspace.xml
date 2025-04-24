@@ -4,17 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="fix style">
-      <change afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/controller/GenreController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/service/GenreService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/film/dao/genre/GenreDbStorage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/film/dao/genre/GenreStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="make genre mistake">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/enums/film/Genre.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/enums/film/Genre.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/film/dao/FilmDbStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/film/dao/rating/FilmDbStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/user/InMemoryUserStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/user/InMemoryUserStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/user/dao/UserDbStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-filmorate/src/main/java/ru/yandex/practicum/filmorate/storage/user/dao/UserDbStorage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,14 +199,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1738373379727</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Add models: User and Film">
-      <option name="closed" value="true" />
-      <created>1738376532235</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1738376532235</updated>
     </task>
     <task id="LOCAL-00003" summary="Add tests user and film controllers,&#10;end of projecting FilmController">
       <option name="closed" value="true" />
@@ -601,7 +584,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745454325952</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="make genre mistake">
+      <option name="closed" value="true" />
+      <created>1745492243158</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1745492243158</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -628,7 +619,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="delete @NotNull to id param of models" />
     <MESSAGE value="add validation param" />
     <MESSAGE value="fix tests" />
     <MESSAGE value="Change Instant param of Film to LocalDate&#10;Add updating Description param in update method of FilmController" />
@@ -653,6 +643,7 @@
     <MESSAGE value="add tests" />
     <MESSAGE value="add tests for database" />
     <MESSAGE value="fix style" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix style" />
+    <MESSAGE value="make genre mistake" />
+    <option name="LAST_COMMIT_MESSAGE" value="make genre mistake" />
   </component>
 </project>
