@@ -110,7 +110,7 @@
   <component name="RunManager" selected="JUnit.FilmorateApplicationTests">
     <configuration name="FilmorateApplication (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ru.yandex.practicum.filmorate.FilmorateApplication" />
-      <module name="filmorate" />
+      <module name="Filmorate" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="ru.yandex.practicum.filmorate.*" />
@@ -123,7 +123,7 @@
     </configuration>
     <configuration name="FilmorateApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ru.yandex.practicum.filmorate.FilmorateApplication" />
-      <module name="filmorate" />
+      <module name="Filmorate" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="ru.yandex.practicum.filmorate.*" />
@@ -135,7 +135,7 @@
       </method>
     </configuration>
     <configuration name="FilmorateApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="filmorate" />
+      <module name="Filmorate" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="ru.yandex.practicum.filmorate.*" />
@@ -150,7 +150,7 @@
       </method>
     </configuration>
     <configuration name="FilmorateApplicationTests.createUserWithValidDataShouldReturnCreatedUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="filmorate" />
+      <module name="Filmorate" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="ru.yandex.practicum.filmorate.*" />
@@ -166,7 +166,7 @@
       </method>
     </configuration>
     <configuration name="FilmorateApplicationTests.findAllUsersShouldReturnCorrectCount" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="filmorate" />
+      <module name="Filmorate" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="ru.yandex.practicum.filmorate.*" />
@@ -180,6 +180,17 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Filmorate" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Filmorate" />
+      <option name="filePath" />
+      <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
