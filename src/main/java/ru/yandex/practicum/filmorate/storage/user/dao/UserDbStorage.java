@@ -98,7 +98,6 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public long addFriend(Long id, Long friendId) {
-        // Проверяем существование пользователей
         getUser(id);
         getUser(friendId);
 

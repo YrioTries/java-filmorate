@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.storage.film.dao;
+package ru.yandex.practicum.filmorate.storage.film.dao.rating;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -140,7 +140,6 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     private void updateFilmGenres(Film film) {
-        // Удаляем старые жанры
         String deleteSql = "DELETE FROM film_genres WHERE film_id = ?";
         jdbcTemplate.update(deleteSql, film.getId());
 
