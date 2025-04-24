@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.model;
 
-import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -9,47 +8,39 @@ import java.util.Set;
 
 @Data
 public class Film {
-
     private Long id;
-
-    @NotBlank
-    @NotNull
     private String name;
-
-    @Size(max = 200)
     private String description;
-
-    @NotNull
-    @PastOrPresent(message = "Дата не может быть в будущем")
     private LocalDate releaseDate;
-
-    @Positive
     private long duration;
-
-    private Genre genre;
-
     private Rating rating;
-
-    @NotNull
-    private Set<Long> likesFrom; // Инициализация коллекции
+    private Set<Long> likesFrom;
+    private Set<Genre> genres; // Добавьте поле для жанров
 
     public Film() {
         likesFrom = new HashSet<>();
+        genres = new HashSet<>(); // Инициализируем коллекцию жанров
     }
 
-    public Film(@NotNull String name, String description, @NotNull LocalDate releaseDate, long duration) {
+    public Film(String name, String description, LocalDate releaseDate, long duration) {
         this.name = name;
         this.description = description;
         this.releaseDate = releaseDate;
         this.duration = duration;
         this.likesFrom = new HashSet<>();
+        this.genres = new HashSet<>(); // Инициализируем коллекцию жанров
     }
 
-    public Film(@NotNull String name, String description, @NotNull LocalDate releaseDate, long duration, Set<Long> likesFrom) {
+    public Film(String name, String description, LocalDate releaseDate, long duration, Set<Long> likesFrom) {
         this.name = name;
         this.description = description;
         this.releaseDate = releaseDate;
         this.duration = duration;
         this.likesFrom = new HashSet<>(likesFrom);
+        this.genres = new HashSet<>(); // Инициализируем коллекцию жанров
+    }
+
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
     }
 }

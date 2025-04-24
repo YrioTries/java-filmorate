@@ -8,6 +8,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.Rating;
 
 import java.sql.*;
 import java.sql.Date;
@@ -55,10 +57,11 @@ public class FilmDbStorage implements FilmStorage {
             stmt.setString(2, film.getDescription());
             stmt.setDate(3, Date.valueOf(film.getReleaseDate()));
             stmt.setLong(4, film.getDuration());
-            stmt.setLong(5, film.getRating().ordinal() + 1);
+            stmt.setLong(5, film.getRating().getId()); // Используем getId()
             return stmt;
         }, keyHolder);
         film.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
+        saveFilmGenres(film);
         return film;
     }
 
@@ -70,11 +73,12 @@ public class FilmDbStorage implements FilmStorage {
                 film.getDescription(),
                 Date.valueOf(film.getReleaseDate()),
                 film.getDuration(),
-                film.getRating().ordinal() + 1,
+                film.getRating().getId(), // Используем getId()
                 film.getId());
         if (updated == 0) {
             throw new NotFoundException("Фильм с id = " + film.getId() + " не найден");
         }
+        saveFilmGenres(film);
         return film;
     }
 
@@ -102,7 +106,36 @@ public class FilmDbStorage implements FilmStorage {
         film.setDescription(rs.getString("description"));
         film.setReleaseDate(rs.getDate("release_date").toLocalDate());
         film.setDuration(rs.getLong("duration"));
-        film.setRating(Rating.values()[rs.getInt("rating_id") - 1]);
+        film.setRating(new Rating(rs.getLong("rating_id"), rs.getString("name"), rs.getString("description")));
+
+        String genresSql = "SELECT genre_id FROM film_genres WHERE film_id = ?";
+        List<Long> genreIds = jdbcTemplate.queryForList(genresSql, Long.class, film.getId());
+        if (!genreIds.isEmpty()) {
+            film.setGenre(new Genre(genreIds.get(0), "")); // Берем первый жанр
+        }
+
+        String likesSql = "SELECT user_id FROM likes WHERE film_id = ?";
+        Set<Long> likes = new HashSet<>(
+                jdbcTemplate.queryForList(likesSql, Long.class, film.getId()));
+        film.setLikesFrom(likes);
+
         return film;
     }
+
+    private void saveFilmGenres(Film film) {
+        // Удаляем все текущие жанры фильма
+        String deleteSql = "DELETE FROM film_genres WHERE film_id = ?";
+        jdbcTemplate.update(deleteSql, film.getId());
+
+        // Сохраняем новые жанры фильма
+        if (film.getGenres() != null) {
+            String insertSql = "INSERT INTO film_genres (film_id, genre_id) VALUES (?, ?)";
+            for (Genre genre : film.getGenres()) {
+                jdbcTemplate.update(insertSql, film.getId(), genre.getId());
+            }
+        }
+    }
+
+
+
 }
