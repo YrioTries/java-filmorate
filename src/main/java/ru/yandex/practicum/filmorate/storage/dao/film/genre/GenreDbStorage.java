@@ -1,18 +1,15 @@
-package ru.yandex.practicum.filmorate.storage.film.dao.genre;
+package ru.yandex.practicum.filmorate.storage.dao.film.genre;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.enums.film.Genre;
-import ru.yandex.practicum.filmorate.storage.film.dao.genre.GenreStorage;
+import ru.yandex.practicum.filmorate.model.Genre;
 
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.Optional;
 
 @Component
 public class GenreDbStorage implements GenreStorage {
-
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -23,18 +20,12 @@ public class GenreDbStorage implements GenreStorage {
     @Override
     public Collection<Genre> findAll() {
         String sql = "SELECT * FROM genres";
-        return jdbcTemplate.query(sql, rs -> {
-            Collection<Genre> genres = EnumSet.noneOf(Genre.class);
-            while (rs.next()) {
-                genres.add(Genre.valueOf(rs.getString("name")));
-            }
-            return genres;
-        });
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new Genre(rs.getLong("id"), rs.getString("name")));
     }
 
     @Override
     public Optional<Genre> getGenre(Long id) {
         String sql = "SELECT * FROM genres WHERE id = ?";
-        return jdbcTemplate.query(sql, rs -> rs.next() ? Optional.of(Genre.valueOf(rs.getString("name"))) : Optional.empty(), id);
+        return jdbcTemplate.query(sql, rs -> rs.next() ? Optional.of(new Genre(rs.getLong("id"), rs.getString("name"))) : Optional.empty(), id);
     }
 }
