@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class IdValue {
-    private Long id; // Используем Long, т.к. friendId - Long
+    private Long id;
 
     public IdValue(Long id) {
         this.id = id;
