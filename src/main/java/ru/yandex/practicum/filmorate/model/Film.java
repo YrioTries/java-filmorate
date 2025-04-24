@@ -12,7 +12,7 @@ import java.util.Set;
 @Data
 public class Film {
 
-    private long id;
+    private Long id;
 
     @NotBlank
     @NotNull
