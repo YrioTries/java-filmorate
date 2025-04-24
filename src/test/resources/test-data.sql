@@ -33,7 +33,6 @@ VALUES (5, 'DOCUMENTARY');
 MERGE INTO genres (id, name) KEY(id)
 VALUES (6, 'ACTION');
 
--- Инициализация статусов дружбы (friendship_statuses)
 MERGE INTO friendship_statuses (id, status) KEY(id)
 VALUES (1, 'FS_REQUEST');
 
