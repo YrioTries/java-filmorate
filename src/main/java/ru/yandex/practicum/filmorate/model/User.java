@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.model;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
-import ru.yandex.practicum.filmorate.enums.user.FriendStatus;
+
 
 import java.time.LocalDate;
 import java.util.HashSet;
