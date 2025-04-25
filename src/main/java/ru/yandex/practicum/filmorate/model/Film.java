@@ -40,7 +40,8 @@ public class Film {
         this.genres = new HashSet<>(); // Инициализируем коллекцию жанров
     }
 
-    public void setGenres(Set<Genre> genres) {
-        this.genres = genres;
+    public void setGenre(Genre genre) {
+        this.genres.add(genre);
     }
+
 }
