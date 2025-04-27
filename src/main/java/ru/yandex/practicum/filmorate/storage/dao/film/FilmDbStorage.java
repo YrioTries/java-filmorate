@@ -49,6 +49,29 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film create(Film film) {
+        // Проверяем, существует ли рейтинг (mpa)
+        if (film.getMpa() == null || film.getMpa().getId() == null || ) {
+            throw new IllegalArgumentException("Рейтинг (mpa) не может быть null.");
+        }
+
+        // Проверяем, существует ли рейтинг с указанным id
+        String checkRatingSql = "SELECT COUNT(*) FROM ratings WHERE id = ?";
+        int ratingCount = jdbcTemplate.queryForObject(checkRatingSql, Integer.class, film.getMpa().getId());
+        if (ratingCount == 0) {
+            throw new NotFoundException("Рейтинг с id = " + film.getMpa().getId() + " не найден.");
+        }
+
+        // Проверяем, существуют ли жанры
+        if (film.getGenres() != null) {
+            for (Genre genre : film.getGenres()) {
+                String checkGenreSql = "SELECT COUNT(*) FROM genres WHERE id = ?";
+                int genreCount = jdbcTemplate.queryForObject(checkGenreSql, Integer.class, genre.getId());
+                if (genreCount == 0) {
+                    throw new NotFoundException("Жанр с id = " + genre.getId() + " не найден.");
+                }
+            }
+        }
+
         String sql = "INSERT INTO films (name, description, release_date, duration, rating_id) VALUES (?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
@@ -67,6 +90,11 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film update(Film film) {
+        // Проверяем, существует ли рейтинг (mpa)
+        if (film.getMpa() == null || film.getMpa().getId() == null) {
+            throw new IllegalArgumentException("Рейтинг (mpa) не может быть null.");
+        }
+
         String sql = "UPDATE films SET name = ?, description = ?, release_date = ?, duration = ?, rating_id = ? WHERE id = ?";
         int updated = jdbcTemplate.update(sql,
                 film.getName(),
@@ -109,9 +137,9 @@ public class FilmDbStorage implements FilmStorage {
 
         // Получаем рейтинг фильма
         String ratingSql = "SELECT * FROM ratings WHERE id = ?";
-        Rating rating = jdbcTemplate.queryForObject(ratingSql, (rs2, rowNum2) ->
+        Rating mpa = jdbcTemplate.queryForObject(ratingSql, (rs2, rowNum2) ->
                 new Rating(rs2.getLong("id"), rs2.getString("name"), rs2.getString("description")), rs.getLong("rating_id"));
-        film.setMpa(rating);
+        film.setMpa(mpa); // Устанавливаем рейтинг
 
         // Получаем жанры фильма
         String genresSql = "SELECT g.id AS genre_id, g.name AS genre_name FROM film_genres fg " +
@@ -137,9 +165,11 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     private void saveFilmGenres(Film film) {
+        // Удаляем все текущие жанры фильма
         String deleteSql = "DELETE FROM film_genres WHERE film_id = ?";
         jdbcTemplate.update(deleteSql, film.getId());
 
+        // Сохраняем новые жанры фильма
         if (film.getGenres() != null) {
             String insertSql = "INSERT INTO film_genres (film_id, genre_id) VALUES (?, ?)";
             for (Genre genre : film.getGenres()) {
