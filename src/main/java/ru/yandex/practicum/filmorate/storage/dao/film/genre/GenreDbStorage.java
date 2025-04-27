@@ -1,9 +1,10 @@
-package ru.yandex.practicum.filmorate.storage.dao.film.genre;
+package ru.yandex.practicum.filmorate.storage.film.dao.genre;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.storage.dao.film.genre.GenreStorage;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -19,7 +20,7 @@ public class GenreDbStorage implements GenreStorage {
 
     @Override
     public Collection<Genre> findAll() {
-        String sql = "SELECT * FROM genres";
+        String sql = "SELECT * FROM genres ORDER BY id";
         return jdbcTemplate.query(sql, (rs, rowNum) -> new Genre(rs.getLong("id"), rs.getString("name")));
     }
 

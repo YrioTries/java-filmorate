@@ -44,6 +44,9 @@
     <mapping file-url="file://$PROJECT_DIR$/src/main/resources/data.sql" connection-id="virtual-sqlite-connection" session-id="MAIN" current-schema="" />
     <mapping file-url="file://$PROJECT_DIR$/src/main/resources/schema.sql" connection-id="virtual-sqlite-connection" session-id="MAIN" current-schema="" />
   </component>
+  <component name="DBNavigator.Project.ParserDiagnosticsManager">
+    <diagnostics-history />
+  </component>
   <component name="DBNavigator.Project.Settings">
     <connections />
     <browser-settings>
