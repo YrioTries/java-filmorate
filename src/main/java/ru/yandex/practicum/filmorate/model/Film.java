@@ -13,7 +13,7 @@ public class Film {
     private String description;
     private LocalDate releaseDate;
     private long duration;
-    private Rating rating;
+    private Rating mpa;
     private Set<Long> likesFrom;
     private Set<Genre> genres; // Добавьте поле для жанров
 

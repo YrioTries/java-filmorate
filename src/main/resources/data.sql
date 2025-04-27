@@ -6,32 +6,32 @@ MERGE INTO ratings (id, name, description) KEY(id)
 VALUES (2, 'PG', 'Рекомендуется присутствие родителей');
 
 MERGE INTO ratings (id, name, description) KEY(id)
-VALUES (3, 'PG13', 'Детям до 13 лет просмотр не желателен');
+VALUES (3, 'PG-13', 'Детям до 13 лет просмотр не желателен');
 
 MERGE INTO ratings (id, name, description) KEY(id)
 VALUES (4, 'R', 'Лицам до 17 лет обязательно присутствие взрослого');
 
 MERGE INTO ratings (id, name, description) KEY(id)
-VALUES (5, 'NC17', 'Лицам до 18 лет просмотр запрещён');
+VALUES (5, 'NC-17', 'Лицам до 18 лет просмотр запрещён');
 
 -- Инициализация жанров (genres)
 MERGE INTO genres (id, name) KEY(id)
-VALUES (1, 'COMEDY');
+VALUES (1, 'Комедия');
 
 MERGE INTO genres (id, name) KEY(id)
-VALUES (2, 'DRAMA');
+VALUES (2, 'Драма');
 
 MERGE INTO genres (id, name) KEY(id)
-VALUES (3, 'CARTOON');
+VALUES (3, 'Мультфильм');
 
 MERGE INTO genres (id, name) KEY(id)
-VALUES (4, 'THRILLER');
+VALUES (4, 'Триллер');
 
 MERGE INTO genres (id, name) KEY(id)
-VALUES (5, 'DOCUMENTARY');
+VALUES (5, 'Документальный');
 
 MERGE INTO genres (id, name) KEY(id)
-VALUES (6, 'ACTION');
+VALUES (6, 'Боевик');
 
 MERGE INTO friendship_statuses (id, status) KEY(id)
 VALUES (1, 'FS_REQUEST');
