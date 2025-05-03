@@ -50,7 +50,7 @@ public class FilmDbStorage implements FilmStorage {
     @Override
     public Film create(Film film) {
         // Проверяем, существует ли рейтинг (mpa)
-        if (film.getMpa() == null || film.getMpa().getId() == null || ) {
+        if (film.getMpa() == null || film.getMpa().getId() == null) {
             throw new IllegalArgumentException("Рейтинг (mpa) не может быть null.");
         }
 
