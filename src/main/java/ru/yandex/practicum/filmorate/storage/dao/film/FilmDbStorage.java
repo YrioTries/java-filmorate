@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.storage.dao.film;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -49,24 +50,21 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film create(Film film) {
-        // Проверяем, существует ли рейтинг (mpa)
         if (film.getMpa() == null || film.getMpa().getId() == null) {
             throw new IllegalArgumentException("Рейтинг (mpa) не может быть null.");
         }
 
-        // Проверяем, существует ли рейтинг с указанным id
         String checkRatingSql = "SELECT COUNT(*) FROM ratings WHERE id = ?";
         int ratingCount = jdbcTemplate.queryForObject(checkRatingSql, Integer.class, film.getMpa().getId());
-        if (ratingCount == 0) {
+        if (ratingCount == 0 || ratingCount > 5) {
             throw new NotFoundException("Рейтинг с id = " + film.getMpa().getId() + " не найден.");
         }
 
-        // Проверяем, существуют ли жанры
         if (film.getGenres() != null) {
             for (Genre genre : film.getGenres()) {
                 String checkGenreSql = "SELECT COUNT(*) FROM genres WHERE id = ?";
                 int genreCount = jdbcTemplate.queryForObject(checkGenreSql, Integer.class, genre.getId());
-                if (genreCount == 0) {
+                if (genreCount == 0 || genreCount > 6) {
                     throw new NotFoundException("Жанр с id = " + genre.getId() + " не найден.");
                 }
             }
@@ -80,7 +78,7 @@ public class FilmDbStorage implements FilmStorage {
             stmt.setString(2, film.getDescription());
             stmt.setDate(3, Date.valueOf(film.getReleaseDate()));
             stmt.setLong(4, film.getDuration());
-            stmt.setLong(5, film.getMpa().getId()); // Используем getId()
+            stmt.setLong(5, film.getMpa().getId());
             return stmt;
         }, keyHolder);
         film.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
@@ -135,27 +133,37 @@ public class FilmDbStorage implements FilmStorage {
         film.setReleaseDate(rs.getDate("release_date").toLocalDate());
         film.setDuration(rs.getLong("duration"));
 
-        // Получаем рейтинг фильма
-        String ratingSql = "SELECT * FROM ratings WHERE id = ?";
-        Rating mpa = jdbcTemplate.queryForObject(ratingSql, (rs2, rowNum2) ->
-                new Rating(rs2.getLong("id"), rs2.getString("name"), rs2.getString("description")), rs.getLong("rating_id"));
-        film.setMpa(mpa); // Устанавливаем рейтинг
-
-        // Получаем жанры фильма
-        String genresSql = "SELECT g.id AS genre_id, g.name AS genre_name FROM film_genres fg " +
-                "JOIN genres g ON fg.genre_id = g.id WHERE fg.film_id = ?";
-        List<Map<String, Object>> genreMaps = jdbcTemplate.queryForList(genresSql, film.getId());
-        if (!genreMaps.isEmpty()) {
-            Set<Genre> genres = new HashSet<>();
-            for (Map<String, Object> genreMap : genreMaps) {
-                Long genreId = (Long) genreMap.get("genre_id");
-                String genreName = (String) genreMap.get("genre_name");
-                genres.add(new Genre(genreId, genreName));
+        // Обработка рейтинга (mpa) с проверкой на null
+        Long ratingId = rs.getObject("rating_id", Long.class); // Безопасное получение Long (может быть null)
+        Rating mpa = null;
+        if (ratingId != null) {
+            try {
+                String ratingSql = "SELECT * FROM ratings WHERE id = ?";
+                mpa = jdbcTemplate.queryForObject(ratingSql, (rs2, rowNum2) ->
+                                new Rating(
+                                        rs2.getLong("id"),
+                                        rs2.getString("name"),
+                                        rs2.getString("description")
+                                ),
+                        ratingId);
+            } catch (EmptyResultDataAccessException e) {
+                // Логируем проблему, но продолжаем работу
+                System.err.println("Рейтинг с id " + ratingId + " не найден в базе данных");
+                // Можно установить рейтинг по умолчанию или оставить null
             }
-            film.setGenres(genres);
         }
+        film.setMpa(mpa);
 
-        // Получаем лайки фильма
+        // Получение жанров фильма
+        String genresSql = "SELECT g.id AS genre_id, g.name AS genre_name " +
+                "FROM film_genres fg JOIN genres g ON fg.genre_id = g.id " +
+                "WHERE fg.film_id = ?";
+        List<Genre> genres = jdbcTemplate.query(genresSql, (rs3, rowNum3) ->
+                        new Genre(rs3.getLong("genre_id"), rs3.getString("genre_name")),
+                film.getId());
+        film.setGenres(new HashSet<>(genres));
+
+        // Получение лайков фильма
         String likesSql = "SELECT user_id FROM likes WHERE film_id = ?";
         Set<Long> likes = new HashSet<>(
                 jdbcTemplate.queryForList(likesSql, Long.class, film.getId()));
