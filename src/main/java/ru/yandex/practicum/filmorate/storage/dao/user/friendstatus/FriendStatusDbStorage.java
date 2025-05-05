@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.dao.user.friendstatus;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -9,6 +10,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class FriendStatusDbStorage implements FriendStatusStorage {
     private final JdbcTemplate jdbcTemplate;
 
@@ -19,14 +21,15 @@ public class FriendStatusDbStorage implements FriendStatusStorage {
 
     @Override
     public Collection<FriendStatus> findAll() {
+        log.info("Получение всех статусов дружбы из базы данных");
         String sql = "SELECT * FROM friendship_statuses";
         return jdbcTemplate.query(sql, (rs, rowNum) -> new FriendStatus(rs.getLong("id"), rs.getString("status")));
     }
 
     @Override
     public Optional<FriendStatus> getFriendStatus(Long id) {
+        log.info("Получение статуса дружбы с id: {} из базы данных", id);
         String sql = "SELECT * FROM friendship_statuses WHERE id = ?";
         return jdbcTemplate.query(sql, rs -> rs.next() ? Optional.of(new FriendStatus(rs.getLong("id"), rs.getString("status"))) : Optional.empty(), id);
     }
 }
-

@@ -37,6 +37,7 @@ public class FilmController {
 
     @GetMapping("/popular")
     public Collection<Film> getPopularFilms(@RequestParam(defaultValue = "10") int count) {
+        log.info("GET запрос на получение {} популярных фильмов", count);
         return filmService.getPopularFilms(count);
     }
 
@@ -48,6 +49,7 @@ public class FilmController {
 
     @PutMapping
     public Film update(@Valid @RequestBody Film newFilm) {
+        log.info("PUT - запрос на обновление фильма {} с id: {}", newFilm, newFilm.getId());
         return filmService.update(newFilm);
     }
 
