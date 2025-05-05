@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -10,7 +11,7 @@ import java.util.Set;
 
 @Data
 public class User {
-
+    @Id
     private Long id;
 
     @NotEmpty
