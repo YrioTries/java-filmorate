@@ -1,11 +1,12 @@
 package ru.yandex.practicum.filmorate.storage.dao.film;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -17,6 +18,7 @@ import java.sql.Date;
 import java.util.*;
 
 @Component
+@Slf4j
 @Qualifier("SQL_Film_Storage")
 public class FilmDbStorage implements FilmStorage {
     private final JdbcTemplate jdbcTemplate;
@@ -48,41 +50,26 @@ public class FilmDbStorage implements FilmStorage {
         return films.get(0);
     }
 
-    @Override
+
     public Film create(Film film) {
-        if (film.getMpa() == null || film.getMpa().getId() == null) {
-            throw new IllegalArgumentException("Рейтинг (mpa) не может быть null.");
-        }
+        String sql = """
+            INSERT INTO films (name, description, release, duration, mpa_id)
+            VALUES (:name, :description, :release, :duration, :mpa_id)""";
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("name", film.getName());
+        params.addValue("description", film.getDescription());
+        params.addValue("release", film.getReleaseDate());
+        params.addValue("duration", film.getDuration());
 
-        String checkRatingSql = "SELECT COUNT(*) FROM ratings WHERE id = ?";
-        int ratingCount = jdbcTemplate.queryForObject(checkRatingSql, Integer.class, film.getMpa().getId());
-        if (ratingCount == 0 || ratingCount > 5) {
-            throw new NotFoundException("Рейтинг с id = " + film.getMpa().getId() + " не найден.");
-        }
+        params.addValue("mpa_id", (film.getMpa() == null) ? null : film.getMpa().getId());
+        jdbcTemplate.update(sql, params, keyHolder);
+        film.setId(keyHolder.getKeyAs(Long.class));
 
-        if (film.getGenres() != null) {
-            for (Genre genre : film.getGenres()) {
-                String checkGenreSql = "SELECT COUNT(*) FROM genres WHERE id = ?";
-                int genreCount = jdbcTemplate.queryForObject(checkGenreSql, Integer.class, genre.getId());
-                if (genreCount == 0 || genreCount > 6) {
-                    throw new NotFoundException("Жанр с id = " + genre.getId() + " не найден.");
-                }
-            }
+        if (!film.getGenres().isEmpty()) {
+            saveFilmGenres(film);
         }
-
-        String sql = "INSERT INTO films (name, description, release_date, duration, rating_id) VALUES (?, ?, ?, ?, ?)";
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(connection -> {
-            PreparedStatement stmt = connection.prepareStatement(sql, new String[]{"id"});
-            stmt.setString(1, film.getName());
-            stmt.setString(2, film.getDescription());
-            stmt.setDate(3, Date.valueOf(film.getReleaseDate()));
-            stmt.setLong(4, film.getDuration());
-            stmt.setLong(5, film.getMpa().getId());
-            return stmt;
-        }, keyHolder);
-        film.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
-        saveFilmGenres(film);
+        log.info("Создан новый фильм id = {}", film.getId());
         return film;
     }
 
@@ -173,16 +160,18 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     private void saveFilmGenres(Film film) {
-        // Удаляем все текущие жанры фильма
-        String deleteSql = "DELETE FROM film_genres WHERE film_id = ?";
-        jdbcTemplate.update(deleteSql, film.getId());
-
-        // Сохраняем новые жанры фильма
-        if (film.getGenres() != null) {
-            String insertSql = "INSERT INTO film_genres (film_id, genre_id) VALUES (?, ?)";
-            for (Genre genre : film.getGenres()) {
-                jdbcTemplate.update(insertSql, film.getId(), genre.getId());
-            }
-        }
+        String sql = """
+                INSERT INTO film_genre (film_id, genre_id)
+                VALUES (:film_id, :genre_id)""";
+        MapSqlParameterSource[] batchArgs = film.getGenres().stream()
+                .map(genre -> {
+                    MapSqlParameterSource params = new MapSqlParameterSource();
+                    params.addValue("film_id", film.getId());
+                    params.addValue("genre_id", genre.getId());
+                    return params;
+                })
+                .toArray(MapSqlParameterSource[]::new);
+        jdbcTemplate.batchUpdate(sql, Collections.singletonList(batchArgs));
+        log.trace("Сохранены жанры фильма id = {}", film.getId());
     }
 }

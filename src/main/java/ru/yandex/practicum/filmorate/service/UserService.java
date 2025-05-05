@@ -6,12 +6,14 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.DuplicatedDataException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
+import ru.yandex.practicum.filmorate.model.FriendStatus;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.dao.user.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.storage.dao.user.UserStorage;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -19,9 +21,12 @@ public class UserService {
     @Qualifier("SQL_User_Storage")
     private final UserStorage userStorage;
 
+    private final FriendStatusService friendStatusService;
+
     @Autowired
-    public UserService(InMemoryUserStorage inMemoryUserStorage) {
-        this.userStorage = inMemoryUserStorage;
+    public UserService(UserStorage userStorage, FriendStatusService friendStatusService) {
+        this.userStorage = userStorage;
+        this.friendStatusService = friendStatusService;
     }
 
     public Collection<User> findAll() {
@@ -62,10 +67,37 @@ public class UserService {
         return userStorage.update(newUser);
     }
 
-    public long addFriend(Long id, Long friendId) {
-        errorOfUserExist(id);
-        errorOfUserExist(friendId);
-        return userStorage.addFriend(id, friendId);
+    public long addFriend(Long userId, Long friendId) {
+        validateUserExists(userId);
+        validateUserExists(friendId);
+
+        Optional<Long> currentStatus = getFriendshipStatus(userId, friendId);
+
+        if (currentStatus.isPresent() && currentStatus.get().equals(1L)) {
+            updateFriendshipStatus(userId, friendId, 2L);
+            userStorage.addFriendship(friendId, userId, 2L); // Добавить обратную запись
+        } else {
+            userStorage.addFriendship(userId, friendId, 1L);
+        }
+
+        return friendId;
+    }
+
+    private Optional<Long> getFriendshipStatus(Long userId, Long friendId) {
+        // Получаем текущий статус дружбы из хранилища
+        return userStorage.getFriendshipStatus(userId, friendId);
+    }
+
+    private void updateFriendshipStatus(Long userId, Long friendId, Long statusId) {
+        // Обновляем статус дружбы в хранилище
+        userStorage.updateFriendshipStatus(userId, friendId, statusId);
+    }
+
+
+    private void validateUserExists(Long userId) {
+        if (!userStorage.findAllKeys().contains(userId)) {
+            throw new NotFoundException("Пользователь с id = " + userId + " не найден");
+        }
     }
 
     public boolean deleteFriend(Long id, Long friendId) {
