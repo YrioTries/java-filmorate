@@ -1,11 +1,12 @@
 -- Таблица пользователей
 CREATE TABLE IF NOT EXISTS users (
-    id BIGINT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(30) NOT NULL UNIQUE,
     login VARCHAR(30) NOT NULL UNIQUE,
     name VARCHAR(50),
     birthday DATE
 );
+
 
 -- Таблица статусов дружбы
 CREATE TABLE IF NOT EXISTS friendship_statuses (

@@ -17,16 +17,12 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-
     @Qualifier("SQL_User_Storage")
     private final UserStorage userStorage;
 
-    private final FriendStatusService friendStatusService;
-
     @Autowired
-    public UserService(UserStorage userStorage, FriendStatusService friendStatusService) {
+    public UserService(@Qualifier("SQL_User_Storage") UserStorage userStorage) {
         this.userStorage = userStorage;
-        this.friendStatusService = friendStatusService;
     }
 
     public Collection<User> findAll() {
