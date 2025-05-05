@@ -68,6 +68,7 @@ public class UserDbStorage implements UserStorage {
         return user;
     }
 
+
     @Override
     public User update(User user) {
         String sql = "UPDATE users SET email = ?, login = ?, name = ?, birthday = ? WHERE id = ?";
@@ -119,6 +120,12 @@ public class UserDbStorage implements UserStorage {
     public boolean deleteFriend(Long userId, Long friendId) {
         String sql = "DELETE FROM friendships WHERE user_id = ? AND friend_id = ?";
         return jdbcTemplate.update(sql, userId, friendId) > 0;
+    }
+
+    @Override
+    public void removeFriendship(Long userId, Long friendId) {
+        String sql = "DELETE FROM friendships WHERE (user_id = ? AND friend_id = ?) OR (user_id = ? AND friend_id = ?)";
+        jdbcTemplate.update(sql, userId, friendId, friendId, userId);
     }
 
     private User mapRowToUser(ResultSet rs, int rowNum) throws SQLException {
