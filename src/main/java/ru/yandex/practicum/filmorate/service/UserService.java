@@ -4,12 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exception.DuplicatedDataException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
-import ru.yandex.practicum.filmorate.model.FriendStatus;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.storage.dao.user.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.storage.dao.user.UserStorage;
 
 import java.time.LocalDate;
@@ -58,7 +55,7 @@ public class UserService {
         log.info("Создание нового пользователя: {}", user);
         validateUser(user);
         if (userStorage.findAll().stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(user.getEmail()))) {
-            throw new DuplicatedDataException("Этот имейл уже используется");
+            throw new ValidationException("Этот имейл уже используется");
         }
         userStorage.create(user);
         return user;
