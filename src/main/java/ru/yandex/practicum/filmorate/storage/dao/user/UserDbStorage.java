@@ -2,14 +2,13 @@ package ru.yandex.practicum.filmorate.storage.dao.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
-import ru.yandex.practicum.filmorate.model.FriendStatus;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.service.FriendStatusService;
 
 import java.sql.*;
 import java.sql.Date;
@@ -19,12 +18,10 @@ import java.util.*;
 @Qualifier("SQL_User_Storage")
 public class UserDbStorage implements UserStorage {
     private final JdbcTemplate jdbcTemplate;
-    private final FriendStatusService friendStatusService;
 
     @Autowired
-    public UserDbStorage(JdbcTemplate jdbcTemplate, FriendStatusService friendStatusService) {
+    public UserDbStorage(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.friendStatusService = friendStatusService;
     }
 
     @Override
@@ -87,11 +84,26 @@ public class UserDbStorage implements UserStorage {
     }
 
     @Override
-    public long addFriend(Long userId, Long friendId) {
+    public Optional<Long> getFriendshipStatus(Long userId, Long friendId) {
+        String sql = "SELECT status_id FROM friendships WHERE user_id = ? AND friend_id = ?";
+        try {
+            Long statusId = jdbcTemplate.queryForObject(sql, Long.class, userId, friendId);
+            return Optional.ofNullable(statusId);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public void updateFriendshipStatus(Long userId, Long friendId, Long statusId) {
+        String sql = "UPDATE friendships SET status_id = ? WHERE user_id = ? AND friend_id = ?";
+        jdbcTemplate.update(sql, statusId, userId, friendId);
+    }
+
+    @Override
+    public void addFriendship(Long userId, Long friendId, Long statusId) {
         String sql = "INSERT INTO friendships (user_id, friend_id, status_id) VALUES (?, ?, ?)";
-        FriendStatus status = friendStatusService.get(1L).orElseThrow(() -> new NotFoundException("Статус дружбы не найден"));
-        jdbcTemplate.update(sql, userId, friendId, status.getId());
-        return friendId;
+        jdbcTemplate.update(sql, userId, friendId, statusId);
     }
 
     @Override
@@ -119,4 +131,3 @@ public class UserDbStorage implements UserStorage {
         return user;
     }
 }
-

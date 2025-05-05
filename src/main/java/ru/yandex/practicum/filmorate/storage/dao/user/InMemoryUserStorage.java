@@ -19,62 +19,50 @@ public class InMemoryUserStorage implements UserStorage {
         users = new HashMap<>();
     }
 
+    @Override
     public Collection<User> findAll() {
         return users.values();
     }
 
+    @Override
     public Collection<Long> findAllKeys() {
         return users.keySet();
     }
 
+    @Override
     public User getUser(Long id) {
         return users.get(id);
     }
 
+    @Override
     public Collection<Long> findAllFriends(Long id) {
-        if (!users.containsKey(id)) {
-            throw new NotFoundException("Пользователь с id = " + id + " не найден");
-        }
-        return users.get(id).getFriends();
+        return users.getOrDefault(id, new User()).getFriends();
     }
 
+    @Override
     public Set<Long> getCommonFriends(Long id, Long friendId) {
-        if (!users.containsKey(id) || !users.containsKey(friendId)) {
-            throw new NotFoundException("Один из пользователей не найден");
-        }
-
-        User user = getUser(id);
-        User friendUser = getUser(friendId);
-
-        log.info("Пользователи user {} и friendUser {} делятся списком общих друзей", user.getId(), friendUser.getId());
-
-        Set<Long> friendsOfUser1 = new HashSet<>(user.getFriends());
-        Set<Long> friendsOfUser2 = new HashSet<>(friendUser.getFriends());
+        Set<Long> friendsOfUser1 = new HashSet<>(users.getOrDefault(id, new User()).getFriends());
+        Set<Long> friendsOfUser2 = new HashSet<>(users.getOrDefault(friendId, new User()).getFriends());
         friendsOfUser1.retainAll(friendsOfUser2);
-
-        return new HashSet<>(friendsOfUser1);
+        return friendsOfUser1;
     }
 
+    @Override
     public User create(User user) {
         user.setId(getNextId());
         users.put(user.getId(), user);
         return user;
     }
 
+    @Override
     public User update(User newUser) {
-        if (!users.containsKey(newUser.getId())) {
+        User oldUser = users.get(newUser.getId());
+        if (oldUser == null) {
             throw new NotFoundException("Пользователь с id = " + newUser.getId() + " не найден");
         }
-        User oldUser = users.get(newUser.getId());
 
         oldUser.setLogin(newUser.getLogin());
-
-        if (newUser.getName() == null || newUser.getName().isBlank()) {
-            oldUser.setName(newUser.getLogin());
-        } else {
-            oldUser.setName(newUser.getName());
-        }
-
+        oldUser.setName(newUser.getName() != null && !newUser.getName().isBlank() ? newUser.getName() : newUser.getLogin());
         oldUser.setEmail(newUser.getEmail());
         oldUser.setBirthday(newUser.getBirthday());
 
@@ -82,30 +70,46 @@ public class InMemoryUserStorage implements UserStorage {
         return oldUser;
     }
 
-    public long addFriend(Long id, Long friendId) {
-        if (!users.containsKey(id) || !users.containsKey(friendId)) {
-            throw new NotFoundException("Один из пользователей не найден");
+    @Override
+    public void addFriendship(Long userId, Long friendId, Long statusId) {
+        User user = users.get(userId);
+        User friendUser = users.get(friendId);
+
+        if (user != null && friendUser != null) {
+            user.getFriends().add(friendId);
+            friendUser.getFriends().add(userId);
+
+            users.put(userId, user);
+            users.put(friendId, friendUser);
         }
+    }
 
-        User user = getUser(id);
-        User friendUser = getUser(friendId);
+    @Override
+    public void removeFriendship(Long userId, Long friendId) {
+        User user = users.get(userId);
+        User friendUser = users.get(friendId);
 
-        if (!(user.getFriends().contains(friendId) && friendUser.getFriends().contains(id))) {
-            log.info("Пользователи user {} и friendUser {} становятся друзьями", user.getId(), friendUser.getId());
+        if (user != null && friendUser != null) {
+            user.getFriends().remove(friendId);
+            friendUser.getFriends().remove(userId);
 
-            Set<Long> friendSet = user.getFriends();
-            friendSet.add(friendId);
-            user.setFriends(friendSet);
-
-            users.put(user.getId(), user);
-            users.put(friendUser.getId(), friendUser);
+            users.put(userId, user);
+            users.put(friendId, friendUser);
         }
+    }
 
-        if (user.getFriends().contains(friendId)) {
-            return friendId;
-        } else {
-            throw new NotFoundException("Ошибка добавления в друзья");
+    @Override
+    public Optional<Long> getFriendshipStatus(Long userId, Long friendId) {
+        User user = users.get(userId);
+        if (user != null && user.getFriends().contains(friendId)) {
+            return Optional.of(1L); // Предположим, что статус дружбы всегда 1 (запрос на дружбу)
         }
+        return Optional.empty();
+    }
+
+    @Override
+    public void updateFriendshipStatus(Long userId, Long friendId, Long statusId) {
+        // В данном случае, обновление статуса дружбы не требуется, так как мы используем простую модель в памяти.
     }
 
     public boolean deleteFriend(Long id, Long friendId) {
@@ -131,11 +135,6 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     private long getNextId() {
-        long currentMaxId = users.keySet()
-                .stream()
-                .mapToLong(id -> id)
-                .max()
-                .orElse(0);
-        return ++currentMaxId;
+        return users.keySet().stream().mapToLong(Long::longValue).max().orElse(0) + 1;
     }
 }
