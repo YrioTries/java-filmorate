@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Rating;
 import ru.yandex.practicum.filmorate.storage.dao.film.rating.RatingStorage;
 
@@ -26,6 +27,13 @@ public class RatingService {
 
     public Optional<Rating> get(Long id) {
         log.info("Получение рейтинга с id: {}", id);
+        check(id);
         return ratingStorage.getRating(id);
+    }
+
+    private void check(Long id) {
+        if (id > 5) {
+            throw new ValidationException("Ошибка рейтинга, не существует рейтинга с id: " + id);
+        }
     }
 }

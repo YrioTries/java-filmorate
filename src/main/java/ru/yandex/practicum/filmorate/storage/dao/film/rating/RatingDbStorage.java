@@ -2,13 +2,13 @@ package ru.yandex.practicum.filmorate.storage.dao.film.rating;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Rating;
 
 import java.util.Collection;
 import java.util.Optional;
 
-@Component
+@Repository
 public class RatingDbStorage implements RatingStorage {
     private final JdbcTemplate jdbcTemplate;
 

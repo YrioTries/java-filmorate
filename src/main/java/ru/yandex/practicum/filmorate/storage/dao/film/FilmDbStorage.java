@@ -4,10 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.filmorate.exception.InternalServerException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
@@ -56,46 +57,127 @@ public class FilmDbStorage implements FilmStorage {
     @Override
     public Film create(Film film) {
         log.info("Создание нового фильма: {}", film);
-        String sql = """
-            INSERT INTO films (name, description, release, duration, mpa_id)
-            VALUES (:name, :description, :release, :duration, :mpa_id)""";
-        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("name", film.getName());
-        params.addValue("description", film.getDescription());
-        params.addValue("release", film.getReleaseDate());
-        params.addValue("duration", film.getDuration());
-        params.addValue("mpa_id", (film.getMpa() == null) ? null : film.getMpa().getId());
-        jdbcTemplate.update(sql, params, keyHolder);
-        film.setId(keyHolder.getKeyAs(Long.class));
+        final String INSERT_FILM_QUERY = """
+                INSERT INTO films (name, description, release_date, duration, rating_id)
+                VALUES (?, ?, ?, ?, ?);
+                """;
+        final String INSERT_FILM_ID_GENRES_IDS_QUERY = """
+                INSERT INTO film_genre (film_id, genre_id)
+                VALUES (?, ?);
+                """;
 
-        if (!film.getGenres().isEmpty()) {
-            saveFilmGenres(film);
+        final Object[] params = {
+                film.getName(),
+                film.getDescription(),
+                film.getReleaseDate(),
+                film.getDuration(),
+                film.getMpa().getId()
+        };
+
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection
+                    .prepareStatement(INSERT_FILM_QUERY, Statement.RETURN_GENERATED_KEYS);
+            for (int idx = 0; idx < params.length; idx++) {
+                ps.setObject(idx + 1, params[idx]);
+            }
+            return ps;
+        }, keyHolder);
+        Long generatedId = keyHolder.getKeyAs(Long.class);
+        if (generatedId == null) {
+            throw new InternalServerException("FilmDbStorage: Не удалось сохранить данные Film");
         }
-        log.info("Создан новый фильм с id: {}", film.getId());
-        return film;
+
+        if (!(film.getGenres().isEmpty())) {
+            List<Long> genresIds = film.getGenres()
+                    .stream()
+                    .map(Genre::getId)
+                    .toList();
+
+            jdbcTemplate.batchUpdate(INSERT_FILM_ID_GENRES_IDS_QUERY,
+                    new BatchPreparedStatementSetter() {
+                        public void setValues(PreparedStatement ps, int i) throws SQLException {
+                            Long genreId = genresIds.get(i);
+                            ps.setLong(1, generatedId);
+                            ps.setLong(2, genreId);
+                        }
+
+                        public int getBatchSize() {
+                            return genresIds.size();
+                        }
+                    });
+        }
+
+        return new Film(
+                generatedId,
+                film.getName(),
+                film.getDescription(),
+                film.getReleaseDate(),
+                film.getDuration(),
+                film.getMpa(),
+                film.getGenres(),
+                film.getLikesFrom()
+        );
     }
 
     @Override
     public Film update(Film film) {
         log.info("Обновление фильма с id: {}", film.getId());
-        if (film.getMpa() == null || film.getMpa().getId() == null) {
-            throw new IllegalArgumentException("Рейтинг (mpa) не может быть null.");
-        }
+        final String UPDATE_FILM_QUERY = """
+                UPDATE films
+                SET name = ?, description = ?, release_date = ?, duration = ?, rating_id = ?
+                WHERE id = ?;
+                """;
+        final String DELETE_GENRES_QUERY = """
+                DELETE FROM film_genre
+                WHERE film_id = ?;
+                """;
+        final String INSERT_FILM_ID_GENRES_IDS_QUERY = """
+                INSERT INTO film_genre (film_id, genre_id)
+                VALUES (?, ?);
+                """;
 
-        String sql = "UPDATE films SET name = ?, description = ?, release_date = ?, duration = ?, rating_id = ? WHERE id = ?";
-        int updated = jdbcTemplate.update(sql,
+        final Object[] params = {
+                film.getId(),
                 film.getName(),
                 film.getDescription(),
-                Date.valueOf(film.getReleaseDate()),
+                film.getReleaseDate(),
                 film.getDuration(),
-                film.getMpa().getId(),
-                film.getId());
-        if (updated == 0) {
-            throw new NotFoundException("Фильм с id = " + film.getId() + " не найден");
+                film.getMpa(),
+                film.getGenres(),
+                film.getLikesFrom()
+        };
+
+        int rowsUpdated = jdbcTemplate.update(UPDATE_FILM_QUERY, params);
+        if (rowsUpdated == 0) {
+            throw new InternalServerException("FilmDbStorage: Не удалось обновить данные Film");
         }
-        saveFilmGenres(film);
-        log.info("Фильм с id: {} обновлен", film.getId());
+
+
+        int rowsDeleted = jdbcTemplate.update(DELETE_GENRES_QUERY, film.getId());
+        if (rowsDeleted == 0) {
+            log.info("FilmDbStorage: Не удалось удалить genres у Film с ID: {}", film.getId());
+        }
+
+        if (!(film.getGenres().isEmpty())) {
+            List<Long> genresIds = film.getGenres()
+                    .stream()
+                    .map(Genre::getId)
+                    .toList();
+
+            jdbcTemplate.batchUpdate(INSERT_FILM_ID_GENRES_IDS_QUERY,
+                    new BatchPreparedStatementSetter() {
+                        public void setValues(PreparedStatement ps, int i) throws SQLException {
+                            Long genreId = genresIds.get(i);
+                            ps.setLong(1, film.getId());
+                            ps.setLong(2, genreId);
+                        }
+
+                        public int getBatchSize() {
+                            return genresIds.size();
+                        }
+                    });
+        }
         return film;
     }
 
@@ -107,6 +189,7 @@ public class FilmDbStorage implements FilmStorage {
             jdbcTemplate.update(sql, filmId, userId);
             return true;
         } catch (Exception e) {
+            log.error("Ошибка при добавлении лайка", e);
             return false;
         }
     }
@@ -126,9 +209,9 @@ public class FilmDbStorage implements FilmStorage {
         film.setReleaseDate(rs.getDate("release_date").toLocalDate());
         film.setDuration(rs.getLong("duration"));
 
-        Long ratingId = rs.getObject("rating_id", Long.class);
+        Long mpaId = rs.getObject("mpa_id", Long.class);
         Rating mpa = null;
-        if (ratingId != null) {
+        if (mpaId != null) {
             try {
                 String ratingSql = "SELECT * FROM ratings WHERE id = ?";
                 mpa = jdbcTemplate.queryForObject(ratingSql, (rs2, rowNum2) ->
@@ -137,9 +220,9 @@ public class FilmDbStorage implements FilmStorage {
                                         rs2.getString("name"),
                                         rs2.getString("description")
                                 ),
-                        ratingId);
+                        mpaId);
             } catch (EmptyResultDataAccessException e) {
-                log.error("Рейтинг с id: {} не найден в базе данных", ratingId);
+                log.error("Рейтинг с id: {} не найден в базе данных", mpaId);
             }
         }
         film.setMpa(mpa);
@@ -162,18 +245,13 @@ public class FilmDbStorage implements FilmStorage {
 
     private void saveFilmGenres(Film film) {
         log.info("Сохранение жанров для фильма с id: {}", film.getId());
-        String sql = """
-                INSERT INTO film_genre (film_id, genre_id)
-                VALUES (:film_id, :genre_id)""";
-        MapSqlParameterSource[] batchArgs = film.getGenres().stream()
-                .map(genre -> {
-                    MapSqlParameterSource params = new MapSqlParameterSource();
-                    params.addValue("film_id", film.getId());
-                    params.addValue("genre_id", genre.getId());
-                    return params;
-                })
-                .toArray(MapSqlParameterSource[]::new);
-        jdbcTemplate.batchUpdate(sql, Collections.singletonList(batchArgs));
-        log.trace("Сохранены жанры для фильма с id: {}", film.getId());
+        String sql = "INSERT INTO film_genres (film_id, genre_id) VALUES (?, ?)";
+
+        List<Object[]> batchArgs = film.getGenres().stream()
+                .map(genre -> new Object[]{film.getId(), genre.getId()})
+                .toList();
+
+        jdbcTemplate.batchUpdate(sql, batchArgs);
+        log.info("Сохранены {} жанров для фильма с id: {}", batchArgs.size(), film.getId());
     }
 }
