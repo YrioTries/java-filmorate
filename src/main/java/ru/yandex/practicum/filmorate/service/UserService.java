@@ -47,6 +47,7 @@ public class UserService {
             throw new ValidationException("UserService: список друзей не может быть получен по некорректному ID: "
                     + userId);
         }
+        userStorage.getUserById(userId);
 
         List<User> users = userStorage.getFriendsById(userId);
         log.info("Список всех друзей пользователя успешно сформирован");
@@ -59,6 +60,9 @@ public class UserService {
             log.warn("UserService: Запрос на получение списка общих друзей c некорректным ID");
             throw new ValidationException("UserService: список общих друзей не может быть получен, ID некорректен");
         }
+
+        userStorage.getUserById(userId);
+        userStorage.getUserById(friendId);
 
         Set<Long> userFriendsIds = userStorage.getUserFriendsIdsById(userId);
         Set<Long> anotherUserFriendsIds = userStorage.getUserFriendsIdsById(friendId);
@@ -105,6 +109,8 @@ public class UserService {
             throw new ValidationException("UserService: user не может быть обновлен, ID некорректен " + newUser.getId());
         }
 
+        getUserById(newUser.getId());
+
         String validName;
         if (newUser.getName() == null || newUser.getName().isBlank()) {
             validName = newUser.getLogin();
@@ -127,6 +133,9 @@ public class UserService {
             log.warn("UserService: Запрос на добаление друга, ID некорректен");
             throw new ValidationException("UserService: друг не может быть добален, ID некорректен");
         }
+
+        User user = userStorage.getUserById(userId);
+        User friend = userStorage.getUserById(friendId);
 
         Set<Long> userFriendsIds = userStorage.getUserFriendsIdsById(userId);
         if (!(userFriendsIds.contains(friendId))) {
