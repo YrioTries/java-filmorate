@@ -108,7 +108,6 @@ public class UserDbStorage implements UserStorage {
                 user.getBirthday()
         };
 
-        // insert user
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         jdbc.update(connection -> {
             PreparedStatement ps = connection
@@ -149,7 +148,6 @@ public class UserDbStorage implements UserStorage {
                 user.getId()
         };
 
-        // update user
         int rowsUpdated = jdbc.update(UPDATE_USER_QUERY, params);
         if (rowsUpdated == 0) {
             throw new InternalServerException("BaseDbStorage: Не удалось обновить данные User");

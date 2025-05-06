@@ -14,8 +14,8 @@ import ru.yandex.practicum.filmorate.storage.GenreStorage;
 import java.util.List;
 
 @Slf4j
-@Repository
 @Primary
+@Repository
 public class GenreDbStorage implements GenreStorage {
     private final JdbcOperations jdbc;
     private final RowMapper<Genre> mapper;

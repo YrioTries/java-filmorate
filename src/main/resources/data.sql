@@ -1,40 +1,18 @@
--- Инициализация рейтингов (ratings)
-MERGE INTO ratings (id, name, description) KEY(id)
-VALUES (1, 'G', 'Нет возрастных ограничений');
+INSERT INTO rating
+SELECT * FROM (
+SELECT 1, 'G' UNION
+SELECT 2, 'PG' UNION
+SELECT 3, 'PG-13' UNION
+SELECT 4, 'R' UNION
+SELECT 5, 'NC-17'
+) WHERE NOT EXISTS (SELECT * FROM rating);
 
-MERGE INTO ratings (id, name, description) KEY(id)
-VALUES (2, 'PG', 'Рекомендуется присутствие родителей');
-
-MERGE INTO ratings (id, name, description) KEY(id)
-VALUES (3, 'PG-13', 'Детям до 13 лет просмотр не желателен');
-
-MERGE INTO ratings (id, name, description) KEY(id)
-VALUES (4, 'R', 'Лицам до 17 лет обязательно присутствие взрослого');
-
-MERGE INTO ratings (id, name, description) KEY(id)
-VALUES (5, 'NC-17', 'Лицам до 18 лет просмотр запрещён');
-
--- Инициализация жанров (genres)
-MERGE INTO genres (id, name) KEY(id)
-VALUES (1, 'Комедия');
-
-MERGE INTO genres (id, name) KEY(id)
-VALUES (2, 'Драма');
-
-MERGE INTO genres (id, name) KEY(id)
-VALUES (3, 'Мультфильм');
-
-MERGE INTO genres (id, name) KEY(id)
-VALUES (4, 'Триллер');
-
-MERGE INTO genres (id, name) KEY(id)
-VALUES (5, 'Документальный');
-
-MERGE INTO genres (id, name) KEY(id)
-VALUES (6, 'Боевик');
-
-MERGE INTO friendship_statuses (id, status) KEY(id)
-VALUES (1, 'FS_REQUEST');
-
-MERGE INTO friendship_statuses (id, status) KEY(id)
-VALUES (2, 'FRIENDSHIP');
+INSERT INTO genres
+SELECT * FROM (
+SELECT 1, 'Комедия' UNION
+SELECT 2, 'Драма' UNION
+SELECT 3, 'Мультфильм' UNION
+SELECT 4, 'Триллер' UNION
+SELECT 5, 'Документальный' UNION
+SELECT 6, 'Боевик'
+) WHERE NOT EXISTS (SELECT * FROM genres);

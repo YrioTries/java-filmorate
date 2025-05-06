@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.*;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.exception.InternalServerException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -17,8 +17,9 @@ import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import java.sql.*;
 import java.util.*;
 
-@Component
+
 @Slf4j
+@Repository
 @Qualifier("SQL_Film_Storage")
 public class FilmDbStorage implements FilmStorage {
 
@@ -36,10 +37,10 @@ public class FilmDbStorage implements FilmStorage {
     public List<Film> getAllFilms() {
         log.info("Получение всех фильмов из базы данных");
         final String FIND_ALL_FILMS_WITH_MPA_RATING_QUERY = """
-                SELECT f.*, mr.name AS mpa_rating_name
+                SELECT f.*, mr.name AS rating_name
                 FROM films AS f
-                LEFT OUTER JOIN mpa_rating AS mr
-                ON f.mpa_rating_id = mr.mpa_rating_id
+                LEFT OUTER JOIN rating AS mr
+                ON f.mpa_rating_id = mr.rating_id
                 """;
         final String FIND_ALL_FILMS_IDS_WITH_GENRES_QUERY = """
                 SELECT fg.film_id, fg.genre_id, g.name AS genre_name
@@ -82,9 +83,9 @@ public class FilmDbStorage implements FilmStorage {
     public Film getFilmById(Long id) {
         log.info("Получение фильма с id: {} из базы данных", id);
         final String FIND_FILM_BY_ID_WITH_MPA_AND_GENRES_QUERY = """
-                SELECT f.*, mr.name AS mpa_rating_name, fg.genre_id, g.name AS genre_name
+                SELECT f.*, mr.name AS rating_name, fg.genre_id, g.name AS genre_name
                 FROM films AS f
-                LEFT OUTER JOIN mpa_rating AS mr ON f.mpa_rating_id = mr.mpa_rating_id
+                LEFT OUTER JOIN rating AS mr ON f.rating_id = mr.rating_id
                 LEFT OUTER JOIN film_genre AS fg ON f.id = fg.film_id
                 LEFT OUTER JOIN genres AS g ON fg.genre_id = g.genre_id
                 WHERE f.id = ?;
@@ -105,7 +106,7 @@ public class FilmDbStorage implements FilmStorage {
     public Film create(Film film) {
         log.info("Создание нового фильма: {}", film);
         final String INSERT_FILM_QUERY = """
-                INSERT INTO films (name, description, release_date, duration, mpa_rating_id)
+                INSERT INTO films (name, description, release_date, duration, rating_id)
                 VALUES (?, ?, ?, ?, ?);
                 """;
         final String INSERT_FILM_ID_GENRES_IDS_QUERY = """
@@ -173,7 +174,7 @@ public class FilmDbStorage implements FilmStorage {
         log.info("Обновление фильма с id: {}", film.getId());
         final String UPDATE_FILM_QUERY = """
                 UPDATE films
-                SET name = ?, description = ?, release_date = ?, duration = ?, mpa_rating_id = ?
+                SET name = ?, description = ?, release_date = ?, duration = ?, rating_id = ?
                 WHERE id = ?;
                 """;
         final String DELETE_GENRES_QUERY = """
@@ -263,9 +264,9 @@ public class FilmDbStorage implements FilmStorage {
     @Override
     public List<Film> getPopularFilms(int quantity) {
         final String FIND_FILMS_WITH_MPA_RATING_SORTED_BY_LIKES_LIMITED_QUERY = """
-                SELECT f.*, mr.name AS mpa_rating_name
+                SELECT f.*, mr.name AS rating_name
                 FROM films AS f
-                LEFT OUTER JOIN mpa_rating AS mr ON f.mpa_rating_id = mr.mpa_rating_id
+                LEFT OUTER JOIN rating AS mr ON f.rating_id = mr.rating_id
                 LEFT OUTER JOIN film_like AS fl ON f.id = fl.film_id
                 GROUP BY f.id
                 ORDER BY COUNT(fl.user_id) DESC
@@ -282,13 +283,11 @@ public class FilmDbStorage implements FilmStorage {
                 LIMIT ?;
                 """;
 
-        // get all films with mpa rating, without genres, sorted by number of likes and limited
         List<Film> sortFilms = jdbc.query(FIND_FILMS_WITH_MPA_RATING_SORTED_BY_LIKES_LIMITED_QUERY, mapper, quantity);
         if (sortFilms == null || sortFilms.isEmpty()) {
             return List.of();
         }
 
-        // get all films ids with genres
         Map<Long, SequencedSet<Genre>> filmsGenres = jdbc.query(FIND_FILMS_IDS_WITH_GENRES_SORTED_BY_LIKES_LIMITED_QUERY,
                 new FilmDbStorage.FilmsIdsWithGenresExtractor(), quantity);
 
@@ -317,15 +316,15 @@ public class FilmDbStorage implements FilmStorage {
             while (rs.next()) {
                 if (tmpFilm == null) {
                     // mpa
-                    Integer ratingId = rs.getInt("mpa_rating_id");
+                    Integer ratingId = rs.getInt("rating_id");
                     if (ratingId == 0) {
                         ratingId = null;
                     }
                     Rating mpa = new Rating(
                             ratingId,
-                            rs.getString("mpa_rating_name")
+                            rs.getString("rating_name")
                     );
-                    // film
+
                     tmpFilm = new Film(
                             rs.getLong("id"),
                             rs.getString("name"),
