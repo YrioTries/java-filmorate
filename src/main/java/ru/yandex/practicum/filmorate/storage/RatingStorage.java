@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface RatingStorage {
 
-    Collection<Rating> getRatings();
+    Collection<Rating> getAllRatings();
 
-    Rating getRating(Integer id);
+    Rating getRatingById(Integer id);
 }
