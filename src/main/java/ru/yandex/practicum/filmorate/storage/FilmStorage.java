@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface FilmStorage {
 
-    Collection<Film> getAllFilms();
+    List<Film> getAllFilms();
 
     Film getFilmById(Long id);
 

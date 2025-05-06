@@ -25,6 +25,7 @@ import java.util.*;
 public class UserDbStorage implements UserStorage {
 
     private final JdbcOperations jdbc;
+
     private final RowMapper<User> mapper;
 
     @Autowired

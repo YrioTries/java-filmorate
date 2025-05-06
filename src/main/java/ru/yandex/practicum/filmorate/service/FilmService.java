@@ -53,6 +53,10 @@ public class FilmService {
                 "[FilmService]: Лайк к фильму не может быть добавлен если id фильма - null");
         UserValidation.nullValidation(userId, "[FilmService]: Id is null",
                 "[FilmService]: Лайк к фильму не может быть добавлен если id пользователя - null");
+
+        filmStorage.getFilmById(filmId);
+        userStorage.getUserById(userId);
+
         filmStorage.likeFilm(filmId, userId);
         log.info("Добавлен лайк фильму");
     }
@@ -63,6 +67,9 @@ public class FilmService {
                 "[FilmService]: Лайк у фильма не может быть удален если id фильма - null");
         UserValidation.nullValidation(userId, "[FilmService]: Id is null",
                 "[FilmService]: Лайк у фильма не может быть удален если id пользователя - null");
+
+        filmStorage.getFilmById(filmId);
+        userStorage.getUserById(userId);
 
         filmStorage.unLikeFilm(filmId, userId);
         log.info("Удалён лайк у фильма");
@@ -123,6 +130,8 @@ public class FilmService {
     public Film update(Film newFilm) {
         log.info("Обновление фильма с id: {}", newFilm.getId());
         FilmValidation.validate(newFilm);
+
+        getFilmById(newFilm.getId());
 
         SequencedSet<Genre> validGenres = new LinkedHashSet<>();
         if ((newFilm.getGenres() != null) && !(newFilm.getGenres().isEmpty())) {
