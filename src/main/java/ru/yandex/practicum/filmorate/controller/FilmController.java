@@ -9,9 +9,9 @@ import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
 import java.util.Collection;
+import java.util.List;
 
 @Slf4j
-@Validated
 @RestController
 @RequestMapping("/films")
 public class FilmController {
@@ -24,20 +24,20 @@ public class FilmController {
     }
 
     @GetMapping
-    public Collection<Film> findAll() {
+    public List<Film> getAllFilms() {
         log.info("GET запрос на получение всех фильмов");
-        return filmService.findAll();
+        return filmService.getAllFilms();
     }
 
     @GetMapping("/{id}")
-    public Film get(@PathVariable Long id) {
+    public Film getFilmById(@PathVariable Long id) {
         log.info("GET запрос на получение фильма с  id: {}", id);
-        return filmService.get(id);
+        return filmService.getFilmById(id);
     }
 
     @GetMapping("/popular")
     public Collection<Film> getPopularFilms(@RequestParam(defaultValue = "10") int count) {
-        log.info("GET запрос на получение {} популярных фильмов", count);
+        log.info("GET запрос на получение топ {} популярных фильмов", count);
         return filmService.getPopularFilms(count);
     }
 
@@ -54,14 +54,14 @@ public class FilmController {
     }
 
     @PutMapping("/{id}/like/{userId}")
-    public boolean userLike(@PathVariable Long id, @PathVariable Long userId) {
+    public void userLike(@PathVariable Long id, @PathVariable Long userId) {
         log.info("PUT - пользователь {} поставил лайк фильму {}", userId, id);
-        return filmService.likeFilm(id, userId);
+        filmService.likeFilm(id, userId);
     }
 
     @DeleteMapping("/{id}/like/{userId}")
-    public boolean unLike(@PathVariable Long id, @PathVariable Long userId) {
+    public void unLike(@PathVariable Long id, @PathVariable Long userId) {
         log.info("DELETE - пользователь {} убрал лайк с фильма {}", userId, id);
-        return filmService.unLikeFilm(id, userId);
+        filmService.unLikeFilm(id, userId);
     }
 }
