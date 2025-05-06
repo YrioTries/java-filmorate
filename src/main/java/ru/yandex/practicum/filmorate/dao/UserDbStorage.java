@@ -3,13 +3,16 @@ package ru.yandex.practicum.filmorate.dao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.exception.InternalServerException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
+import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
@@ -22,7 +25,6 @@ import java.util.*;
 public class UserDbStorage implements UserStorage {
 
     private final JdbcOperations jdbc;
-
     private final RowMapper<User> mapper;
 
     @Autowired
@@ -59,12 +61,7 @@ public class UserDbStorage implements UserStorage {
                 SELECT *
                 FROM users;
                 """;
-        final String FIND_ALL_USERS_FRIENDS_IDS_QUERY = """
-                SELECT *
-                FROM user_friend;
-                """;
 
-        // get all users without friends ids
         List<User> tmpUsers = jdbc.query(FIND_ALL_USERS_QUERY, mapper);
         if (tmpUsers == null || tmpUsers.isEmpty()) {
             return List.of();
@@ -72,6 +69,7 @@ public class UserDbStorage implements UserStorage {
         return tmpUsers;
     }
 
+    @Override
     public User getUserById(Long id) {
         final String FIND_USER_BY_ID_QUERY = """
                 SELECT *
@@ -163,14 +161,11 @@ public class UserDbStorage implements UserStorage {
                 VALUES (?, ?);
                 """;
 
-        final Object[] params = {
-                userId,
-                friendId
-        };
+        jdbc.update(INSERT_USER_FRIEND_QUERY, userId, friendId);
     }
 
     @Override
-    public void deleteFriend(Long userId, Long friendId) {
+    public void removeFriend(Long userId, Long friendId) {
         log.info("Удаление дружбы между пользователями с id: {} и {}", userId, friendId);
         final String DELETE_USER_FRIEND_QUERY = """
                 DELETE FROM user_friend
@@ -193,5 +188,26 @@ public class UserDbStorage implements UserStorage {
         final String sqlPlaceholders = String.join(",", Collections.nCopies(ids.size(), "?"));
 
         return jdbc.query(String.format(FIND_USERS_BY_IDS_QUERY, sqlPlaceholders), mapper, ids.toArray());
+    }
+
+    private static class FilmsIdsWithGenresExtractor implements ResultSetExtractor<Map<Long, SequencedSet<Genre>>> {
+        @Override
+        public Map<Long, SequencedSet<Genre>> extractData(ResultSet rs) throws SQLException, DataAccessException {
+            Map<Long, SequencedSet<Genre>> data = new HashMap<>();
+            Genre genre;
+            while (rs.next()) {
+                // film id
+                Long filmId = rs.getLong("film_id");
+                data.putIfAbsent(filmId, new LinkedHashSet<>());
+                //genre
+                int genreId = rs.getInt("genre_id");
+                String genreName = rs.getString("genre_name");
+                if (genreId != 0) {
+                    genre = new Genre(genreId, genreName);
+                    data.get(filmId).add(genre);
+                }
+            }
+            return data;
+        }
     }
 }
