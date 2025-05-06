@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Rating;
-import ru.yandex.practicum.filmorate.storage.dao.film.rating.RatingStorage;
+import ru.yandex.practicum.filmorate.storage.RatingStorage;
 
 import java.util.Collection;
 import java.util.Optional;

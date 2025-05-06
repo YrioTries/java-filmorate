@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.FriendStatus;
-import ru.yandex.practicum.filmorate.storage.dao.user.friendstatus.FriendStatusStorage;
+import ru.yandex.practicum.filmorate.storage2.dao2.user.friendstatus.FriendStatusStorage;
 
 import java.util.Collection;
 import java.util.Optional;
