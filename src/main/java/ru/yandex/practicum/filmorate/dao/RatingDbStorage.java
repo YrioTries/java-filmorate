@@ -1,9 +1,10 @@
-package ru.yandex.practicum.filmorate.storage.dao.film.rating;
+package ru.yandex.practicum.filmorate.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Rating;
+import ru.yandex.practicum.filmorate.storage.RatingStorage;
 
 import java.util.Collection;
 import java.util.Optional;
