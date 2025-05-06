@@ -40,7 +40,7 @@ public class FilmDbStorage implements FilmStorage {
                 SELECT f.*, mr.name AS rating_name
                 FROM films AS f
                 LEFT OUTER JOIN rating AS mr
-                ON f.mpa_rating_id = mr.rating_id
+                ON f.rating_id = mr.rating_id
                 """;
         final String FIND_ALL_FILMS_IDS_WITH_GENRES_QUERY = """
                 SELECT fg.film_id, fg.genre_id, g.name AS genre_name
