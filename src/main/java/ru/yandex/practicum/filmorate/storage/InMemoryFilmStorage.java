@@ -38,7 +38,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public boolean likeFilm(Long filmId, Long userId) {
+    public void likeFilm(Long filmId, Long userId) {
         log.info("Добавление лайка фильму с id: {} от пользователя с id: {}", filmId, userId);
         Film film = films.get(filmId);
 
