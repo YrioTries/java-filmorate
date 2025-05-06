@@ -8,32 +8,28 @@ import ru.yandex.practicum.filmorate.model.Rating;
 import ru.yandex.practicum.filmorate.storage.RatingStorage;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
 public class RatingService {
-    private final RatingStorage ratingStorage;
+    private final RatingStorage mpaRatingStorage;
 
     @Autowired
-    public RatingService(RatingStorage ratingStorage) {
-        this.ratingStorage = ratingStorage;
+    public RatingService(RatingStorage mpaRatingStorage) {
+        this.mpaRatingStorage = mpaRatingStorage;
     }
 
-    public Collection<Rating> findAll() {
-        log.info("Получение всех рейтингов");
-        return ratingStorage.findAll();
+    public List<Rating> getAllMpaRatings() {
+        return List.copyOf(mpaRatingStorage.getAllRatings());
     }
 
-    public Optional<Rating> get(Long id) {
-        log.info("Получение рейтинга с id: {}", id);
-        check(id);
-        return ratingStorage.getRating(id);
-    }
-
-    private void check(Long id) {
-        if (id > 5) {
-            throw new ValidationException("Ошибка рейтинга, не существует рейтинга с id: " + id);
+    public Rating getMpaRatingById(Integer id) {
+        if (id == null) {
+            log.warn("Запрос на получение рейтинга по ID = null");
+            throw new ValidationException("Рейтинг не может быть получен по ID = null");
         }
+        return mpaRatingStorage.getRatingById(id);
     }
 }
