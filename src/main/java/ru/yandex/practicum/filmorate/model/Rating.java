@@ -1,18 +1,9 @@
 package ru.yandex.practicum.filmorate.model;
 
-import jakarta.persistence.Id;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 public class Rating {
-    @Id
-    private Long id;
-    private String name;
-    private String description;
-
-    public Rating(Long id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-    }
+    Integer id;
+    String name;
 }
