@@ -47,7 +47,7 @@ public class FilmService {
         return filmStorage.getFilmById(id);
     }
 
-    public void likeFilm(Long filmId, Long userId) {
+    public void addLike(Long filmId, Long userId) {
         log.info("Добавление лайка фильму с id: {} от пользователя с id: {}", filmId, userId);
         FilmValidation.nullValidation(filmId, "[FilmService]: Id is null",
                 "[FilmService]: Лайк к фильму не может быть добавлен если id фильма - null");
@@ -57,11 +57,11 @@ public class FilmService {
         filmStorage.getFilmById(filmId);
         userStorage.getUserById(userId);
 
-        filmStorage.likeFilm(filmId, userId);
+        filmStorage.addLike(filmId, userId);
         log.info("Добавлен лайк фильму");
     }
 
-    public void unLikeFilm(Long filmId, Long userId) {
+    public void removeLike(Long filmId, Long userId) {
         log.info("Удаление лайка с фильма с id: {} от пользователя с id: {}", filmId, userId);
         FilmValidation.nullValidation(filmId, "[FilmService]: Id is null",
                 "[FilmService]: Лайк у фильма не может быть удален если id фильма - null");
@@ -71,7 +71,7 @@ public class FilmService {
         filmStorage.getFilmById(filmId);
         userStorage.getUserById(userId);
 
-        filmStorage.unLikeFilm(filmId, userId);
+        filmStorage.removeLike(filmId, userId);
         log.info("Удалён лайк у фильма");
     }
 

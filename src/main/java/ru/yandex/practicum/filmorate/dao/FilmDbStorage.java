@@ -232,7 +232,7 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     @Override
-    public void likeFilm(Long filmId, Long userId) {
+    public void addLike(Long filmId, Long userId) {
         log.info("Добавление лайка фильму с id: {} от пользователя с id: {}", filmId, userId);
         final String INSERT_FILM_LIKE_QUERY = """
                 INSERT INTO film_like (film_id, user_id)
@@ -248,7 +248,7 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     @Override
-    public void unLikeFilm(Long filmId, Long userId) {
+    public void removeLike(Long filmId, Long userId) {
         log.info("Удаление лайка с фильма с id: {} от пользователя с id: {}", filmId, userId);
         final String DELETE_FILM_LIKE_QUERY = """
                 DELETE FROM film_like
