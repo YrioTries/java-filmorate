@@ -6,13 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.model.IdValue; // Импортируем IdValue
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Validated
@@ -28,33 +26,27 @@ public class UserController {
     }
 
     @GetMapping
-    public Collection<User> findAll() {
+    public Collection<User> getAllUsers() {
         log.info("GET запрос на получение всех пользователей");
-        return userService.findAll();
+        return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable Long id) {
+    public User getUserById(@PathVariable Long id) {
         log.info("GET запрос на получение пользователя с id: {}", id);
-        return userService.get(id);
+        return userService.getUserById(id);
     }
 
     @GetMapping("/{id}/friends")
-    public List<IdValue> findAllFriends(@PathVariable Long id) {
+    public List<User> getFriendsById(@PathVariable Long id) {
         log.info("GET запрос на получение всех друзей пользователя {}", id);
-        Collection<Long> friendIds = userService.findAllFriends(id);
-        return friendIds.stream()
-                .map(IdValue::new)
-                .collect(Collectors.toList());
+        return userService.getFriendsById(id);
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
-    public List<IdValue> getCommonFriends(@PathVariable Long id, @PathVariable Long otherId) {
+    public List<User> getCommonFriends(@PathVariable Long id, @PathVariable Long otherId) {
         log.info("GET запрос на получение всех общих друзей пользователей {} и {}", id, otherId);
-        Collection<Long> commonFriendIds = userService.getCommonFriends(id, otherId); // Получаем Collection<Long>
-        return commonFriendIds.stream()
-                .map(IdValue::new)
-                .collect(Collectors.toList());
+        return userService.getCommonFriends(id, otherId);
     }
 
     @PostMapping()
@@ -70,15 +62,14 @@ public class UserController {
     }
 
     @PutMapping("/{id}/friends/{friendId}")
-    public ResponseEntity<IdValue> addFriend(@PathVariable Long id, @PathVariable Long friendId) {
+    public void addFriend(@PathVariable Long id, @PathVariable Long friendId) {
         log.info("PUT - запрос на добавление пользователя {} в друзья к {}", friendId, id);
-        userService.addFriend(id, friendId); // Вызываем service
-        return ResponseEntity.ok(new IdValue(friendId)); // Возвращаем ResponseEntity
+        userService.addFriend(id, friendId);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
-    public boolean deleteFriend(@PathVariable Long id, @PathVariable Long friendId) {
+    public void deleteFriend(@PathVariable Long id, @PathVariable Long friendId) {
         log.info("DELETE - запрос на удаление пользователя {} из друзей {}",friendId, id);
-        return userService.deleteFriend(id, friendId);
+        userService.deleteFriend(id, friendId);
     }
 }
