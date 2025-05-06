@@ -146,10 +146,10 @@ public class FilmDbStorage implements FilmStorage {
 
             jdbc.batchUpdate(INSERT_FILM_ID_GENRES_IDS_QUERY,
                     new BatchPreparedStatementSetter() {
-                        public void setValues(PreparedStatement ps, int i) throws SQLException {
+                        public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
                             Integer genreId = genresIds.get(i);
-                            ps.setLong(1, generatedId);
-                            ps.setInt(2, genreId);
+                            preparedStatement.setLong(1, generatedId);
+                            preparedStatement.setInt(2, genreId);
                         }
 
                         public int getBatchSize() {
