@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS mpa_rating (
+CREATE TABLE IF NOT EXISTS rating (
   rating_id INT PRIMARY KEY,
   name VARCHAR(30)
 );
