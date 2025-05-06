@@ -2,12 +2,11 @@ package ru.yandex.practicum.filmorate.storage;
 
 import ru.yandex.practicum.filmorate.model.Rating;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.util.List;
 
 public interface RatingStorage {
 
-    Collection<Rating> getAllRatings();
+    List<Rating> getAllRatings();
 
     Rating getRatingById(Integer id);
 }

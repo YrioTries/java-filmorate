@@ -149,7 +149,7 @@ public class UserService {
 
         Set<Long> userFriendsIds = userStorage.getUserFriendsIdsById(userId);
         if (userFriendsIds.contains(friendId)) {
-            userStorage.deleteFriend(userId, friendId);
+            userStorage.removeFriend(userId, friendId);
             log.info("Друг успешно удален");
         } else {
             log.info("друг не может быть удален - отсутствует в списке друзей");
