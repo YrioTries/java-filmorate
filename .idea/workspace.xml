@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="add bd in properties">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Exception" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/java-filmorate" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/java-filmorate" />
+    <option name="RESET_MODE" value="HARD" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;YrioTries&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/YrioTries/java-filmorate.git&quot;,
+    &quot;accountId&quot;: &quot;f53f37d6-8070-46da-88f9-08fa8a3addf6&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2sQ2FwfLC4WbSuexbfF65NULUTI" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.FilmorateApplication (1).executor": "Run",
+    "Application.FilmorateApplication.executor": "Run",
+    "JUnit.FilmorateApplicationTests.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testAddFriend.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testCreateFilmSuccessfully.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testCreateUserSuccessfully.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testCreateUserWithInvalidBirthday.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testFilmAnnotationBlank.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testFilmAnnotationSize.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testFilmReleaseDate.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testFilmUpdateNotFound.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testFilmValidation.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testFindAllUsers.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testGetPopularFilms.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testUpdateUserSuccessfully.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testUserBirthdayInFuture.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testUserUpdateNotFound.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testUserValidation.executor": "Run",
+    "JUnit.FilmorateApplicationTests.testАшдьUpdateNotFound.executor": "Run",
+    "JUnit.filmorate in filmorate.executor": "Run",
+    "Maven.filmorate [clean].executor": "Run",
+    "Maven.filmorate [compile].executor": "Run",
+    "Maven.filmorate [install].executor": "Run",
+    "Maven.filmorate [org.apache.maven.plugins:maven-checkstyle-plugin:3.3.1:check].executor": "Run",
+    "Maven.filmorate [org.apache.maven.plugins:maven-checkstyle-plugin:3.3.1:checkstyle].executor": "Run",
+    "Maven.filmorate [package].executor": "Run",
+    "Maven.filmorate [site].executor": "Run",
+    "Maven.filmorate [test].executor": "Run",
+    "Maven.filmorate [validate].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "#4 on add-friends-likes",
+    "kotlin-language-version-configured": "true",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors"
+  }
+}]]></component>
+  <component name="RunManager" selected="Application.FilmorateApplication">
+    <configuration name="FilmorateApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ru.yandex.practicum.filmorate.FilmorateApplication" />
+      <module name="filmorate" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.yandex.practicum.filmorate.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FilmorateApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="filmorate" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.yandex.practicum.filmorate.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ru.yandex.practicum.filmorate" />
+      <option name="MAIN_CLASS_NAME" value="ru.yandex.practicum.filmorate.FilmorateApplicationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FilmorateApplicationTests.testAddFriend" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="filmorate" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.yandex.practicum.filmorate.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ru.yandex.practicum.filmorate" />
+      <option name="MAIN_CLASS_NAME" value="ru.yandex.practicum.filmorate.FilmorateApplicationTests" />
+      <option name="METHOD_NAME" value="testAddFriend" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FilmorateApplicationTests.testCreateUserWithInvalidBirthday" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="filmorate" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.yandex.practicum.filmorate.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ru.yandex.practicum.filmorate" />
+      <option name="MAIN_CLASS_NAME" value="ru.yandex.practicum.filmorate.FilmorateApplicationTests" />
+      <option name="METHOD_NAME" value="testCreateUserWithInvalidBirthday" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FilmorateApplicationTests.testFilmReleaseDate" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="filmorate" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.yandex.practicum.filmorate.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ru.yandex.practicum.filmorate" />
+      <option name="MAIN_CLASS_NAME" value="ru.yandex.practicum.filmorate.FilmorateApplicationTests" />
+      <option name="METHOD_NAME" value="testFilmReleaseDate" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.FilmorateApplication" />
+        <item itemvalue="JUnit.FilmorateApplicationTests" />
+        <item itemvalue="JUnit.FilmorateApplicationTests.testFilmReleaseDate" />
+        <item itemvalue="JUnit.FilmorateApplicationTests.testCreateUserWithInvalidBirthday" />
+        <item itemvalue="JUnit.FilmorateApplicationTests.testAddFriend" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="57f47df5-583a-4aa3-b104-6a5fe864ebca" name="Changes" comment="" />
+      <created>1738373379727</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1738373379727</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Fix Idea bug">
+      <option name="closed" value="true" />
+      <created>1738376095573</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1738376095573</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Add models: User and Film">
+      <option name="closed" value="true" />
+      <created>1738376532235</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1738376532235</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Add tests user and film controllers,&#10;end of projecting FilmController">
+      <option name="closed" value="true" />
+      <created>1738529220650</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1738529220650</updated>
+    </task>
+    <task id="LOCAL-00004" summary="style">
+      <option name="closed" value="true" />
+      <created>1738530255868</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1738530255868</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Add test and fix the project">
+      <option name="closed" value="true" />
+      <created>1738606372471</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1738606372471</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Fix validation errors and add ErrorHandlingControllerAdvice">
+      <option name="closed" value="true" />
+      <created>1738620724806</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1738620724806</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Style update">
+      <option name="closed" value="true" />
+      <created>1738620805793</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1738620805793</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Update tests, User, Film and Controllers">
+      <option name="closed" value="true" />
+      <created>1738796688204</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1738796688204</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Change java version">
+      <option name="closed" value="true" />
+      <created>1738796851872</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1738796851872</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Change git API tests">
+      <option name="closed" value="true" />
+      <created>1738873430202</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1738873430202</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Change param of UserControllerer">
+      <option name="closed" value="true" />
+      <created>1738874518398</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1738874518398</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Change param of UserControllerer second time">
+      <option name="closed" value="true" />
+      <created>1738875003186</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1738875003186</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Add @NotNull Annotation of id param of User and Film second time">
+      <option name="closed" value="true" />
+      <created>1738875624852</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1738875624852</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Update conditions of User and Film Controllers">
+      <option name="closed" value="true" />
+      <created>1738878532628</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1738878532628</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Update conditions of param of User and Film Controllers">
+      <option name="closed" value="true" />
+      <created>1738879936327</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1738879936327</updated>
+    </task>
+    <task id="LOCAL-00016" summary="update style">
+      <option name="closed" value="true" />
+      <created>1738880109703</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1738880109703</updated>
+    </task>
+    <task id="LOCAL-00017" summary="update of filling new objets in update method of controllers">
+      <option name="closed" value="true" />
+      <created>1738880763354</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1738880763354</updated>
+    </task>
+    <task id="LOCAL-00018" summary="update annotations in user and film">
+      <option name="closed" value="true" />
+      <created>1738882102495</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1738882102495</updated>
+    </task>
+    <task id="LOCAL-00019" summary="add @RequestBody in update param of controllers">
+      <option name="closed" value="true" />
+      <created>1738882194386</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1738882194386</updated>
+    </task>
+    <task id="LOCAL-00020" summary="add @NotNull to id param of models">
+      <option name="closed" value="true" />
+      <created>1738882527529</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1738882527529</updated>
+    </task>
+    <task id="LOCAL-00021" summary="delete @NotNull to id param of models">
+      <option name="closed" value="true" />
+      <created>1738883252777</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1738883252777</updated>
+    </task>
+    <task id="LOCAL-00022" summary="add validation param">
+      <option name="closed" value="true" />
+      <created>1738981985701</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1738981985701</updated>
+    </task>
+    <task id="LOCAL-00023" summary="fix tests">
+      <option name="closed" value="true" />
+      <created>1738982075011</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1738982075011</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Change Instant param of Film to LocalDate&#10;Add updating Description param in update method of FilmController">
+      <option name="closed" value="true" />
+      <created>1739154089964</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1739154089964</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Add services and storages">
+      <option name="closed" value="true" />
+      <created>1739329170767</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1739329170767</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Add all endpoints without GET /films/popular?count={count}">
+      <option name="closed" value="true" />
+      <created>1739486252751</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1739486252751</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Add GET endpoint getPopularFilms">
+      <option name="closed" value="true" />
+      <created>1739493306867</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1739493306867</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Refactor services">
+      <option name="closed" value="true" />
+      <created>1740363072975</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1740363072975</updated>
+    </task>
+    <task id="LOCAL-00029" summary="delete wrong path from film and user controller">
+      <option name="closed" value="true" />
+      <created>1740415563750</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1740415563750</updated>
+    </task>
+    <task id="LOCAL-00030" summary="configure project">
+      <option name="closed" value="true" />
+      <created>1740443322612</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1740443322612</updated>
+    </task>
+    <task id="LOCAL-00031" summary="configure project 2">
+      <option name="closed" value="true" />
+      <created>1740453137134</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1740453137134</updated>
+    </task>
+    <task id="LOCAL-00032" summary="fix validation of deleteFriend method">
+      <option name="closed" value="true" />
+      <created>1740453724672</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1740453724672</updated>
+    </task>
+    <task id="LOCAL-00033" summary="confuse: 3 errors 2 requests">
+      <option name="closed" value="true" />
+      <created>1740536547134</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1740536547134</updated>
+    </task>
+    <task id="LOCAL-00034" summary="fix tests problem">
+      <option name="closed" value="true" />
+      <created>1740537675774</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1740537675774</updated>
+    </task>
+    <task id="LOCAL-00035" summary="fix tests problem 2">
+      <option name="closed" value="true" />
+      <created>1740589006316</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1740589006316</updated>
+    </task>
+    <task id="LOCAL-00036" summary="fix style">
+      <option name="closed" value="true" />
+      <created>1740597428395</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1740597428395</updated>
+    </task>
+    <task id="LOCAL-00037" summary="fix getCommonFriends errors">
+      <option name="closed" value="true" />
+      <created>1741775475434</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1741775475434</updated>
+    </task>
+    <task id="LOCAL-00038" summary="fix getCommonFriends errors">
+      <option name="closed" value="true" />
+      <created>1741775490121</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1741775490121</updated>
+    </task>
+    <task id="LOCAL-00039" summary="fix addFriends by editing findAllFriends">
+      <option name="closed" value="true" />
+      <created>1741818053968</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1741818053968</updated>
+    </task>
+    <task id="LOCAL-00040" summary="fix errors of style">
+      <option name="closed" value="true" />
+      <created>1741818145161</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1741818145161</updated>
+    </task>
+    <task id="LOCAL-00041" summary="add new fields and enums to classes">
+      <option name="closed" value="true" />
+      <created>1744896248325</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1744896248325</updated>
+    </task>
+    <task id="LOCAL-00042" summary="fix pom">
+      <option name="closed" value="true" />
+      <created>1744897879223</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1744897879223</updated>
+    </task>
+    <task id="LOCAL-00043" summary="add bd in properties">
+      <option name="closed" value="true" />
+      <created>1744898024332</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1744898024332</updated>
+    </task>
+    <task id="LOCAL-00044" summary="add bd in properties">
+      <option name="closed" value="true" />
+      <created>1744898189719</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1744898189719</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="add-friends-likes" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update annotations in user and film" />
+    <MESSAGE value="add @RequestBody in update param of controllers" />
+    <MESSAGE value="add @NotNull to id param of models" />
+    <MESSAGE value="delete @NotNull to id param of models" />
+    <MESSAGE value="add validation param" />
+    <MESSAGE value="fix tests" />
+    <MESSAGE value="Change Instant param of Film to LocalDate&#10;Add updating Description param in update method of FilmController" />
+    <MESSAGE value="Add services and storages" />
+    <MESSAGE value="Add all endpoints without GET /films/popular?count={count}" />
+    <MESSAGE value="Add GET endpoint getPopularFilms" />
+    <MESSAGE value="Refactor services" />
+    <MESSAGE value="delete wrong path from film and user controller" />
+    <MESSAGE value="configure project" />
+    <MESSAGE value="configure project 2" />
+    <MESSAGE value="fix validation of deleteFriend method" />
+    <MESSAGE value="confuse: 3 errors 2 requests" />
+    <MESSAGE value="fix tests problem" />
+    <MESSAGE value="fix tests problem 2" />
+    <MESSAGE value="fix style" />
+    <MESSAGE value="fix getCommonFriends errors" />
+    <MESSAGE value="fix addFriends by editing findAllFriends" />
+    <MESSAGE value="fix errors of style" />
+    <MESSAGE value="add new fields and enums to classes" />
+    <MESSAGE value="fix pom" />
+    <MESSAGE value="add bd in properties" />
+    <option name="LAST_COMMIT_MESSAGE" value="add bd in properties" />
+  </component>
+</project>
