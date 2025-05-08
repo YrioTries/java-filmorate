@@ -10,9 +10,6 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 
-/**
- * Класс mapper данных типа Film
- */
 @Component
 public class FilmRowMapper implements RowMapper<Film> {
     @Override

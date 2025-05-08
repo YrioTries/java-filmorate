@@ -8,7 +8,6 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.4.4</version>
-		<!-- lookup up parent from repository -->
 		<relativePath/>
 	</parent>
 
@@ -19,7 +18,7 @@
 	<description>filmorate</description>
 
 	<properties>
-		<java.version>21</java.version>
+		<java.version>23</java.version>
 		<start-class>ru.yandex.practicum.filmorate.FilmorateApplication</start-class>
 	</properties>
 

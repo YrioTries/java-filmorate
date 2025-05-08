@@ -44,7 +44,7 @@ class FilmorateApplicationTests {
 
     @BeforeEach
     void updateDb() {
-        User user = User.of(
+        User user = new User(
                 0L,
                 "User name",
                 "Email@mail.com",
@@ -53,8 +53,8 @@ class FilmorateApplicationTests {
         );
         userDbStorage.create(user);
 
-        Rating mpa = Rating.of(1, "G");
-        Film film = Film.of(
+        Rating mpa = new Rating(1, "G");
+        Film film = new Film(
                 0L,
                 "Film name",
                 "asdfasdfsad sadfasdfsadf",
@@ -80,7 +80,7 @@ class FilmorateApplicationTests {
     @Test
     @DirtiesContext
     public void testUpdateUser() {
-        User newUser = User.of(
+        User newUser = new User(
                 1L,
                 "User name 2",
                 "Email123@mail.com",
@@ -106,7 +106,7 @@ class FilmorateApplicationTests {
     @Test
     @DirtiesContext
     public void testAddFriendAndDeleteFriend() {
-        User user = User.of(
+        User user = new User(
                 0L,
                 "User name 5",
                 "Email4523@mail.com",
@@ -196,14 +196,14 @@ class FilmorateApplicationTests {
     @Test
     @DirtiesContext
     public void testUpdateFilm() {
-        Film newFilm = Film.of(
+        Film newFilm = new Film(
                 1L,
                 "Film name 2",
                 "asdfasdfsad sadfasdfsadf asdadadas",
                 LocalDate.of(2011, 3, 2),
                 110,
                 Collections.unmodifiableSequencedSet(new LinkedHashSet<>()),
-                Rating.of(2, "PG")
+                new Rating(2, "PG")
         );
         filmDbStorage.update(newFilm);
         Film upFilm = filmDbStorage.getFilmById(1L);
@@ -225,28 +225,28 @@ class FilmorateApplicationTests {
     @Test
     @DirtiesContext
     public void testGetTopFilms() {
-        Film newFilm = Film.of(
+        Film newFilm = new Film(
                 0L,
                 "Film name 2",
                 "asdfasdfsad sadfasdfsadf asdadadas",
                 LocalDate.of(2012, 2, 5),
                 90,
                 Collections.unmodifiableSequencedSet(new LinkedHashSet<>()),
-                Rating.of(2, "PG")
+                new Rating(2, "PG")
         );
         filmDbStorage.create(newFilm);
-        newFilm = Film.of(
+        newFilm = new Film(
                 0L,
                 "Film name 3",
                 "asdfasdfsad sadfasdfsadf asdadadas",
                 LocalDate.of(2000, 1, 22),
                 80,
                 Collections.unmodifiableSequencedSet(new LinkedHashSet<>()),
-                Rating.of(2, "PG")
+                new Rating(2, "PG")
         );
         filmDbStorage.create(newFilm);
 
-        User newUser = User.of(
+        User newUser = new User(
                 0L,
                 "User name 2",
                 "Email64543@mail.com",
@@ -254,7 +254,7 @@ class FilmorateApplicationTests {
                 LocalDate.of(1984, 2, 4)
         );
         userDbStorage.create(newUser);
-        newUser = User.of(
+        newUser = new User(
                 0L,
                 "User name 3",
                 "Email65465443@mail.com",
