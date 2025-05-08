@@ -132,4 +132,3 @@ WHERE film_id = 1 AND user_id = 2;
 
 ### Ссылка на базу данных
 https://dbdiagram.io/d/680042921ca52373f54e05ed
-

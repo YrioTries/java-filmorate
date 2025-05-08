@@ -1,5 +1,5 @@
-CREATE TABLE IF NOT EXISTS rating (
-  rating_id INT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS mpa_rating (
+  mpa_rating_id INT PRIMARY KEY,
   name VARCHAR(30)
 );
 
@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS films (
   description VARCHAR(200),
   release_date DATE,
   duration INT,
-  rating_id INT,
-  FOREIGN KEY (rating_id) REFERENCES rating(rating_id)
+  mpa_rating_id INT,
+  FOREIGN KEY (mpa_rating_id) REFERENCES mpa_rating(mpa_rating_id)
 );
 
 CREATE TABLE IF NOT EXISTS film_genre (

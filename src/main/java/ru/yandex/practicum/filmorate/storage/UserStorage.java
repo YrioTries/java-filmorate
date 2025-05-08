@@ -9,19 +9,20 @@ public interface UserStorage {
 
     List<User> getAllUsers();
 
-    User getUserById(Long id);
+    User getUserById(Long userId);
 
-    List<User> getFriendsById(Long id);
-
-    Set<Long> getUserFriendsIdsById(Long userId);
+    List<User> getAllFriendsById(Long userId);
 
     List<User> getUsersByIdSet(Set<Long> ids);
 
+    Set<Long> getUserFriendsIdsById(Long userId);
+
     User create(User user);
 
-    User update(User newUser);
+    User update(User user);
 
     void addFriend(Long userId, Long friendId);
 
     void removeFriend(Long userId, Long friendId);
+
 }

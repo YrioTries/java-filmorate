@@ -2,98 +2,55 @@ package ru.yandex.practicum.filmorate.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.errors.validation.UserValidation;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
+import ru.yandex.practicum.filmorate.validation.ValidationTool;
 
-import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
-@Service
+
 @Slf4j
+@Service
 public class UserService {
-    @Qualifier("SQL_User_Storage")
     private final UserStorage userStorage;
 
+    private final static String PROGRAM_LEVEL = "UserService";
+
     @Autowired
-    public UserService(@Qualifier("SQL_User_Storage") UserStorage userStorage) {
+    public UserService(UserStorage userStorage) {
         this.userStorage = userStorage;
     }
 
     public List<User> getAllUsers() {
-        log.info("Получение всех пользователей");
         return List.copyOf(userStorage.getAllUsers());
     }
 
     public User getUserById(Long id) {
-        log.info("Получение пользователя с id: {}", id);
-        UserValidation.nullValidation(id, "[UserService]: Запрос на получение user по ID - null",
-                "UserService: user не может быть получен по ID = null") ;
-        return userStorage.getUserById(id);
-    }
+        ValidationTool.checkForNull(id, PROGRAM_LEVEL, "User не может быть получен по ID = null");
 
-    public List<User> getFriendsById(Long userId) {
-        log.info("Получение всех друзей пользователя с id: {}", userId);
-        if (userId == null || userId < 1L) {
-            log.warn("UserService: Запрос на получение списка друзей по некорректному ID");
-            throw new ValidationException("UserService: список друзей не может быть получен по некорректному ID: "
-                    + userId);
-        }
-        userStorage.getUserById(userId);
+        User user = userStorage.getUserById(id);
 
-        List<User> users = userStorage.getFriendsById(userId);
-        log.info("Список всех друзей пользователя успешно сформирован");
-        return List.copyOf(users);
-    }
-
-    public List<User> getCommonFriends(Long userId, Long friendId) {
-        log.info("Получение общих друзей пользователей с id: {} и {}", userId, friendId);
-        if (userId == null || userId < 1L || friendId == null || friendId < 1L) {
-            log.warn("UserService: Запрос на получение списка общих друзей c некорректным ID");
-            throw new ValidationException("UserService: список общих друзей не может быть получен, ID некорректен");
-        }
-
-        userStorage.getUserById(userId);
-        userStorage.getUserById(friendId);
-
-        Set<Long> userFriendsIds = userStorage.getUserFriendsIdsById(userId);
-        Set<Long> anotherUserFriendsIds = userStorage.getUserFriendsIdsById(friendId);
-        if (userFriendsIds == null || anotherUserFriendsIds == null) {
-            log.warn("UserService: Не удалось получить объекты User по ID - не найдены в приложении");
-            throw new NotFoundException("UserService: объекты User не найдены в приложении");
-        }
-
-        Set<Long> resultOfIntersection = userFriendsIds.stream()
-                .filter(anotherUserFriendsIds::contains)
-                .collect(Collectors.toSet());
-        List<User> commonFriends = userStorage.getUsersByIdSet(resultOfIntersection);
-        log.info("Список всех общих друзей пользователей успешно сформирован");
-        return List.copyOf(commonFriends);
+        log.info(PROGRAM_LEVEL + ": Объект user успешно найден по ID");
+        return user;
     }
 
     public User create(User user) {
-        log.info("Создание нового пользователя: {}", user);
-        UserValidation.validate(user);
+        ValidationTool.userCheck(user, PROGRAM_LEVEL);
 
-        // Замена пустого имени на логин
-        String validName;
+        String validUserName;
         if (user.getName() == null || user.getName().isBlank()) {
-            validName = user.getLogin();
+            validUserName = user.getLogin();
         } else {
-            validName = user.getName();
+            validUserName = user.getName();
         }
 
         User validUser = new User(
                 user.getId(),
-                validName,
+                validUserName,
                 user.getEmail(),
                 user.getLogin(),
                 user.getBirthday()
@@ -101,44 +58,39 @@ public class UserService {
         return userStorage.create(validUser);
     }
 
-    public User update(User newUser) {
-        log.info("Обновление пользователя с id: {}", newUser.getId());
-        UserValidation.validate(newUser);
-        if ((newUser.getId() == null) || (newUser.getId() < 1L)) {
-            log.warn("UserService: Запрос на обновление user с некорректным ID");
-            throw new ValidationException("UserService: user не может быть обновлен, ID некорректен " + newUser.getId());
-        }
+    public User update(User user) {
+        ValidationTool.userCheck(user, PROGRAM_LEVEL);
 
-        getUserById(newUser.getId());
+        ValidationTool.checkId(user.getId(), PROGRAM_LEVEL, "user не может быть обновлен, некорректный id:"
+                + user.getId());
 
-        String validName;
-        if (newUser.getName() == null || newUser.getName().isBlank()) {
-            validName = newUser.getLogin();
+        getUserById(user.getId());
+
+        String validUserName;
+        if (user.getName() == null || user.getName().isBlank()) {
+            validUserName = user.getLogin();
         } else {
-            validName = newUser.getName();
+            validUserName = user.getName();
         }
 
         User validUser = new User(
-                newUser.getId(),
-                validName,
-                newUser.getEmail(),
-                newUser.getLogin(),
-                newUser.getBirthday()
+                user.getId(),
+                validUserName,
+                user.getEmail(),
+                user.getLogin(),
+                user.getBirthday()
         );
         return userStorage.update(validUser);
     }
 
     public void addFriend(Long userId, Long friendId) {
-        if (userId == null || userId < 1L || friendId == null || friendId < 1L) {
-            log.warn("UserService: Запрос на добаление друга, ID некорректен");
-            throw new ValidationException("UserService: друг не может быть добален, ID некорректен");
-        }
+        ValidationTool.checkId(userId, friendId, PROGRAM_LEVEL, "Запрос на добавление друга, ID некорректен");
 
         User user = userStorage.getUserById(userId);
         User friend = userStorage.getUserById(friendId);
 
-        Set<Long> userFriendsIds = userStorage.getUserFriendsIdsById(userId);
-        if (!(userFriendsIds.contains(friendId))) {
+        Set<Long> userFriendsIdsSet = userStorage.getUserFriendsIdsById(userId);
+        if (!(userFriendsIdsSet.contains(friendId))) {
             userStorage.addFriend(userId, friendId);
             log.info("Друг успешно добавлен");
         } else {
@@ -146,13 +98,10 @@ public class UserService {
         }
     }
 
-    public void deleteFriend(Long userId, Long friendId) {
-        log.info("Удаление из друзей пользователя с id: {} у пользователя с id: {}", friendId, userId);
-        if (userId == null || userId < 1L || friendId == null || friendId < 1L) {
-            log.warn("UserService: Запрос на удаление друга  ID = null");
-            throw new ValidationException("UserService: друг не может быть удален ID = null");
-        }
-        // check Db
+    public void removeFriend(Long userId, Long friendId) {
+
+        ValidationTool.checkId(userId, friendId, PROGRAM_LEVEL, "Друг не может быть удален ID = null");
+
         User user = userStorage.getUserById(userId);
         User friend = userStorage.getUserById(friendId);
 
@@ -163,5 +112,40 @@ public class UserService {
         } else {
             log.info("друг не может быть удален - отсутствует в списке друзей");
         }
+    }
+
+    public List<User> getAllFriendsById(Long userId) {
+        ValidationTool.checkId(userId, PROGRAM_LEVEL, "Cписок друзей не может быть получен по некорректному ID:"
+                + userId);
+
+        userStorage.getUserById(userId);
+
+        List<User> users = userStorage.getAllFriendsById(userId);
+        log.info("Список всех друзей пользователя успешно создан");
+        return List.copyOf(users);
+    }
+
+    public List<User> getAllCommonFriendsByIds(Long userId, Long anotherUserId) {
+        ValidationTool.checkId(userId, anotherUserId, PROGRAM_LEVEL, "Cписок общих друзей " +
+                "не может быть получен, ID некорректен");
+
+        userStorage.getUserById(userId);
+        userStorage.getUserById(anotherUserId);
+
+        Set<Long> setOfUserFriendsIds = userStorage.getUserFriendsIdsById(userId);
+        Set<Long> setOfAnotherUserFriendsIds = userStorage.getUserFriendsIdsById(anotherUserId);
+
+
+        if (setOfUserFriendsIds == null || setOfAnotherUserFriendsIds == null) {
+            log.warn("UserService: Не удалось получить объекты User по ID - не найдены в приложении");
+            throw new NotFoundException("UserService: объекты User не найдены в приложении");
+        }
+
+        Set<Long> resultOfIntersection = setOfUserFriendsIds.stream()
+                .filter(setOfAnotherUserFriendsIds::contains)
+                .collect(Collectors.toSet());
+        List<User> commonFriends = userStorage.getUsersByIdSet(resultOfIntersection);
+        log.info("Список всех общих друзей пользователей успешно создан");
+        return List.copyOf(commonFriends);
     }
 }

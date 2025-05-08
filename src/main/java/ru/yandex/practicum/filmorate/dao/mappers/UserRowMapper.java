@@ -9,15 +9,14 @@ import java.sql.SQLException;
 
 @Component
 public class UserRowMapper implements RowMapper<User> {
-
     @Override
-    public User mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+    public User mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new User(
-                resultSet.getLong("id"),
-                resultSet.getString("name"),
-                resultSet.getString("email"),
-                resultSet.getString("login"),
-                resultSet.getDate("birthday").toLocalDate()
+                rs.getLong("id"),
+                rs.getString("name"),
+                rs.getString("email"),
+                rs.getString("login"),
+                rs.getDate("birthday").toLocalDate()
         );
     }
 }

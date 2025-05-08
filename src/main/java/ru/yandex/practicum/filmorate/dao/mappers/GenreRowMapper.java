@@ -7,18 +7,21 @@ import ru.yandex.practicum.filmorate.model.Genre;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Класс mapper данных типа Genre
+ */
 @Component
 public class GenreRowMapper implements RowMapper<Genre> {
 
     @Override
-    public Genre mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-        Integer genreId = resultSet.getInt("genre_id");
+    public Genre mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Integer genreId = rs.getInt("genre_id");
         if (genreId == 0) {
             genreId = null;
         }
         return new Genre(
                 genreId,
-                resultSet.getString("name")
+                rs.getString("name")
         );
     }
 }

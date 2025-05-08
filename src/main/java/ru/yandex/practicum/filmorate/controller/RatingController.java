@@ -3,17 +3,16 @@ package ru.yandex.practicum.filmorate.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.model.Rating;
-import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.service.RatingService;
+import ru.yandex.practicum.filmorate.model.Rating;
 
-import java.util.Collection;
 import java.util.List;
 
 @Slf4j
 @RestController
 @RequestMapping("/mpa")
 public class RatingController {
+
     private final RatingService RatingService;
 
     @Autowired
@@ -22,14 +21,14 @@ public class RatingController {
     }
 
     @GetMapping
-    public List<Rating> getAllMpaRatings() {
+    public List<Rating> getAllRatings() {
         log.info("Запрос на получение списка всех рейтингов");
-        return RatingService.getAllMpaRatings();
+        return RatingService.getAllRatings();
     }
 
     @GetMapping("/{id}")
-    public Rating getMpaRatingById(@PathVariable Integer id) {
+    public Rating getRatingById(@PathVariable Integer id) {
         log.info("Запрос на получение рейтинга по ID");
-        return RatingService.getMpaRatingById(id);
+        return RatingService.getRatingById(id);
     }
 }
