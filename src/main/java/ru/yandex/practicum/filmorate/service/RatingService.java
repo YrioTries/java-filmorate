@@ -7,27 +7,28 @@ import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Rating;
 import ru.yandex.practicum.filmorate.storage.RatingStorage;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-@Service
 @Slf4j
+@Service
 public class RatingService {
+
     private final RatingStorage mpaRatingStorage;
+
+    private final static String PROGRAM_LEVEL = "RatingService";
 
     @Autowired
     public RatingService(RatingStorage mpaRatingStorage) {
         this.mpaRatingStorage = mpaRatingStorage;
     }
 
-    public List<Rating> getAllMpaRatings() {
+    public List<Rating> getAllRatings() {
         return List.copyOf(mpaRatingStorage.getAllRatings());
     }
 
-    public Rating getMpaRatingById(Integer id) {
+    public Rating getRatingById(Integer id) {
+        //ValidationTool.checkForNull(id, PROGRAM_LEVEL, "Рейтинг не может быть получен по ID = null");
         if (id == null) {
-            log.warn("Запрос на получение рейтинга по ID = null");
             throw new ValidationException("Рейтинг не может быть получен по ID = null");
         }
         return mpaRatingStorage.getRatingById(id);

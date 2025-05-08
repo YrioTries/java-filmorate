@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.model;
 
-import lombok.Value;
+import lombok.*;
+
 
 @Value
 public class Rating {

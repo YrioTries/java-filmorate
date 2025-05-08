@@ -7,13 +7,12 @@ import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.GenreStorage;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Slf4j
 public class GenreService {
+
     private final GenreStorage genreStorage;
 
     @Autowired
@@ -27,7 +26,6 @@ public class GenreService {
 
     public Genre getGenreById(Integer id) {
         if (id == null) {
-            log.warn("Запрос на получение жанра по ID = null");
             throw new ValidationException("Жанр не может быть получен по ID = null");
         }
         return genreStorage.getGenreById(id);

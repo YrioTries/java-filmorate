@@ -10,26 +10,28 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 
+/**
+ * Класс mapper данных типа Film
+ */
 @Component
 public class FilmRowMapper implements RowMapper<Film> {
-
     @Override
-    public Film mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-        Integer ratingId = resultSet.getInt("rating_id");
+    public Film mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Integer ratingId = rs.getInt("mpa_rating_id");
         if (ratingId == 0) {
             ratingId = null;
         }
         Rating mpa = new Rating(
                 ratingId,
-                resultSet.getString("rating_name")
+                rs.getString("mpa_rating_name")
         );
 
         return new Film(
-                resultSet.getLong("id"),
-                resultSet.getString("name"),
-                resultSet.getString("description"),
-                resultSet.getDate("release_date").toLocalDate(),
-                resultSet.getInt("duration"),
+                rs.getLong("id"),
+                rs.getString("name"),
+                rs.getString("description"),
+                rs.getDate("release_date").toLocalDate(),
+                rs.getInt("duration"),
                 Collections.unmodifiableSequencedSet(new LinkedHashSet<>()),
                 mpa
         );

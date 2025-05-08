@@ -7,18 +7,19 @@ import ru.yandex.practicum.filmorate.model.Rating;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 @Component
 public class RatingRowMapper implements RowMapper<Rating> {
 
     @Override
-    public Rating mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-        Integer ratingId = resultSet.getInt("rating_id");
-        if (ratingId == 0) {
-            ratingId = null;
+    public Rating mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Integer mpaId = rs.getInt("mpa_rating_id");
+        if (mpaId == 0) {
+            mpaId = null;
         }
         return new Rating(
-                ratingId,
-                resultSet.getString("name")
+                mpaId,
+                rs.getString("name")
         );
     }
 }

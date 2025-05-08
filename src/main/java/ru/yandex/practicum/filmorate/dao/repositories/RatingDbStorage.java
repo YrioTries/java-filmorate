@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.dao;
+package ru.yandex.practicum.filmorate.dao.repositories;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,12 @@ import ru.yandex.practicum.filmorate.storage.RatingStorage;
 import java.util.List;
 
 @Slf4j
-@Primary
 @Repository
+@Primary
 public class RatingDbStorage implements RatingStorage {
+
     private final JdbcOperations jdbc;
+
     private final RowMapper<Rating> mapper;
 
     @Autowired
@@ -30,22 +32,22 @@ public class RatingDbStorage implements RatingStorage {
     public List<Rating> getAllRatings() {
         final String FIND_ALL_QUERY = """
                 SELECT *
-                FROM rating;
+                FROM mpa_rating;
                 """;
 
-        List<Rating> mpaRatings = jdbc.query(FIND_ALL_QUERY, mapper);
-        if (mpaRatings == null || mpaRatings.isEmpty()) {
+        List<Rating> ratings = jdbc.query(FIND_ALL_QUERY, mapper);
+        if (ratings == null || ratings.isEmpty()) {
             return List.of();
         }
-        return mpaRatings;
+        return ratings;
     }
 
     @Override
     public Rating getRatingById(Integer id) {
         final String FIND_BY_ID_QUERY = """
                 SELECT *
-                FROM rating
-                WHERE rating_id = ?;
+                FROM mpa_rating
+                WHERE mpa_rating_id = ?;
                 """;
 
         Rating mpa;
@@ -55,7 +57,7 @@ public class RatingDbStorage implements RatingStorage {
             mpa = null;
         }
         if (mpa == null) {
-            log.warn("MpaRatingDbStorage: Не удалось получить объект MpaRating по его ID - не найден в приложении");
+            log.warn("MpaRatingDbStorage: Не удалось получить объект Rating по его ID - не найден в приложении");
             throw new NotFoundException("MpaRatingDbStorage: Рейтинг c ID: " + id + " не найден в приложении");
         }
         return mpa;

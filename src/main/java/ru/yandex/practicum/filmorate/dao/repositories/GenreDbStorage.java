@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.dao;
+package ru.yandex.practicum.filmorate.dao.repositories;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,12 @@ import ru.yandex.practicum.filmorate.storage.GenreStorage;
 import java.util.List;
 
 @Slf4j
-@Primary
 @Repository
+@Primary
 public class GenreDbStorage implements GenreStorage {
+
     private final JdbcOperations jdbc;
+
     private final RowMapper<Genre> mapper;
 
     @Autowired
