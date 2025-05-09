@@ -1,0 +1,18 @@
+INSERT INTO mpa_rating
+SELECT * FROM (
+SELECT 1, 'G' UNION
+SELECT 2, 'PG' UNION
+SELECT 3, 'PG-13' UNION
+SELECT 4, 'R' UNION
+SELECT 5, 'NC-17'
+) WHERE NOT EXISTS (SELECT * FROM mpa_rating);
+
+INSERT INTO genres
+SELECT * FROM (
+SELECT 1, 'Комедия' UNION
+SELECT 2, 'Драма' UNION
+SELECT 3, 'Мультфильм' UNION
+SELECT 4, 'Триллер' UNION
+SELECT 5, 'Документальный' UNION
+SELECT 6, 'Боевик'
+) WHERE NOT EXISTS (SELECT * FROM genres);
