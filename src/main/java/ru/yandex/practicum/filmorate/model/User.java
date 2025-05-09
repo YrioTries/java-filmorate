@@ -6,7 +6,6 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-
 @Value
 public class User {
     @Id

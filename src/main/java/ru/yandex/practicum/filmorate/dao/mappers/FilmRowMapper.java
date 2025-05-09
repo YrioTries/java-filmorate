@@ -12,6 +12,7 @@ import java.util.LinkedHashSet;
 
 @Component
 public class FilmRowMapper implements RowMapper<Film> {
+
     @Override
     public Film mapRow(ResultSet rs, int rowNum) throws SQLException {
         Integer ratingId = rs.getInt("mpa_rating_id");
